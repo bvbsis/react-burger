@@ -1,0 +1,42 @@
+.header {
+  background-color: #1C1C21;
+}
+
+.content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 1280px;
+  margin: auto;
+}
+
+.list {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #8585AD;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  padding-right: 100px;
+}
+
+.text {
+  margin: 0;
+}
+
+.logo {
+  padding-right: 181px;
+}
