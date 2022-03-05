@@ -1,11 +1,17 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import data from "../../utils/data";
+import ingredientsStyles from "./burger-ingredients.module.css";
+import CardList from "../ingredient-card/card-list";
+
+const buns = data.filter((ingredient) => ingredient.type === "bun");
+const fillings = data.filter((ingredient) => ingredient.type === "main");
+const sauces = data.filter((ingredient) => ingredient.type === "sauce");
 
 function BurgerTab() {
   const [current, setCurrent] = React.useState("one");
   return (
-    <div className='mt-5' style={{ display: "flex" }}>
+    <div className="mt-5" style={{ display: "flex" }}>
       <Tab value="one" active={current === "one"} onClick={setCurrent}>
         Булки
       </Tab>
@@ -21,13 +27,15 @@ function BurgerTab() {
 
 function BurgerIngredients() {
   return (
-    <div className="pl-5">
+    <section className={ingredientsStyles.wrapper}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
-      {BurgerTab()}
+      <BurgerTab />
       <div>
-        
+        <CardList heading="Булки" array={buns} />
+        <CardList heading="Соусы" array={sauces} />
+        <CardList heading="Начинки" array={fillings} />
       </div>
-    </div>
+    </section>
   );
 }
 

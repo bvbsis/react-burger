@@ -1,0 +1,45 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 24px 16px;
+  padding: 0;
+}
+
+/* .heading {
+  margin-bottom: 22px;
+} */
+
+.list_element {
+  display: flex;
+  flex-direction: column;
+  width: 272px;
+  
+}
+
+.list_element:nth-child(odd) {
+  margin-right: 24px;
+}
+
+.list_element:nth-child(n+3) {
+  margin-top: 32px;
+}
+
+
+.ingredientName {
+  max-width: 272px;
+  min-height: 48px;
+  text-align: center;
+}
+
+.imageWrapper {
+  margin-bottom: 8px;
+  position: relative;
+  display: flex;
+}
+
+.image {
+  width: 100%;
+  max-width: 240px;
+  max-height: 120px;
+  margin: auto;
+}

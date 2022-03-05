@@ -1,0 +1,28 @@
+.constructor {
+  margin-top: 100px;
+  height: fit-content;
+  width: 600px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-left: 28px;
+}
+
+.priceWrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 56px;
+}
+
+.submitWrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 40px 35px 0 0;
+}
+
+.priceDigit {
+  margin-right: 4px;
+}
