@@ -11,7 +11,7 @@ const img = ["https://code.s3.yandex.net/react/code/bun-02-mobile.png"];
 function BurgerConstructor(props) {
   return (
     <section className={constructorStyles.constructor}>
-      <div className={constructorStyles.ingredients} >
+      <div className={constructorStyles.ingredients}>
         <ConstructorElement
           type="top"
           isLocked={true}
@@ -20,18 +20,20 @@ function BurgerConstructor(props) {
           thumbnail={img[0]}
         />
 
-        {props.array.map((ingredient) => {
-          return (
-            <ConstructorElement
-              key={ingredient._id}
-              type="center"
-              isLocked={false}
-              text={ingredient.name}
-              price={ingredient.price}
-              thumbnail={ingredient.image_mobile}
-            />
-          );
-        })}
+        <div className={constructorStyles.filling}>
+          {props.array.map((ingredient) => {
+            return (
+              <ConstructorElement
+                key={ingredient._id}
+                type="center"
+                isLocked={false}
+                text={ingredient.name}
+                price={ingredient.price}
+                thumbnail={ingredient.image_mobile}
+              />
+            );
+          })}
+        </div>
 
         <ConstructorElement
           type="bottom"

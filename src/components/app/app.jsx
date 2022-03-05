@@ -2,7 +2,7 @@ import React from "react";
 import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import BurgerConstructor from "../burger-constructor/burger-constructor"
+import BurgerConstructor from "../burger-constructor/burger-constructor";
 
 const test = [
   {
@@ -75,6 +75,20 @@ const test = [
     image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
     __v: 0,
   },
+  {
+    _id: "60666c42cc7b410027a1a9b6",
+    name: "Биокотлета из марсианской Магнолии",
+    type: "main",
+    proteins: 420,
+    fat: 142,
+    carbohydrates: 242,
+    calories: 4242,
+    price: 424,
+    image: "https://code.s3.yandex.net/react/code/meat-01.png",
+    image_mobile: "https://code.s3.yandex.net/react/code/meat-01-mobile.png",
+    image_large: "https://code.s3.yandex.net/react/code/meat-01-large.png",
+    __v: 0,
+  },
 ];
 
 class App extends React.Component {
@@ -82,7 +96,10 @@ class App extends React.Component {
     return (
       <>
         <AppHeader />
-        <main style={{display: "flex", justifyContent: "space-between"}} className={appStyles.main}>
+        <main
+          style={{ display: "flex", justifyContent: "space-between" }}
+          className={appStyles.main}
+        >
           <BurgerIngredients />
           <BurgerConstructor array={test} />
         </main>

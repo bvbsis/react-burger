@@ -11,6 +11,14 @@
   margin-left: 28px;
 }
 
+.filling {
+  overflow: overlay;
+  display: flex;
+  flex-direction: column;
+  max-height: 464px;
+  gap: 16px;
+}
+
 .priceWrapper {
   display: flex;
   align-items: center;
@@ -25,4 +33,14 @@
 
 .priceDigit {
   margin-right: 4px;
+}
+
+.filling::-webkit-scrollbar {
+  width: 8px;               /* ширина scrollbar */
+}
+.filling::-webkit-scrollbar-track {
+  background: #2F2F37;        /* цвет дорожки */
+}
+.filling::-webkit-scrollbar-thumb {
+  background-color: #8585AD;   /* padding вокруг плашки */
 }
