@@ -1,24 +1,28 @@
-.list {
+/* .list {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
+} */
+
+.listWrapper {
+  overflow: overlay;
+  max-height: 80%;
 }
 
 .wrapper {
   width: 600px;
   max-height: 100vh;
-  overflow: overlay;
   margin: 0;
   padding: 0 0 0 20px;
 }
 
-.wrapper::-webkit-scrollbar {
-  width: 8px;               /* ширина scrollbar */
+.listWrapper::-webkit-scrollbar {
+  width: 8px;      
 }
-.wrapper::-webkit-scrollbar-track {
-  background: #2F2F37;        /* цвет дорожки */
+.listWrapper::-webkit-scrollbar-track {
+  background: #2F2F37;
 }
-.wrapper::-webkit-scrollbar-thumb {
-  background-color: #8585AD;   /* padding вокруг плашки */
+.listWrapper::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
 }

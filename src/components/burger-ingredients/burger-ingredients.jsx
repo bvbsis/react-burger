@@ -1,42 +1,37 @@
 import React from "react";
+import propTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import data from "../../utils/data";
 import ingredientsStyles from "./burger-ingredients.module.css";
-import CardList from "../ingredient-card/card-list";
+import CardList from "../card-list/card-list";
 
-const buns = data.filter((ingredient) => ingredient.type === "bun");
-const fillings = data.filter((ingredient) => ingredient.type === "main");
-const sauces = data.filter((ingredient) => ingredient.type === "sauce");
-
-function BurgerTab() {
+function BurgerIngredients({ array }) {
   const [current, setCurrent] = React.useState("one");
-  return (
-    <div className="mt-5" style={{ display: "flex" }}>
-      <Tab value="one" active={current === "one"} onClick={setCurrent}>
-        Булки
-      </Tab>
-      <Tab value="two" active={current === "two"} onClick={setCurrent}>
-        Соусы
-      </Tab>
-      <Tab value="three" active={current === "three"} onClick={setCurrent}>
-        Начинки
-      </Tab>
-    </div>
-  );
-}
 
-function BurgerIngredients() {
   return (
     <section className={ingredientsStyles.wrapper}>
       <p className="text text_type_main-large mt-10">Соберите бургер</p>
-      <BurgerTab />
-      <div>
-        <CardList heading="Булки" array={buns} />
-        <CardList heading="Соусы" array={sauces} />
-        <CardList heading="Начинки" array={fillings} />
+      <div className="mt-5" style={{ display: "flex" }}>
+        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+          Булки
+        </Tab>
+        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          Соусы
+        </Tab>
+        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          Начинки
+        </Tab>
+      </div>
+      <div className={ingredientsStyles.listWrapper}>
+        <CardList array={array} heading="Булки" type="bun" />
+        <CardList array={array} heading="Соусы" type="sauce" />
+        <CardList array={array} heading="Начинки" type="main" />
       </div>
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  array: propTypes.arrayOf(propTypes.object),
+};
 
 export default BurgerIngredients;

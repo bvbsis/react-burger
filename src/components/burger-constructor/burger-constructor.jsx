@@ -1,4 +1,5 @@
 import React from "react";
+import propTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -8,7 +9,7 @@ import {
 
 const img = ["https://code.s3.yandex.net/react/code/bun-02-mobile.png"];
 
-function BurgerConstructor(props) {
+function BurgerConstructor({ array }) {
   return (
     <section className={constructorStyles.constructor}>
       <div className={constructorStyles.ingredients}>
@@ -21,7 +22,7 @@ function BurgerConstructor(props) {
         />
 
         <div className={constructorStyles.filling}>
-          {props.array.map((ingredient) => {
+          {array.map((ingredient) => {
             return (
               <ConstructorElement
                 key={ingredient._id}
@@ -60,5 +61,9 @@ function BurgerConstructor(props) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  array: propTypes.arrayOf(propTypes.object),
+};
 
 export default BurgerConstructor;

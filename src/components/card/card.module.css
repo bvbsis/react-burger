@@ -1,29 +1,16 @@
-.list {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 24px 16px;
-  padding: 0;
-}
-
-/* .heading {
-  margin-bottom: 22px;
-} */
-
-.list_element {
+.card {
   display: flex;
   flex-direction: column;
   width: 272px;
-  
 }
 
-.list_element:nth-child(odd) {
+.card:nth-child(odd) {
   margin-right: 24px;
 }
 
-.list_element:nth-child(n+3) {
+.card:nth-child(n + 3) {
   margin-top: 32px;
 }
-
 
 .ingredientName {
   max-width: 272px;
