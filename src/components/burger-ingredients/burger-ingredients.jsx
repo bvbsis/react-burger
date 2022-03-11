@@ -9,7 +9,7 @@ function BurgerIngredients({ array }) {
 
   return (
     <section className={ingredientsStyles.wrapper}>
-      <p className="text text_type_main-large mt-10">Соберите бургер</p>
+      <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
       <div className="mt-5" style={{ display: "flex" }}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки

@@ -12,24 +12,22 @@ function AppHeader() {
       <div className={appHeaderStyles.content}>
         <nav className={appHeaderStyles.nav}>
           <ul className={appHeaderStyles.list}>
-            <li>
-              <a
-                href="/"
-                className={`text text_type_main-default ${appHeaderStyles.link} pt-4 pr-5 pb-4 ml-5 mt-4 mb-4 mr-2`}
-              >
+            <li className={appHeaderStyles.listItem}>
+              <a href="/" className={appHeaderStyles.link}>
                 <BurgerIcon type="primary" />
-                <p style={{ margin: 0 }} className="pl-2">
+                <p
+                  className={`text text_type_main-default pl-2 ${appHeaderStyles.linkName}`}
+                >
                   Конструктор
                 </p>
               </a>
             </li>
-            <li>
-              <a
-                href="/"
-                className={`text text_type_main-default ${appHeaderStyles.link} pt-4 pr-5 pb-4 pl-5 mt-4 mb-4 mr-2`}
-              >
+            <li className={appHeaderStyles.listItem}>
+              <a href="/" className={appHeaderStyles.link}>
                 <ListIcon type="secondary" />
-                <p style={{ margin: 0 }} className="pl-2">
+                <p
+                  className={`${appHeaderStyles.linkName} pl-2 text text_type_main-default`}
+                >
                   Лента заказов
                 </p>
               </a>
@@ -40,12 +38,11 @@ function AppHeader() {
           <Logo />
         </div>
         <nav className={appHeaderStyles.nav}>
-          <a
-            href="/"
-            className={`text text_type_main-default ${appHeaderStyles.link} pt-4 pb-4 pl-5 mr-5 mt-4 mb-4`}
-          >
+          <a href="/" className={appHeaderStyles.link}>
             <ProfileIcon type="secondary" />
-            <p style={{ margin: 0 }} className="pl-2">
+            <p
+              className={`text text_type_main-default pl-2 ${appHeaderStyles.linkName}`}
+            >
               Личный кабинет
             </p>
           </a>

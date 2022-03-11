@@ -17,12 +17,18 @@
   padding: 0;
 }
 
+.listItem:nth-child(n + 2) {
+  margin-left: 8px;
+}
+
 .link {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: #8585AD;
+  margin: 33px 20px ;
 }
+
 
 .nav {
   display: flex;
@@ -39,4 +45,8 @@
 
 .logo {
   padding-right: 181px;
+}
+
+.linkName {
+  margin: 0;
 }

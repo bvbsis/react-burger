@@ -8,13 +8,13 @@ import {
 function CardList({ array, type, heading }) {
   const arr = array.filter((ingredient) => ingredient.type === type);
 
-  return (
+  return arr.length ? (
     <div>
       <h2 className="text text_type_main-medium mt-10">{heading}</h2>
       <ul className={listStyles.list}>
         {arr.map((ingredient) => {
           return (
-            <li className={listStyles.card}>
+            <li key={ingredient._id} className={listStyles.card}>
               <div className={listStyles.imageWrapper}>
                 <Counter count={1} size="default" />
                 <img
@@ -39,6 +39,8 @@ function CardList({ array, type, heading }) {
         })}
       </ul>
     </div>
+  ) : (
+    <></>
   );
 }
 
