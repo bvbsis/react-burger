@@ -1,9 +1,11 @@
-import React from "react";
 import propTypes from "prop-types";
 import listStyles from "./card-list.module.css";
-import Card from "../card/card";
+import {
+  CurrencyIcon,
+  Counter,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
-function CardList({array, type, heading}) {
+function CardList({ array, type, heading }) {
   const arr = array.filter((ingredient) => ingredient.type === type);
 
   return (
@@ -12,7 +14,27 @@ function CardList({array, type, heading}) {
       <ul className={listStyles.list}>
         {arr.map((ingredient) => {
           return (
-            <Card key={ingredient._id} ingredient = {ingredient} />
+            <li className={listStyles.card}>
+              <div className={listStyles.imageWrapper}>
+                <Counter count={1} size="default" />
+                <img
+                  className={listStyles.image}
+                  src={ingredient.image}
+                  alt={ingredient.name}
+                />
+              </div>
+              <div style={{ display: "flex", margin: "auto" }}>
+                <p className="text text_type_digits-default mr-2">
+                  {ingredient.price}
+                </p>
+                <CurrencyIcon type="primary" />
+              </div>
+              <p
+                className={`${listStyles.ingredientName} text text_type_main-default mt-2`}
+              >
+                {ingredient.name}
+              </p>
+            </li>
           );
         })}
       </ul>
@@ -23,7 +45,7 @@ function CardList({array, type, heading}) {
 CardList.propTypes = {
   array: propTypes.arrayOf(propTypes.object),
   type: propTypes.string,
-  heading: propTypes.string
-}
+  heading: propTypes.string,
+};
 
 export default CardList;
