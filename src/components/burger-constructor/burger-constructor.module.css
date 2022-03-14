@@ -21,19 +21,19 @@
   gap: 16px;
 }
 
-.priceWrapper {
+.price_wrapper {
   display: flex;
   align-items: center;
   margin-right: 56px;
 }
 
-.submitWrapper {
+.submit_wrapper {
   display: flex;
   justify-content: flex-end;
   margin: 35px 35px 0 0;
 }
 
-.priceDigit {
+.price_digit {
   margin-right: 4px;
 }
 

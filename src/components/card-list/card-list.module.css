@@ -19,13 +19,13 @@
   margin-top: 32px;
 }
 
-.ingredientName {
+.ingredient_name {
   max-width: 272px;
   min-height: 48px;
   text-align: center;
 }
 
-.imageWrapper {
+.image_wrapper {
   margin-bottom: 8px;
   position: relative;
   display: flex;

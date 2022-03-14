@@ -1,4 +1,5 @@
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
+import objectTypes from "../../utils/constants";
 import listStyles from "./card-list.module.css";
 import {
   CurrencyIcon,
@@ -15,7 +16,7 @@ function CardList({ array, type, heading }) {
         {arr.map((ingredient) => {
           return (
             <li key={ingredient._id} className={listStyles.card}>
-              <div className={listStyles.imageWrapper}>
+              <div className={listStyles.image_wrapper}>
                 <Counter count={1} size="default" />
                 <img
                   className={listStyles.image}
@@ -30,7 +31,7 @@ function CardList({ array, type, heading }) {
                 <CurrencyIcon type="primary" />
               </div>
               <p
-                className={`${listStyles.ingredientName} text text_type_main-default mt-2`}
+                className={`${listStyles.ingredient_name} text text_type_main-default mt-2`}
               >
                 {ingredient.name}
               </p>
@@ -45,9 +46,13 @@ function CardList({ array, type, heading }) {
 }
 
 CardList.propTypes = {
-  array: propTypes.arrayOf(propTypes.object),
-  type: propTypes.string,
-  heading: propTypes.string,
+  array: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...objectTypes,
+    })
+  ),
+  type: PropTypes.string.isRequired,
+  heading: PropTypes.string.isRequired,
 };
 
 export default CardList;

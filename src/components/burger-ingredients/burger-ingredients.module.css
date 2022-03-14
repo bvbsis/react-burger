@@ -1,4 +1,4 @@
-.listWrapper {
+.list_wrapper {
   overflow: overlay;
   max-height: 80%;
 }
@@ -10,12 +10,12 @@
   padding: 0 0 0 20px;
 }
 
-.listWrapper::-webkit-scrollbar {
+.list_wrapper::-webkit-scrollbar {
   width: 8px;      
 }
-.listWrapper::-webkit-scrollbar-track {
+.list_wrapper::-webkit-scrollbar-track {
   background: #2F2F37;
 }
-.listWrapper::-webkit-scrollbar-thumb {
+.list_wrapper::-webkit-scrollbar-thumb {
   background-color: #8585AD;
 }

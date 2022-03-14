@@ -1,5 +1,6 @@
 import React from "react";
-import propTypes from "prop-types";
+import objectTypes from "../../utils/constants";
+import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import CardList from "../card-list/card-list";
@@ -21,7 +22,7 @@ function BurgerIngredients({ array }) {
           Начинки
         </Tab>
       </div>
-      <div className={ingredientsStyles.listWrapper}>
+      <div className={ingredientsStyles.list_wrapper}>
         <CardList array={array} heading="Булки" type="bun" />
         <CardList array={array} heading="Соусы" type="sauce" />
         <CardList array={array} heading="Начинки" type="main" />
@@ -31,7 +32,11 @@ function BurgerIngredients({ array }) {
 }
 
 BurgerIngredients.propTypes = {
-  array: propTypes.arrayOf(propTypes.object),
+  array: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...objectTypes,
+    })
+  ),
 };
 
 export default BurgerIngredients;

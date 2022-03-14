@@ -1,5 +1,5 @@
-import React from "react";
-import propTypes from "prop-types";
+import objectTypes from "../../utils/constants";
+import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
@@ -45,10 +45,10 @@ function BurgerConstructor({ array }) {
         />
       </div>
 
-      <div className={constructorStyles.submitWrapper}>
-        <div className={constructorStyles.priceWrapper}>
+      <div className={constructorStyles.submit_wrapper}>
+        <div className={constructorStyles.price_wrapper}>
           <p
-            className={`text text_type_digits-medium ${constructorStyles.priceDigit}`}
+            className={`text text_type_digits-medium ${constructorStyles.price_digit}`}
           >
             610
           </p>
@@ -63,7 +63,11 @@ function BurgerConstructor({ array }) {
 }
 
 BurgerConstructor.propTypes = {
-  array: propTypes.arrayOf(propTypes.object),
+  array: PropTypes.arrayOf(
+    PropTypes.shape({
+      ...objectTypes,
+    })
+  ),
 };
 
 export default BurgerConstructor;
