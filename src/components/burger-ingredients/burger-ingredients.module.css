@@ -1,0 +1,21 @@
+.list_wrapper {
+  overflow: overlay;
+  max-height: 80%;
+}
+
+.wrapper {
+  width: 600px;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0 0 0 20px;
+}
+
+.list_wrapper::-webkit-scrollbar {
+  width: 8px;      
+}
+.list_wrapper::-webkit-scrollbar-track {
+  background: #2F2F37;
+}
+.list_wrapper::-webkit-scrollbar-thumb {
+  background-color: #8585AD;
+}

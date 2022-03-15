@@ -43,4 +43,4 @@
 
 Вы можете узнать больше в [Документации по приложению Create React](https://facebook.github.io/create-react-app/docs/getting-started ).
 
-Чтобы изучить React, ознакомьтесь с [документацией React](https://reactjs.org /).
+Чтобы изучить React, ознакомьтесь с [документацией React](https://reactjs.org).

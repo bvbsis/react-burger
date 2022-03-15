@@ -1,0 +1,40 @@
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 24px 16px;
+  padding: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 272px;
+}
+
+.card:nth-child(odd) {
+  margin-right: 24px;
+}
+
+.card:nth-child(n + 3) {
+  margin-top: 32px;
+}
+
+.ingredient_name {
+  max-width: 272px;
+  min-height: 48px;
+  text-align: center;
+}
+
+.image_wrapper {
+  margin-bottom: 8px;
+  position: relative;
+  display: flex;
+}
+
+.image {
+  width: 100%;
+  max-width: 240px;
+  max-height: 120px;
+  margin: auto;
+}
+
