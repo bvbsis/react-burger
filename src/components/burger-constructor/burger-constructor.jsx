@@ -8,60 +8,88 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const img = ["https://code.s3.yandex.net/react/code/bun-02-mobile.png"];
+const BurgerConstructor = React.memo(
+  ({ currentBun, ingredients, currentIngredientsId, setCurrentBun }) => {
+    const constructorIngredients = ingredients.filter((ingredient) => {
+      if (
+        currentIngredientsId.includes(ingredient._id) &&
+        ingredient.type !== "bun"
+      ) {
+        return ingredient;
+      } else {
+        return undefined;
+      }
+    });
 
-const BurgerConstructor = React.memo(({ array }) => {
-  return (
-    <section className={constructorStyles.constructor}>
-      <div className={constructorStyles.ingredients}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text="Краторная булка N-200i (верх)"
-          price={200}
-          thumbnail={img[0]}
-        />
+    // React.useEffect(() => {
+    //   const buns = ingredients.filter((ingredient) => {
+    //     if (
+    //       currentIngredientsId.includes(ingredient._id) &&
+    //       ingredient.type === "bun"
+    //     ) {
+    //       return ingredient;
+    //     } else {
+    //       return undefined;
+    //     }
+    //   });
+    //   setCurrentBun(buns[0]);
+    // }, [currentIngredientsId, ingredients, setCurrentBun]);
 
-        <div className={constructorStyles.filling}>
-          {array.map((ingredient) => {
-            return (
-              <ConstructorElement
-                key={ingredient._id}
-                type="center"
-                isLocked={false}
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image_mobile}
-              />
-            );
-          })}
+    return (
+      <section className={constructorStyles.constructor}>
+        <div className={constructorStyles.ingredients}>
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={currentBun.name}
+            price={currentBun.price}
+            thumbnail={currentBun.image_mobile}
+          />
+
+          <div className={constructorStyles.filling}>
+            {constructorIngredients.map((ingredient) => {
+              return (
+                <div className={constructorStyles.constructorElWrapper}>
+                  <div className={constructorStyles.dragger} />
+                  <ConstructorElement
+                    key={ingredient._id}
+                    type="center"
+                    isLocked={false}
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_mobile}
+                  />
+                </div>
+              );
+            })}
+          </div>
+
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={currentBun.name}
+            price={currentBun.price}
+            thumbnail={currentBun.image_mobile}
+          />
         </div>
 
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text="Краторная булка N-200i (низ)"
-          price={200}
-          thumbnail={img[0]}
-        />
-      </div>
-
-      <div className={constructorStyles.submit_wrapper}>
-        <div className={constructorStyles.price_wrapper}>
-          <p
-            className={`text text_type_digits-medium ${constructorStyles.price_digit}`}
-          >
-            610
-          </p>
-          <CurrencyIcon type="primary" />
+        <div className={constructorStyles.submit_wrapper}>
+          <div className={constructorStyles.price_wrapper}>
+            <p
+              className={`text text_type_digits-medium ${constructorStyles.price_digit}`}
+            >
+              610
+            </p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button type="primary" size="large">
+            Оформить заказ
+          </Button>
         </div>
-        <Button type="primary" size="large">
-          Оформить заказ
-        </Button>
-      </div>
-    </section>
-  );
-});
+      </section>
+    );
+  }
+);
 
 BurgerConstructor.propTypes = {
   array: PropTypes.arrayOf(

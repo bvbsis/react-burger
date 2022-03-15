@@ -1,7 +1,7 @@
 .constructor {
   margin-top: 100px;
   height: fit-content;
-  width: 600px;
+  width: 616px;
 }
 
 .ingredients {
@@ -15,8 +15,7 @@
   overflow: overlay;
   display: flex;
   flex-direction: column;
-  margin-left: 9px;
-  width: 552px;
+  width: 577px;
   max-height: 51vh;
   gap: 16px;
 }
@@ -25,6 +24,18 @@
   display: flex;
   align-items: center;
   margin-right: 56px;
+}
+
+.constructorElWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.dragger {
+  height: 19px;
+  width: 14px;
+  margin-right: 12px;
+  background-image: url(../../images/dragger.svg);
 }
 
 .submit_wrapper {
