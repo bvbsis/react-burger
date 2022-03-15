@@ -1,3 +1,4 @@
+import React from "react";
 import objectTypes from "../../utils/constants";
 import PropTypes from "prop-types";
 import constructorStyles from "./burger-constructor.module.css";
@@ -9,7 +10,7 @@ import {
 
 const img = ["https://code.s3.yandex.net/react/code/bun-02-mobile.png"];
 
-function BurgerConstructor({ array }) {
+const BurgerConstructor = React.memo(({ array }) => {
   return (
     <section className={constructorStyles.constructor}>
       <div className={constructorStyles.ingredients}>
@@ -60,7 +61,7 @@ function BurgerConstructor({ array }) {
       </div>
     </section>
   );
-}
+});
 
 BurgerConstructor.propTypes = {
   array: PropTypes.arrayOf(

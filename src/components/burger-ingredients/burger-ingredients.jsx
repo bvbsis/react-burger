@@ -5,7 +5,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import CardList from "../card-list/card-list";
 
-function BurgerIngredients({ array }) {
+const BurgerIngredients = React.memo(({ array }) => {
   const [current, setCurrent] = React.useState("one");
 
   return (
@@ -29,7 +29,7 @@ function BurgerIngredients({ array }) {
       </div>
     </section>
   );
-}
+});
 
 BurgerIngredients.propTypes = {
   array: PropTypes.arrayOf(

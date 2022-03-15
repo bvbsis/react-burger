@@ -15,21 +15,21 @@ function AppHeader() {
             <li className={appHeaderStyles.listItem}>
               <a href="/" className={appHeaderStyles.link}>
                 <BurgerIcon type="primary" />
-                <p
+                <span
                   className={`text text_type_main-default pl-2 ${appHeaderStyles.linkName}`}
                 >
                   Конструктор
-                </p>
+                </span>
               </a>
             </li>
             <li className={appHeaderStyles.listItem}>
               <a href="/" className={appHeaderStyles.link}>
                 <ListIcon type="secondary" />
-                <p
+                <span
                   className={`${appHeaderStyles.linkName} pl-2 text text_type_main-default`}
                 >
                   Лента заказов
-                </p>
+                </span>
               </a>
             </li>
           </ul>
@@ -40,11 +40,11 @@ function AppHeader() {
         <nav className={appHeaderStyles.nav}>
           <a href="/" className={appHeaderStyles.link}>
             <ProfileIcon type="secondary" />
-            <p
+            <span
               className={`text text_type_main-default pl-2 ${appHeaderStyles.linkName}`}
             >
               Личный кабинет
-            </p>
+            </span>
           </a>
         </nav>
       </div>

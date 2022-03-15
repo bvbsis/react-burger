@@ -8,12 +8,19 @@ const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 function App() {
   const [ingredients, setIngredients] = useState([]);
 
-  useEffect(() => {
+  const getIngredientsData = () => {
     fetch(API_URL)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(res.status);
+      })
       .then((data) => setIngredients(data.data))
       .catch((err) => console.error(err));
-  }, []);
+  };
+
+  useEffect(getIngredientsData, []);
 
   return (
     <>
