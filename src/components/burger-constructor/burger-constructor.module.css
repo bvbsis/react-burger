@@ -36,6 +36,7 @@
   width: 14px;
   margin-right: 12px;
   background-image: url(../../images/dragger.svg);
+  cursor: pointer;
 }
 
 .submit_wrapper {

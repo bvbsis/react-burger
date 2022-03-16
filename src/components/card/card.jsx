@@ -7,25 +7,9 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const Card = ({
-  ingredient,
-  currentIngredientsId,
-  setCurrentIngredientsId,
-}) => {
-  const onCardClick = (e) => {
-    const newCurrentIngredients = [...currentIngredientsId];
-    if (currentIngredientsId.indexOf(ingredient._id) !== -1) {
-      const index = currentIngredientsId.indexOf(ingredient._id);
-      newCurrentIngredients.splice(index, 1);
-      setCurrentIngredientsId([...newCurrentIngredients]);
-    } else {
-      newCurrentIngredients.push(ingredient._id);
-      setCurrentIngredientsId([...newCurrentIngredients]);
-    }
-  };
-
+const Card = ({ ingredient, currentIngredientsId }) => {
   return (
-    <li onClick={onCardClick} className={cardStyles.card}>
+    <li className={cardStyles.card}>
       <div className={cardStyles.image_wrapper}>
         {currentIngredientsId.includes(ingredient._id) ? (
           <Counter count={1} size="default" />

@@ -21,20 +21,6 @@ const BurgerConstructor = React.memo(
       }
     });
 
-    // React.useEffect(() => {
-    //   const buns = ingredients.filter((ingredient) => {
-    //     if (
-    //       currentIngredientsId.includes(ingredient._id) &&
-    //       ingredient.type === "bun"
-    //     ) {
-    //       return ingredient;
-    //     } else {
-    //       return undefined;
-    //     }
-    //   });
-    //   setCurrentBun(buns[0]);
-    // }, [currentIngredientsId, ingredients, setCurrentBun]);
-
     return (
       <section className={constructorStyles.constructor}>
         <div className={constructorStyles.ingredients}>
@@ -49,10 +35,12 @@ const BurgerConstructor = React.memo(
           <div className={constructorStyles.filling}>
             {constructorIngredients.map((ingredient) => {
               return (
-                <div className={constructorStyles.constructorElWrapper}>
+                <div
+                  key={ingredient._id}
+                  className={constructorStyles.constructorElWrapper}
+                >
                   <div className={constructorStyles.dragger} />
                   <ConstructorElement
-                    key={ingredient._id}
                     type="center"
                     isLocked={false}
                     text={ingredient.name}
