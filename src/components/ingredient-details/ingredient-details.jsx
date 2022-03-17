@@ -1,5 +1,7 @@
 import React from "react";
 import detailsStyles from "./ingredient-details.module.css";
+import PropTypes from "prop-types";
+import objectTypes from "../../utils/constants";
 
 const IngredientDetails = React.memo(({ ingredient }) => {
   return (
@@ -41,5 +43,9 @@ const IngredientDetails = React.memo(({ ingredient }) => {
     </div>
   );
 });
+
+React.propTypes = {
+  ingredient: PropTypes.shape({...objectTypes})
+}
 
 export default IngredientDetails;

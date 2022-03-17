@@ -6,7 +6,7 @@ import ingredientsStyles from "./burger-ingredients.module.css";
 import CardList from "../card-list/card-list";
 
 const BurgerIngredients = React.memo(
-  ({ array, currentIngredientsId, setCurrentIngredientsId }) => {
+  ({ array, currentIngredientsId, modalState, setModalState }) => {
     const [current, setCurrent] = React.useState("one");
 
     return (
@@ -25,22 +25,25 @@ const BurgerIngredients = React.memo(
         </div>
         <div className={ingredientsStyles.list_wrapper}>
           <CardList
+            modalState={modalState}
             currentIngredientsId={currentIngredientsId}
-            setCurrentIngredientsId={setCurrentIngredientsId}
+            setModalState={setModalState}
             array={array}
             heading="Булки"
             type="bun"
           />
           <CardList
+            modalState={modalState}
             currentIngredientsId={currentIngredientsId}
-            setCurrentIngredientsId={setCurrentIngredientsId}
+            setModalState={setModalState}
             array={array}
             heading="Соусы"
             type="sauce"
           />
           <CardList
+            modalState={modalState}
             currentIngredientsId={currentIngredientsId}
-            setCurrentIngredientsId={setCurrentIngredientsId}
+            setModalState={setModalState}
             array={array}
             heading="Начинки"
             type="main"
@@ -57,6 +60,18 @@ BurgerIngredients.propTypes = {
       ...objectTypes,
     })
   ),
+  currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
+  modalState: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    ingredient: PropTypes.object.isRequired,
+    heading: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.object.isRequired,
+    ]),
+    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
+    currentModal: PropTypes.string,
+  }),
+  setModalState: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

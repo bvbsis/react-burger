@@ -9,7 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const BurgerConstructor = React.memo(
-  ({ currentBun, ingredients, currentIngredientsId, setCurrentBun }) => {
+  ({
+    currentBun,
+    ingredients,
+    currentIngredientsId,
+    modalState,
+    setModalState,
+  }) => {
     const constructorIngredients = ingredients.filter((ingredient) => {
       if (
         currentIngredientsId.includes(ingredient._id) &&
@@ -20,6 +26,14 @@ const BurgerConstructor = React.memo(
         return undefined;
       }
     });
+
+    const onButtonClick = () => {
+      setModalState({
+        ...modalState,
+        isOpen: true,
+        currentModal: "order-details",
+      });
+    };
 
     return (
       <section className={constructorStyles.constructor}>
@@ -70,7 +84,7 @@ const BurgerConstructor = React.memo(
             </p>
             <CurrencyIcon type="primary" />
           </div>
-          <Button type="primary" size="large">
+          <Button onClick={onButtonClick} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>
@@ -80,11 +94,26 @@ const BurgerConstructor = React.memo(
 );
 
 BurgerConstructor.propTypes = {
-  array: PropTypes.arrayOf(
+  ingredients: PropTypes.arrayOf(
     PropTypes.shape({
       ...objectTypes,
     })
   ),
+  currentBun: PropTypes.shape({
+    ...objectTypes,
+  }),
+  currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
+  modalState: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    ingredient: PropTypes.object.isRequired,
+    heading: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.object.isRequired,
+    ]),
+    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
+    currentModal: PropTypes.string,
+  }),
+  setModalState: PropTypes.func.isRequired,
 };
 
 export default BurgerConstructor;

@@ -6,13 +6,12 @@
   margin: auto;
   padding: 40px 40px 60px;
   position: absolute;
-  z-index: 5;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  overflow: overlay;
   border-radius: 40px;
+  cursor: default;
 }
 
 .close_button {
@@ -24,6 +23,7 @@
   position: absolute;
   right: 40px;
   top: 60px;
+  cursor: pointer;
 }
 
 .heading {

@@ -7,9 +7,24 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const Card = ({ ingredient, currentIngredientsId }) => {
+const Card = ({
+  ingredient,
+  currentIngredientsId,
+  modalState,
+  setModalState,
+}) => {
+  const onCardClick = () => {
+    setModalState({
+      ...modalState,
+      ingredient: { ...ingredient },
+      heading: "Детали ингредиента",
+      isOpen: true,
+      currentModal: "ingredient-details",
+    });
+  };
+
   return (
-    <li className={cardStyles.card}>
+    <li onClick={onCardClick} className={cardStyles.card}>
       <div className={cardStyles.image_wrapper}>
         {currentIngredientsId.includes(ingredient._id) ? (
           <Counter count={1} size="default" />
@@ -39,6 +54,18 @@ const Card = ({ ingredient, currentIngredientsId }) => {
 
 Card.propTypes = {
   ingredient: PropTypes.shape({ ...objectTypes }),
+  currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
+  modalState: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    ingredient: PropTypes.object.isRequired,
+    heading: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.object.isRequired,
+    ]),
+    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
+    currentModal: PropTypes.string,
+  }),
+  setModalState: PropTypes.func.isRequired,
 };
 
 export default Card;

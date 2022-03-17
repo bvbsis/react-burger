@@ -48,13 +48,3 @@
 .price_digit {
   margin-right: 4px;
 }
-
-.filling::-webkit-scrollbar {
-  width: 8px;               /* ширина scrollbar */
-}
-.filling::-webkit-scrollbar-track {
-  background: #2F2F37;        /* цвет дорожки */
-}
-.filling::-webkit-scrollbar-thumb {
-  background-color: #8585AD;   /* padding вокруг плашки */
-}
