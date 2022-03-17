@@ -1,4 +1,4 @@
-.warapper {
+.modal {
   width: 640px;
   min-height: 100px;
   max-height: fit-content;
@@ -14,7 +14,7 @@
   cursor: default;
 }
 
-.close_button {
+.modal__closeButton {
   background: none;
   border: none;
   padding: 0;
@@ -26,7 +26,7 @@
   cursor: pointer;
 }
 
-.heading {
+.modal__heading {
   display: block;
   width: 580px;
   line-height: 64px;

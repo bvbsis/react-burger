@@ -1,11 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
-import objectTypes from "../../utils/constants";
-import cardStyles from "./card.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import cardStyles from "./card.module.css";
+import objectTypes from "../../utils/constants";
 
 const Card = ({
   ingredient,
@@ -25,14 +24,14 @@ const Card = ({
 
   return (
     <li onClick={onCardClick} className={cardStyles.card}>
-      <div className={cardStyles.image_wrapper}>
+      <div className={cardStyles.card__imageWrapper}>
         {currentIngredientsId.includes(ingredient._id) ? (
           <Counter count={1} size="default" />
         ) : (
           <></>
         )}
         <img
-          className={cardStyles.image}
+          className={cardStyles.card__image}
           src={ingredient.image}
           alt={ingredient.name}
         />
@@ -44,7 +43,7 @@ const Card = ({
         <CurrencyIcon type="primary" />
       </div>
       <span
-        className={`${cardStyles.ingredient_name} text text_type_main-default mt-2`}
+        className={`${cardStyles.card__ingredientName} text text_type_main-default mt-2`}
       >
         {ingredient.name}
       </span>

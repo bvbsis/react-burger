@@ -1,12 +1,12 @@
 import React from "react";
-import objectTypes from "../../utils/constants";
 import PropTypes from "prop-types";
-import constructorStyles from "./burger-constructor.module.css";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import constructorStyles from "./burger-constructor.module.css";
+import objectTypes from "../../utils/constants";
 
 const BurgerConstructor = React.memo(
   ({
@@ -36,8 +36,8 @@ const BurgerConstructor = React.memo(
     };
 
     return (
-      <section className={constructorStyles.constructor}>
-        <div className={constructorStyles.ingredients}>
+      <section className={constructorStyles.burgerConstructor}>
+        <div className={constructorStyles.burgerConstructor__ingredients}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -46,14 +46,14 @@ const BurgerConstructor = React.memo(
             thumbnail={currentBun.image_mobile}
           />
 
-          <div className={constructorStyles.filling}>
+          <div className={constructorStyles.burgerConstructor__filling}>
             {constructorIngredients.map((ingredient) => {
               return (
                 <div
                   key={ingredient._id}
-                  className={constructorStyles.constructorElWrapper}
+                  className={constructorStyles.burgerConstructor__elWrapper}
                 >
-                  <div className={constructorStyles.dragger} />
+                  <div className={constructorStyles.burgerConstructor__dragger} />
                   <ConstructorElement
                     type="center"
                     isLocked={false}
@@ -75,10 +75,10 @@ const BurgerConstructor = React.memo(
           />
         </div>
 
-        <div className={constructorStyles.submit_wrapper}>
-          <div className={constructorStyles.price_wrapper}>
+        <div className={constructorStyles.burgerConstructor__submitWrapper}>
+          <div className={constructorStyles.burgerConstructor__priceWrapper}>
             <p
-              className={`text text_type_digits-medium ${constructorStyles.price_digit}`}
+              className={`text text_type_digits-medium ${constructorStyles.burgerConstructor__priceDigit}`}
             >
               610
             </p>

@@ -1,17 +1,17 @@
-.constructor {
+.burgerConstructor {
   margin-top: 100px;
   height: fit-content;
   width: 616px;
 }
 
-.ingredients {
+.burgerConstructor__ingredients {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
 }
 
-.filling {
+.burgerConstructor__filling {
   overflow: overlay;
   display: flex;
   flex-direction: column;
@@ -20,18 +20,18 @@
   gap: 16px;
 }
 
-.price_wrapper {
+.burgerConstructor__priceWrapper {
   display: flex;
   align-items: center;
   margin-right: 56px;
 }
 
-.constructorElWrapper {
+.burgerConstructor__elWrapper {
   display: flex;
   align-items: center;
 }
 
-.dragger {
+.burgerConstructor__dragger {
   height: 19px;
   width: 14px;
   margin-right: 12px;
@@ -39,12 +39,12 @@
   cursor: pointer;
 }
 
-.submit_wrapper {
+.burgerConstructor__submitWrapper {
   display: flex;
   justify-content: flex-end;
   margin: 35px 35px 0 0;
 }
 
-.price_digit {
+.burgerConstructor__priceDigit {
   margin-right: 4px;
 }

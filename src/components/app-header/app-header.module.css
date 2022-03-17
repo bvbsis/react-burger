@@ -2,7 +2,7 @@
   background-color: #1C1C21;
 }
 
-.content {
+.header__wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,18 +10,18 @@
   margin: auto;
 }
 
-.list {
+.menu__list {
   display: flex;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.listItem:nth-child(n + 2) {
+.menu__listItem:nth-child(n + 2) {
   margin-left: 8px;
 }
 
-.link {
+.menu__link {
   display: flex;
   align-items: center;
   text-decoration: none;
@@ -30,23 +30,19 @@
 }
 
 
-.nav {
+.menu {
   display: flex;
   align-items: center;
-}
-
-.icon {
-  padding-right: 100px;
 }
 
 .text {
   margin: 0;
 }
 
-.logo {
+.header__logo {
   padding-right: 181px;
 }
 
-.linkName {
+.menu__linkName {
   margin: 0;
 }

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import appStyles from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
+import appStyles from "./app.module.css";
+
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
@@ -57,7 +58,7 @@ function App() {
       <Modal modalState={modalState} setModalState={setModalState} />
       <AppHeader />
 
-      <main className={appStyles.main}>
+      <main className={appStyles.app}>
         <BurgerIngredients
           modalState={modalState}
           setModalState={setModalState}

@@ -13,19 +13,19 @@
   margin-top: 32px;
 }
 
-.ingredient_name {
+.card__ingredientName {
   max-width: 272px;
   min-height: 48px;
   text-align: center;
 }
 
-.image_wrapper {
+.card__imageWrapper {
   margin-bottom: 8px;
   position: relative;
   display: flex;
 }
 
-.image {
+.card__image {
   width: 100%;
   max-width: 240px;
   max-height: 120px;

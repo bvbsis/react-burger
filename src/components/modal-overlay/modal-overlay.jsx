@@ -1,6 +1,6 @@
 import React from "react";
-import overlayStyles from "./modal-overlay.module.css";
 import PropTypes from "prop-types";
+import overlayStyles from "./modal-overlay.module.css";
 
 const ModalOverlay = React.memo(({ children, modalState, setModalState }) => {
   const onOverlayClick = (e) => {
@@ -23,7 +23,7 @@ const ModalOverlay = React.memo(({ children, modalState, setModalState }) => {
   }, [modalState]);
 
   return (
-    <div onClick={onOverlayClick} className={overlayStyles.wrapper}>
+    <div onClick={onOverlayClick} className={overlayStyles.modalOverlay}>
       {children}
     </div>
   );

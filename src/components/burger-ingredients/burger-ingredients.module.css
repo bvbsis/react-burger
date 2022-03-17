@@ -1,9 +1,9 @@
-.list_wrapper {
+.burgerIngredients__listWrapper {
   overflow: overlay;
   max-height: 80%;
 }
 
-.wrapper {
+.burgerIngredients {
   width: 600px;
   max-height: 100vh;
   margin: 0;

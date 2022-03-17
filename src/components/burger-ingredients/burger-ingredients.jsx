@@ -1,16 +1,16 @@
 import React from "react";
-import objectTypes from "../../utils/constants";
 import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import ingredientsStyles from "./burger-ingredients.module.css";
 import CardList from "../card-list/card-list";
+import ingredientsStyles from "./burger-ingredients.module.css";
+import objectTypes from "../../utils/constants";
 
 const BurgerIngredients = React.memo(
   ({ array, currentIngredientsId, modalState, setModalState }) => {
     const [current, setCurrent] = React.useState("one");
 
     return (
-      <section className={ingredientsStyles.wrapper}>
+      <section className={ingredientsStyles.burgerIngredients}>
         <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
         <div className="mt-5" style={{ display: "flex" }}>
           <Tab value="one" active={current === "one"} onClick={setCurrent}>
@@ -23,7 +23,7 @@ const BurgerIngredients = React.memo(
             Начинки
           </Tab>
         </div>
-        <div className={ingredientsStyles.list_wrapper}>
+        <div className={ingredientsStyles.burgerIngredients__listWrapper}>
           <CardList
             modalState={modalState}
             currentIngredientsId={currentIngredientsId}

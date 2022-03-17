@@ -1,10 +1,10 @@
 import React from "react";
-import modalStyles from "./modal.module.css";
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import PropTypes from "prop-types";
+import modalStyles from "./modal.module.css";
 
 const Modal = React.memo(({ modalState, setModalState }) => {
   const onCloseClick = () => {
@@ -37,15 +37,15 @@ const Modal = React.memo(({ modalState, setModalState }) => {
   return modalState.isOpen
     ? ReactDOM.createPortal(
         <ModalOverlay modalState={modalState} setModalState={setModalState}>
-          <div className={modalStyles.warapper}>
+          <div className={modalStyles.modal}>
             {modalState.heading ? (
               <span
-                className={`${modalStyles.heading} text text_type_main-large`}
+                className={`${modalStyles.modal__heading} text text_type_main-large`}
               >
                 {modalState.heading}
               </span>
             ) : null}
-            <button onClick={onCloseClick} className={modalStyles.close_button}>
+            <button onClick={onCloseClick} className={modalStyles.modal__closeButton}>
               <svg
                 width="18"
                 height="18"

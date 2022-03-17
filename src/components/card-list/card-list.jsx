@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import objectTypes from "../../utils/constants";
-import listStyles from "./card-list.module.css";
 import Card from "../card/card";
+import listStyles from "./card-list.module.css";
+import objectTypes from "../../utils/constants";
 
 const CardList = React.memo(
   ({
@@ -18,7 +18,7 @@ const CardList = React.memo(
     return arr.length ? (
       <div>
         <h2 className="text text_type_main-medium mt-10">{heading}</h2>
-        <ul className={listStyles.list}>
+        <ul className={listStyles.cardList__list}>
           {arr.map((ingredient) => (
             <Card
               modalState={modalState}
