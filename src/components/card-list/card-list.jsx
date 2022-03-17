@@ -6,20 +6,22 @@ import objectTypes from "../../utils/constants";
 
 const CardList = React.memo(
   ({
-    array,
+    ingredients,
     type,
     heading,
     currentIngredientsId,
     modalState,
     setModalState,
   }) => {
-    const arr = array.filter((ingredient) => ingredient.type === type);
+    const filteredIngredients = ingredients.filter(
+      (ingredient) => ingredient.type === type
+    );
 
-    return arr.length ? (
+    return filteredIngredients.length ? (
       <div>
         <h2 className="text text_type_main-medium mt-10">{heading}</h2>
         <ul className={listStyles.cardList__list}>
-          {arr.map((ingredient) => (
+          {filteredIngredients.map((ingredient) => (
             <Card
               modalState={modalState}
               setModalState={setModalState}
@@ -30,14 +32,12 @@ const CardList = React.memo(
           ))}
         </ul>
       </div>
-    ) : (
-      <></>
-    );
+    ) : null;
   }
 );
 
 CardList.propTypes = {
-  array: PropTypes.arrayOf(
+  ingredients: PropTypes.arrayOf(
     PropTypes.shape({
       ...objectTypes,
     })

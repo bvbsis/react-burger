@@ -15,7 +15,7 @@ const Card = ({
   const onCardClick = () => {
     setModalState({
       ...modalState,
-      ingredient: { ...ingredient },
+      ingredient,
       heading: "Детали ингредиента",
       isOpen: true,
       currentModal: "ingredient-details",
@@ -27,9 +27,7 @@ const Card = ({
       <div className={cardStyles.card__imageWrapper}>
         {currentIngredientsId.includes(ingredient._id) ? (
           <Counter count={1} size="default" />
-        ) : (
-          <></>
-        )}
+        ) : null}
         <img
           className={cardStyles.card__image}
           src={ingredient.image}

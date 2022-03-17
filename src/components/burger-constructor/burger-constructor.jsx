@@ -6,7 +6,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import constructorStyles from "./burger-constructor.module.css";
-import objectTypes from "../../utils/constants";
+import objectTypes from "../../utils/constants.js";
 
 const BurgerConstructor = React.memo(
   ({
@@ -16,16 +16,11 @@ const BurgerConstructor = React.memo(
     modalState,
     setModalState,
   }) => {
-    const constructorIngredients = ingredients.filter((ingredient) => {
-      if (
+    const constructorIngredients = ingredients.filter(
+      (ingredient) =>
         currentIngredientsId.includes(ingredient._id) &&
         ingredient.type !== "bun"
-      ) {
-        return ingredient;
-      } else {
-        return undefined;
-      }
-    });
+    );
 
     const onButtonClick = () => {
       setModalState({
@@ -53,7 +48,9 @@ const BurgerConstructor = React.memo(
                   key={ingredient._id}
                   className={constructorStyles.burgerConstructor__elWrapper}
                 >
-                  <div className={constructorStyles.burgerConstructor__dragger} />
+                  <div
+                    className={constructorStyles.burgerConstructor__dragger}
+                  />
                   <ConstructorElement
                     type="center"
                     isLocked={false}

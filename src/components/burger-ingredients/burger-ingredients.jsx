@@ -6,20 +6,23 @@ import ingredientsStyles from "./burger-ingredients.module.css";
 import objectTypes from "../../utils/constants";
 
 const BurgerIngredients = React.memo(
-  ({ array, currentIngredientsId, modalState, setModalState }) => {
-    const [current, setCurrent] = React.useState("one");
+  ({ ingredients, currentIngredientsId, modalState, setModalState }) => {
+    const [current, setCurrent] = React.useState("buns");
+    const buns = "buns";
+    const sauses = "sauses";
+    const fillings = "fillings"
 
     return (
       <section className={ingredientsStyles.burgerIngredients}>
         <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
-        <div className="mt-5" style={{ display: "flex" }}>
-          <Tab value="one" active={current === "one"} onClick={setCurrent}>
+        <div className={ingredientsStyles.burgerIngredients__tabs} >
+          <Tab value={buns} active={current === buns} onClick={setCurrent}>
             Булки
           </Tab>
-          <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          <Tab value={sauses} active={current === sauses} onClick={setCurrent}>
             Соусы
           </Tab>
-          <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          <Tab value={fillings} active={current === fillings} onClick={setCurrent}>
             Начинки
           </Tab>
         </div>
@@ -28,7 +31,7 @@ const BurgerIngredients = React.memo(
             modalState={modalState}
             currentIngredientsId={currentIngredientsId}
             setModalState={setModalState}
-            array={array}
+            ingredients={ingredients}
             heading="Булки"
             type="bun"
           />
@@ -36,7 +39,7 @@ const BurgerIngredients = React.memo(
             modalState={modalState}
             currentIngredientsId={currentIngredientsId}
             setModalState={setModalState}
-            array={array}
+            ingredients={ingredients}
             heading="Соусы"
             type="sauce"
           />
@@ -44,7 +47,7 @@ const BurgerIngredients = React.memo(
             modalState={modalState}
             currentIngredientsId={currentIngredientsId}
             setModalState={setModalState}
-            array={array}
+            ingredients={ingredients}
             heading="Начинки"
             type="main"
           />

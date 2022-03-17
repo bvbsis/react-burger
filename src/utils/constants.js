@@ -15,6 +15,4 @@ const objectTypes = {
   __v: PropTypes.number.isRequired,
 };
 
-
-
-export default objectTypes;
+export default objectTypes
