@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/react-burger/static/css/main.4d4c4ba9.css",
-    "main.js": "/react-burger/static/js/main.79049739.js",
+    "main.css": "/react-burger/static/css/main.3d693df9.css",
+    "main.js": "/react-burger/static/js/main.8c9a14f2.js",
     "static/media/JetBrainsMono-Bold.woff": "/react-burger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/react-burger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
     "static/media/JetBrainsMono-Bold.woff2": "/react-burger/static/media/JetBrainsMono-Bold.c232d532ea5a5189a278.woff2",
@@ -9,14 +9,14 @@
     "static/media/iceland.woff": "/react-burger/static/media/iceland.77ad7fc2baffd9305538.woff",
     "static/media/iceland.woff2": "/react-burger/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
     "static/media/check-mark.png": "/react-burger/static/media/check-mark.e4d8b39b3d227bf5bb4a.png",
-    "static/media/dragger.svg": "/react-burger/static/media/dragger.b4f6499e6e92edf6e7fc.svg",
+    "static/media/dragger.svg": "/react-burger/static/media/dragger.f6415bedfcc452983791.svg",
     "index.html": "/react-burger/index.html",
-    "static/media/close_button.svg": "/react-burger/static/media/close_button.c4c517b0a1656e7eaaae12765f8b91b1.svg",
-    "main.4d4c4ba9.css.map": "/react-burger/static/css/main.4d4c4ba9.css.map",
-    "main.79049739.js.map": "/react-burger/static/js/main.79049739.js.map"
+    "static/media/close_button.svg": "/react-burger/static/media/close_button.3e080984fa353df1b8768ca531f449a6.svg",
+    "main.3d693df9.css.map": "/react-burger/static/css/main.3d693df9.css.map",
+    "main.8c9a14f2.js.map": "/react-burger/static/js/main.8c9a14f2.js.map"
   },
   "entrypoints": [
-    "static/css/main.4d4c4ba9.css",
-    "static/js/main.79049739.js"
+    "static/css/main.3d693df9.css",
+    "static/js/main.8c9a14f2.js"
   ]
 }
