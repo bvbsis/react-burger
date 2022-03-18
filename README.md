@@ -1,3 +1,5 @@
+# GitHub Pages: https://bvbsis.github.io/react-burger/
+
 # Начало работы с приложением Create React
 
 Этот проект был запущен с помощью [Create React App](https://github.com/facebook/create-react-app ).
