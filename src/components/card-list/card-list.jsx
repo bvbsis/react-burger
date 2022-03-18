@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import Card from "../card/card";
+import ingredientTypes from "../../utils/constants";
+
 import listStyles from "./card-list.module.css";
-import objectTypes from "../../utils/constants";
 
 const CardList = React.memo(
   ({
@@ -39,7 +41,7 @@ const CardList = React.memo(
 CardList.propTypes = {
   ingredients: PropTypes.arrayOf(
     PropTypes.shape({
-      ...objectTypes,
+      ...ingredientTypes,
     })
   ),
   type: PropTypes.string.isRequired,

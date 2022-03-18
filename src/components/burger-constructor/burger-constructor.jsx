@@ -5,8 +5,9 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import constructorStyles from "./burger-constructor.module.css";
-import objectTypes from "../../utils/constants.js";
+import ingredientTypes from "../../utils/constants.js";
 
 const BurgerConstructor = React.memo(
   ({
@@ -93,11 +94,11 @@ const BurgerConstructor = React.memo(
 BurgerConstructor.propTypes = {
   ingredients: PropTypes.arrayOf(
     PropTypes.shape({
-      ...objectTypes,
+      ...ingredientTypes,
     })
   ),
   currentBun: PropTypes.shape({
-    ...objectTypes,
+    ...ingredientTypes,
   }),
   currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
   modalState: PropTypes.shape({

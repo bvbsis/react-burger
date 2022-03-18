@@ -3,8 +3,10 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+import ingredientTypes from "../../utils/constants";
+
 import cardStyles from "./card.module.css";
-import objectTypes from "../../utils/constants";
 
 const Card = ({
   ingredient,
@@ -50,7 +52,7 @@ const Card = ({
 };
 
 Card.propTypes = {
-  ingredient: PropTypes.shape({ ...objectTypes }),
+  ingredient: PropTypes.shape({ ...ingredientTypes }),
   currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
   modalState: PropTypes.shape({
     isOpen: PropTypes.bool.isRequired,

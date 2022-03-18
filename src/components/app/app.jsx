@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
+
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import appStyles from "./app.module.css";
 import data from "../../utils/data";
+
+import appStyles from "./app.module.css";
 
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 

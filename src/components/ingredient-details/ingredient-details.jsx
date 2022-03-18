@@ -1,7 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+
+import ingredientTypes from "../../utils/constants";
+
 import detailsStyles from "./ingredient-details.module.css";
-import objectTypes from "../../utils/constants";
 
 const IngredientDetails = React.memo(({ ingredient }) => {
   return (
@@ -11,7 +13,9 @@ const IngredientDetails = React.memo(({ ingredient }) => {
         src={ingredient.image_large}
         alt={ingredient.name}
       />
-      <span className={`${detailsStyles.ingredientDetails__heading} text text_type_main-medium`}>
+      <span
+        className={`${detailsStyles.ingredientDetails__heading} text text_type_main-medium`}
+      >
         {ingredient.name}
       </span>
       <ul className={detailsStyles.ingredientDetails__list}>
@@ -45,7 +49,7 @@ const IngredientDetails = React.memo(({ ingredient }) => {
 });
 
 React.propTypes = {
-  ingredient: PropTypes.shape({...objectTypes})
-}
+  ingredient: PropTypes.shape({ ...ingredientTypes }),
+};
 
 export default IngredientDetails;

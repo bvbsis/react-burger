@@ -1,13 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import orderStyles from "./order-details.module.css";
 
 const OrderDetails = React.memo(({ identificator }) => {
   return (
     <div className={orderStyles.orderDetails}>
-      <span className="text text_type_digits-large mb-9">
-        {identificator}
-      </span>
+      <span className="text text_type_digits-large mb-9">{identificator}</span>
       <span className="text text_type_main-medium mb-10">
         идентификатор заказа
       </span>
@@ -25,16 +24,7 @@ const OrderDetails = React.memo(({ identificator }) => {
 });
 
 React.propTypes = {
-  modalState: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    ingredient: PropTypes.object.isRequired,
-    heading: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.object.isRequired,
-    ]),
-    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
-    currentModal: PropTypes.string,
-  }),
+  modalState: PropTypes.string.isRequired
 };
 
 export default OrderDetails;

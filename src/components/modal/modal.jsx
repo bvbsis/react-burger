@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
+
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import modalStyles from "./modal.module.css";
 import close_button from "../../images/close_button.svg";
+
+import modalStyles from "./modal.module.css";
 
 const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
   React.useEffect(() => {
@@ -43,17 +45,10 @@ const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
 });
 
 React.propTypes = {
-  modalState: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    ingredient: PropTypes.object.isRequired,
-    heading: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.object.isRequired,
-    ]),
-    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
-    currentModal: PropTypes.string,
-  }),
-  setModalState: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+  heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default Modal;
