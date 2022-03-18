@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-const objectTypes = {
+const ingredientTypes = {
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -15,4 +15,4 @@ const objectTypes = {
   __v: PropTypes.number.isRequired,
 };
 
-export default objectTypes;
+export default ingredientTypes
