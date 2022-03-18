@@ -2,61 +2,39 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../modal-overlay/modal-overlay";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
 import modalStyles from "./modal.module.css";
-import close_button from  "../../images/close_button.svg"
+import close_button from "../../images/close_button.svg";
 
-const Modal = React.memo(({ modalState, setModalState }) => {
-  const onCloseClick = () => {
-    setModalState({
-      ...modalState,
-      isOpen: false,
-      heading: null,
-      ingredient: {},
-      currentModal: null,
-    });
-  };
-
+const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
   React.useEffect(() => {
-    const callback = (e) => {
-      if (e.key === 'Escape') {
-        setModalState({
-          ...modalState,
-          heading: null,
-          isOpen: false,
-          ingredient: {},
-          currentModal: null,
-        });
+    const escapeClose = (e) => {
+      if (e.key === "Escape") {
+        closeModal();
       }
     };
-    document.body.addEventListener("keydown", callback);
+    document.body.addEventListener("keydown", escapeClose);
 
-    return () => document.body.removeEventListener("keydown", callback);
-  }, [modalState, setModalState]);
+    return () => document.body.removeEventListener("keydown", escapeClose);
+  }, [closeModal]);
 
-  return modalState.isOpen
+  return isOpen
     ? ReactDOM.createPortal(
-        <ModalOverlay modalState={modalState} setModalState={setModalState}>
+        <ModalOverlay closeModal={closeModal}>
           <div className={modalStyles.modal}>
-            {modalState.heading ? (
+            {heading ? (
               <span
                 className={`${modalStyles.modal__heading} text text_type_main-large`}
               >
-                {modalState.heading}
+                {heading}
               </span>
             ) : null}
-            <button onClick={onCloseClick} className={modalStyles.modal__closeButton}>
+            <button
+              onClick={closeModal}
+              className={modalStyles.modal__closeButton}
+            >
               <img src={close_button} alt="close" />
             </button>
-            {modalState.currentModal === "ingredient-details" ? (
-              <IngredientDetails ingredient={modalState.ingredient} />
-            ) : (
-              <OrderDetails
-                setModalState={setModalState}
-                modalState={modalState}
-              />
-            )}
+            {children}
           </div>
         </ModalOverlay>,
         document.getElementById("react-modals")

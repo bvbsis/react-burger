@@ -2,25 +2,20 @@ import React from "react";
 import PropTypes from "prop-types";
 import overlayStyles from "./modal-overlay.module.css";
 
-const ModalOverlay = React.memo(({ children, modalState, setModalState }) => {
+const ModalOverlay = React.memo(({ children, closeModal, isOpen }) => {
+
   const onOverlayClick = (e) => {
     if (e.currentTarget === e.target) {
-      setModalState({
-        ...modalState,
-        heading: null,
-        isOpen: false,
-        ingredient: {},
-        currentModal: null,
-      });
+      closeModal()
     }
   };
 
   React.useEffect(() => {
-    if (modalState.isOpen) {
+    if (isOpen) {
       document.body.style.overflow = "hidden";
     }
     return () => (document.body.style.overflow = "overlay");
-  }, [modalState]);
+  }, [isOpen]);
 
   return (
     <div onClick={onOverlayClick} className={overlayStyles.modalOverlay}>

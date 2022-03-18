@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import orderStyles from "./order-details.module.css";
 
-const OrderDetails = React.memo(({ modalState }) => {
+const OrderDetails = React.memo(({ identificator }) => {
   return (
     <div className={orderStyles.orderDetails}>
       <span className="text text_type_digits-large mb-9">
-        {modalState.order.identificator}
+        {identificator}
       </span>
       <span className="text text_type_main-medium mb-10">
         идентификатор заказа
