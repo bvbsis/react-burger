@@ -10,6 +10,12 @@ import data from "../../utils/data";
 
 import appStyles from "./app.module.css";
 
+import {
+  InitialIngredientsContext,
+  CurrentIngredientsContext,
+} from "../../utils/ingredients-context";
+import { ModalContext } from "../../utils/modal-context";
+
 const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
@@ -17,14 +23,14 @@ function App() {
   const [currentBun, setCurrentBun] = useState({
     ...data.currentBun,
   });
-  const [currentIngredientsId, setCurrentIngredientsId] = useState([
+  const [currentIngredients, setCurrentIngredients] = useState([
     ...data.currentIngredientsId,
   ]);
   const [modalState, setModalState] = useState({
     isOpen: false,
     ingredient: {},
     heading: null,
-    order: { identificator: "034536" },
+    order: { identificator: '' },
     currentModal: "order-details",
   });
 
@@ -54,6 +60,26 @@ function App() {
 
   return (
     <>
+      <AppHeader />
+      <main className={appStyles.app}>
+        <InitialIngredientsContext.Provider
+          value={{ ingredients, setIngredients }}
+        >
+          <CurrentIngredientsContext.Provider
+            value={{ currentIngredients, setCurrentIngredients }}
+          >
+            <ModalContext.Provider value={{ modalState, setModalState }}>
+              <BurgerIngredients />
+            </ModalContext.Provider>
+            <BurgerConstructor
+              modalState={modalState}
+              setModalState={setModalState}
+              currentBun={currentBun}
+            />
+          </CurrentIngredientsContext.Provider>
+        </InitialIngredientsContext.Provider>
+      </main>
+
       <Modal
         heading={modalState.heading}
         closeModal={closeModal}
@@ -65,23 +91,6 @@ function App() {
           <IngredientDetails ingredient={modalState.ingredient} />
         )}
       </Modal>
-      <AppHeader />
-
-      <main className={appStyles.app}>
-        <BurgerIngredients
-          modalState={modalState}
-          setModalState={setModalState}
-          currentIngredientsId={currentIngredientsId}
-          ingredients={ingredients}
-        />
-        <BurgerConstructor
-          modalState={modalState}
-          setModalState={setModalState}
-          currentIngredientsId={currentIngredientsId}
-          ingredients={ingredients}
-          currentBun={currentBun}
-        />
-      </main>
     </>
   );
 }

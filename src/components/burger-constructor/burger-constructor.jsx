@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import {
   ConstructorElement,
@@ -9,26 +9,47 @@ import {
 import constructorStyles from "./burger-constructor.module.css";
 import ingredientTypes from "../../utils/constants.js";
 
+import {
+  InitialIngredientsContext,
+  CurrentIngredientsContext,
+} from "../../utils/ingredients-context";
+
 const BurgerConstructor = React.memo(
-  ({
-    currentBun,
-    ingredients,
-    currentIngredientsId,
-    modalState,
-    setModalState,
-  }) => {
+  ({ currentBun, modalState, setModalState }) => {
+    const { ingredients } = useContext(InitialIngredientsContext);
+    const { currentIngredients } = useContext(CurrentIngredientsContext);
+
     const constructorIngredients = ingredients.filter(
       (ingredient) =>
-        currentIngredientsId.includes(ingredient._id) &&
-        ingredient.type !== "bun"
+        currentIngredients.includes(ingredient._id) && ingredient.type !== "bun"
     );
 
     const onButtonClick = () => {
-      setModalState({
-        ...modalState,
-        isOpen: true,
-        currentModal: "order-details",
-      });
+      fetch("https://norma.nomoreparties.space/api/orders", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ingredients: currentIngredients,
+        }),
+      })
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+          return Promise.reject(res);
+        })
+        .then((data) =>
+          setModalState({
+            ...modalState,
+            isOpen: true,
+            currentModal: "order-details",
+            order: { identificator: data.order.number },
+          })
+        )
+        .catch((err) => console.error(err));
     };
 
     return (
@@ -37,7 +58,7 @@ const BurgerConstructor = React.memo(
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={currentBun.name}
+            text={currentBun.name + " (верх)"}
             price={currentBun.price}
             thumbnail={currentBun.image_mobile}
           />
@@ -67,7 +88,7 @@ const BurgerConstructor = React.memo(
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={currentBun.name}
+            text={currentBun.name + " (низ)"}
             price={currentBun.price}
             thumbnail={currentBun.image_mobile}
           />

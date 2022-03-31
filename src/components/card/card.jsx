@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import PropTypes from "prop-types";
 import {
   CurrencyIcon,
@@ -8,12 +9,13 @@ import ingredientTypes from "../../utils/constants";
 
 import cardStyles from "./card.module.css";
 
-const Card = ({
-  ingredient,
-  currentIngredientsId,
-  modalState,
-  setModalState,
-}) => {
+import { CurrentIngredientsContext } from "../../utils/ingredients-context";
+import { ModalContext } from "../../utils/modal-context";
+
+const Card = ({ ingredient }) => {
+  const { currentIngredients } = useContext(CurrentIngredientsContext);
+  const { modalState, setModalState } = useContext(ModalContext);
+
   const onCardClick = () => {
     setModalState({
       ...modalState,
@@ -27,7 +29,7 @@ const Card = ({
   return (
     <li onClick={onCardClick} className={cardStyles.card}>
       <div className={cardStyles.card__imageWrapper}>
-        {currentIngredientsId.includes(ingredient._id) ? (
+        {currentIngredients.includes(ingredient._id) ? (
           <Counter count={1} size="default" />
         ) : null}
         <img

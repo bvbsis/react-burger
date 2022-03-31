@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import Card from "../card/card";
@@ -6,37 +6,29 @@ import ingredientTypes from "../../utils/constants";
 
 import listStyles from "./card-list.module.css";
 
-const CardList = React.memo(
-  ({
-    ingredients,
-    type,
-    heading,
-    currentIngredientsId,
-    modalState,
-    setModalState,
-  }) => {
-    const filteredIngredients = ingredients.filter(
-      (ingredient) => ingredient.type === type
-    );
+import { InitialIngredientsContext } from "../../utils/ingredients-context";
 
-    return filteredIngredients.length ? (
-      <div>
-        <h2 className="text text_type_main-medium mt-10">{heading}</h2>
-        <ul className={listStyles.cardList__list}>
-          {filteredIngredients.map((ingredient) => (
-            <Card
-              modalState={modalState}
-              setModalState={setModalState}
-              currentIngredientsId={currentIngredientsId}
-              key={ingredient._id}
-              ingredient={ingredient}
-            />
-          ))}
-        </ul>
-      </div>
-    ) : null;
-  }
-);
+const CardList = React.memo(({ type, heading }) => {
+  const { ingredients } = useContext(InitialIngredientsContext);
+
+  const filteredIngredients = ingredients.filter(
+    (ingredient) => ingredient.type === type
+  );
+
+  return filteredIngredients.length ? (
+    <div>
+      <h2 className="text text_type_main-medium mt-10">{heading}</h2>
+      <ul className={listStyles.cardList__list}>
+        {filteredIngredients.map((ingredient) => (
+          <Card
+            key={ingredient._id}
+            ingredient={ingredient}
+          />
+        ))}
+      </ul>
+    </div>
+  ) : null;
+});
 
 CardList.propTypes = {
   ingredients: PropTypes.arrayOf(
