@@ -24,7 +24,7 @@ const OrderDetails = React.memo(({ identificator }) => {
 });
 
 React.propTypes = {
-  modalState: PropTypes.string.isRequired
+  identificator: PropTypes.number.isRequired,
 };
 
 export default OrderDetails;

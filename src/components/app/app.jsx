@@ -20,17 +20,14 @@ const API_URL = "https://norma.nomoreparties.space/api/ingredients";
 
 function App() {
   const [ingredients, setIngredients] = useState([]);
-  const [currentBun, setCurrentBun] = useState({
-    ...data.currentBun,
-  });
   const [currentIngredients, setCurrentIngredients] = useState([
-    ...data.currentIngredientsId,
+    ...data.currentIngredients,
   ]);
   const [modalState, setModalState] = useState({
     isOpen: false,
     ingredient: {},
     heading: null,
-    order: { identificator: '' },
+    order: { identificator: 0 },
     currentModal: "order-details",
   });
 
@@ -62,22 +59,22 @@ function App() {
     <>
       <AppHeader />
       <main className={appStyles.app}>
-        <InitialIngredientsContext.Provider
-          value={{ ingredients, setIngredients }}
+        <CurrentIngredientsContext.Provider
+          value={{ currentIngredients, setCurrentIngredients }}
         >
-          <CurrentIngredientsContext.Provider
-            value={{ currentIngredients, setCurrentIngredients }}
+          <InitialIngredientsContext.Provider
+            value={{ ingredients, setIngredients }}
           >
             <ModalContext.Provider value={{ modalState, setModalState }}>
               <BurgerIngredients />
             </ModalContext.Provider>
-            <BurgerConstructor
-              modalState={modalState}
-              setModalState={setModalState}
-              currentBun={currentBun}
-            />
-          </CurrentIngredientsContext.Provider>
-        </InitialIngredientsContext.Provider>
+          </InitialIngredientsContext.Provider>
+
+          <BurgerConstructor
+            modalState={modalState}
+            setModalState={setModalState}
+          />
+        </CurrentIngredientsContext.Provider>
       </main>
 
       <Modal

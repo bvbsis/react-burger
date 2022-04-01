@@ -1,9 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import CardList from "../card-list/card-list";
-import ingredientTypes from "../../utils/constants";
 
 import ingredientsStyles from "./burger-ingredients.module.css";
 
@@ -39,25 +37,5 @@ const BurgerIngredients = React.memo(() => {
     </section>
   );
 });
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      ...ingredientTypes,
-    })
-  ),
-  currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
-  modalState: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    ingredient: PropTypes.object.isRequired,
-    heading: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.object.isRequired,
-    ]),
-    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
-    currentModal: PropTypes.string,
-  }),
-  setModalState: PropTypes.func.isRequired,
-};
 
 export default BurgerIngredients;

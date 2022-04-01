@@ -29,7 +29,7 @@ const Card = ({ ingredient }) => {
   return (
     <li onClick={onCardClick} className={cardStyles.card}>
       <div className={cardStyles.card__imageWrapper}>
-        {currentIngredients.includes(ingredient._id) ? (
+        {currentIngredients.some((ingr) => ingr._id === ingredient._id) ? (
           <Counter count={1} size="default" />
         ) : null}
         <img
@@ -55,18 +55,6 @@ const Card = ({ ingredient }) => {
 
 Card.propTypes = {
   ingredient: PropTypes.shape({ ...ingredientTypes }),
-  currentIngredientsId: PropTypes.arrayOf(PropTypes.string),
-  modalState: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    ingredient: PropTypes.object.isRequired,
-    heading: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.object.isRequired,
-    ]),
-    order: PropTypes.shape({ identificator: PropTypes.string.isRequired }),
-    currentModal: PropTypes.string,
-  }),
-  setModalState: PropTypes.func.isRequired,
 };
 
 export default Card;
