@@ -1,53 +1,54 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import apiUrl from "../../services/api-url";
 
 import constructorStyles from "./burger-constructor.module.css";
 
-import { CurrentIngredientsContext } from "../../utils/ingredients-context";
+import { CurrentIngredientsContext } from "../../services/ingredients-context";
 
 const BurgerConstructor = React.memo(({ modalState, setModalState }) => {
   const { currentIngredients } = useContext(CurrentIngredientsContext);
-  const [price, setPrice] = useState(0);
-  const [constructorIngredients, setConstructorIngredients] = useState([]);
-  const [currentBun, setCurrentBun] = useState({});
 
-  useEffect(() => {
-    const currentBun = currentIngredients.filter(
-      (ingredient) => ingredient.type === "bun"
-    )[0];
-    setCurrentBun(currentBun);
+  const currentBun = useMemo(() => {
+    if (currentIngredients.length) {
+      return currentIngredients.filter(
+        (ingredient) => ingredient.type === "bun"
+      )[0];
+    }
   }, [currentIngredients]);
 
-  useEffect(() => {
-    const newConstructorIngredients = currentIngredients.filter(
-      (ingredient) => ingredient.type !== "bun"
-    );
-    setConstructorIngredients(newConstructorIngredients);
+  const constructorIngredients = useMemo(() => {
+    if (currentIngredients.length) {
+      return currentIngredients.filter(
+        (ingredient) => ingredient.type !== "bun"
+      );
+    }
   }, [currentIngredients]);
 
-  useEffect(() => {
-    const newPrice =
-      constructorIngredients.reduce((sum, ingredient) => {
-        return sum + ingredient.price;
-      }, 0) +
-      currentBun.price * 2;
-    setPrice(newPrice);
+  const price = useMemo(() => {
+    if (constructorIngredients) {
+      return (
+        constructorIngredients.reduce((sum, ingredient) => {
+          return sum + ingredient.price;
+        }, 0) +
+        currentBun.price * 2
+      );
+    }
   }, [constructorIngredients, currentBun]);
 
   const onButtonClick = () => {
     const currentIngredientsId = currentIngredients.map(
       (ingredient) => ingredient._id
     );
-    fetch("https://norma.nomoreparties.space/api/orders", {
+    fetch(apiUrl("orders"), {
       method: "POST",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        "content-Type": "application/json",
       },
       body: JSON.stringify({
         ingredients: currentIngredientsId,
@@ -69,6 +70,16 @@ const BurgerConstructor = React.memo(({ modalState, setModalState }) => {
       )
       .catch((err) => console.error(err));
   };
+
+  if (!currentIngredients.length) {
+    return (
+      <h1
+        style={{ fontFamily: "sans-serif", margin: "auto", padding: "300px" }}
+      >
+        Loading...
+      </h1>
+    );
+  }
 
   return (
     <section className={constructorStyles.burgerConstructor}>

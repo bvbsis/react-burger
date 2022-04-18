@@ -5,7 +5,7 @@ import Card from "../card/card";
 
 import listStyles from "./card-list.module.css";
 
-import { InitialIngredientsContext } from "../../utils/ingredients-context";
+import { InitialIngredientsContext } from "../../services/ingredients-context";
 
 const CardList = React.memo(({ type, heading }) => {
   const { ingredients } = useContext(InitialIngredientsContext);
@@ -13,6 +13,16 @@ const CardList = React.memo(({ type, heading }) => {
   const filteredIngredients = ingredients.filter(
     (ingredient) => ingredient.type === type
   );
+
+  if (!ingredients.length) {
+    return (
+      <h1
+        style={{ fontFamily: 'sans-serif', margin: "auto", padding: "100px" }}
+      >
+        Loading...
+      </h1>
+    );
+  }
 
   return filteredIngredients.length ? (
     <div>

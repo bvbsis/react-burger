@@ -9,8 +9,8 @@ import ingredientTypes from "../../utils/constants";
 
 import cardStyles from "./card.module.css";
 
-import { CurrentIngredientsContext } from "../../utils/ingredients-context";
-import { ModalContext } from "../../utils/modal-context";
+import { CurrentIngredientsContext } from "../../services/ingredients-context";
+import { ModalContext } from "../../services/modal-context";
 
 const Card = ({ ingredient }) => {
   const { currentIngredients } = useContext(CurrentIngredientsContext);

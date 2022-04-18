@@ -23,7 +23,7 @@ const OrderDetails = React.memo(({ identificator }) => {
   );
 });
 
-React.propTypes = {
+OrderDetails.propTypes = {
   identificator: PropTypes.number.isRequired,
 };
 
