@@ -1,9 +1,23 @@
 import ApiUrl from "../api-url";
-import { OPEN_ORDER_MODAL } from "./modal";
 
 export const GET_ORDER_DETAILS_REQUEST = "GET_ORDER_DETAILS";
 export const GET_ORDER_DETAILS_SUCCESS = "GET_ORDER_DETAILS_SUCCESS";
 export const GET_ORDER_DETAILS_FAILED = "GET_ORDER_DETAILS_FAILED";
+export const ADD_ELEMENT_TO_CONSTRUCTOR = "ADD_ELEMENT_TO_CONSTRUCTOR";
+export const DELETE_ELEMENT_FROM_CONSTRUCTOR =
+  "DELETE_ELEMENT_FROM_CONSTRUCTOR";
+
+export const addElementToConstructor = (dispatch, ingredient) => {
+  dispatch({
+    type: ADD_ELEMENT_TO_CONSTRUCTOR,
+    ingredient,
+  });
+};
+
+export const deleteElementFromConstructor = (uuid) => ({
+  type: DELETE_ELEMENT_FROM_CONSTRUCTOR,
+  uuid,
+});
 
 export const getOrderDetails = (dispatch, ingredients) => {
   dispatch({

@@ -8,15 +8,29 @@ import {
 import PlugConstructorElement from "../plug-constructor-element/plug-constructor-element";
 import { getOrderDetails } from "../../services/actions/burger-constructor";
 import { OPEN_ORDER_MODAL } from "../../services/actions/modal";
+import { addElementToConstructor } from "../../services/actions/burger-constructor";
+import { deleteElementFromConstructor } from "../../services/actions/burger-constructor";
 
 import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = React.memo(() => {
   const dispatch = useDispatch();
   const { currentIngredients } = useSelector(
     (store) => store.burgerConstructor
   );
+  const [{ isHovered }, drop] = useDrop(() => ({
+    accept: "INGREDIENT_NEW",
+    drop(item) {
+      addElementToConstructor(dispatch, item);
+    },
+    collect: (monitor) => ({
+      isHovered: monitor.isOver(),
+    }),
+  }));
+
+  const outline = isHovered ? "3px solid green" : "none";
 
   const currentBun = useMemo(() => {
     if (currentIngredients.length) {
@@ -35,7 +49,7 @@ const BurgerConstructor = React.memo(() => {
   }, [currentIngredients]);
 
   const price = useMemo(() => {
-    if (constructorIngredients) {
+    if (constructorIngredients && currentBun) {
       return (
         constructorIngredients.reduce((sum, ingredient) => {
           return sum + ingredient.price;
@@ -43,9 +57,13 @@ const BurgerConstructor = React.memo(() => {
         currentBun.price * 2
       );
     } else {
-      return 0;
+      return null;
     }
   }, [constructorIngredients, currentBun]);
+
+  const deleteIngredient = (uuid) => {
+    dispatch(deleteElementFromConstructor(uuid));
+  };
 
   const currentIngredientsId = useMemo(() => {
     return currentIngredients.map((ingredient) => ingredient._id);
@@ -60,7 +78,11 @@ const BurgerConstructor = React.memo(() => {
 
   return (
     <section className={constructorStyles.burgerConstructor}>
-      <div className={constructorStyles.burgerConstructor__ingredients}>
+      <div
+        style={{ outline, borderRadius: "40px" }}
+        ref={drop}
+        className={constructorStyles.burgerConstructor__ingredients}
+      >
         {currentBun ? (
           <ConstructorElement
             type="top"
@@ -74,30 +96,36 @@ const BurgerConstructor = React.memo(() => {
         )}
 
         {constructorIngredients ? (
-          <div className={constructorStyles.burgerConstructor__filling}>
-            {constructorIngredients.map((ingredient) => {
-              return (
-                <div
-                  key={ingredient._id}
-                  className={constructorStyles.burgerConstructor__elWrapper}
-                >
+          constructorIngredients.length ? (
+            <div className={constructorStyles.burgerConstructor__filling}>
+              {constructorIngredients.map((ingredient) => {
+                return (
                   <div
-                    className={constructorStyles.burgerConstructor__dragger}
-                  />
-                  <ConstructorElement
-                    type="center"
-                    isLocked={false}
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image_mobile}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        ) : (
-          <PlugConstructorElement type="center" description="А сюда начинку" />
-        )}
+                    key={ingredient._id}
+                    className={constructorStyles.burgerConstructor__elWrapper}
+                  >
+                    <div
+                      className={constructorStyles.burgerConstructor__dragger}
+                    />
+                    <ConstructorElement
+                      type="center"
+                      isLocked={false}
+                      text={ingredient.name}
+                      handleClose={() => deleteIngredient(ingredient.uuid)}
+                      price={ingredient.price}
+                      thumbnail={ingredient.image_mobile}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <PlugConstructorElement
+              type="center"
+              description="А сюда начинку"
+            />
+          )
+        ) : null}
 
         {currentBun ? (
           <ConstructorElement
@@ -112,19 +140,21 @@ const BurgerConstructor = React.memo(() => {
         )}
       </div>
 
-      <div className={constructorStyles.burgerConstructor__submitWrapper}>
-        <div className={constructorStyles.burgerConstructor__priceWrapper}>
-          <p
-            className={`text text_type_digits-medium ${constructorStyles.burgerConstructor__priceDigit}`}
-          >
-            {price}
-          </p>
-          <CurrencyIcon type="primary" />
+      {price ? (
+        <div className={constructorStyles.burgerConstructor__submitWrapper}>
+          <div className={constructorStyles.burgerConstructor__priceWrapper}>
+            <p
+              className={`text text_type_digits-medium ${constructorStyles.burgerConstructor__priceDigit}`}
+            >
+              {price}
+            </p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <Button onClick={onButtonClick} type="primary" size="large">
+            Оформить заказ
+          </Button>
         </div>
-        <Button onClick={onButtonClick} type="primary" size="large">
-          Оформить заказ
-        </Button>
-      </div>
+      ) : null}
     </section>
   );
 });

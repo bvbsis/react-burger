@@ -2,11 +2,10 @@
   display: flex;
   padding: 16px 24px;
   background: #2f2f37;
-  max-width: 488px;
-  min-width: 400px;
+  width: 488px;
   min-height: 48px;
   font-family: "Jet Brains Mono";
-  font-size: 18px;
+  font-size: 20px;
   line-height: 24px;
   color: #f2f2f3;
   flex-grow: 1;
