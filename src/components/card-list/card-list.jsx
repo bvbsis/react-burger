@@ -1,14 +1,13 @@
-import React, { useContext } from "react";
+import React from "react";
+import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 
 import Card from "../card/card";
 
 import listStyles from "./card-list.module.css";
 
-import { InitialIngredientsContext } from "../../services/ingredients-context";
-
 const CardList = React.memo(({ type, heading }) => {
-  const { ingredients } = useContext(InitialIngredientsContext);
+  const ingredients = useSelector((store) => store.ingredients.items);
 
   const filteredIngredients = ingredients.filter(
     (ingredient) => ingredient.type === type
@@ -17,7 +16,7 @@ const CardList = React.memo(({ type, heading }) => {
   if (!ingredients.length) {
     return (
       <h1
-        style={{ fontFamily: 'sans-serif', margin: "auto", padding: "100px" }}
+        style={{ fontFamily: "sans-serif", margin: "auto", padding: "100px" }}
       >
         Loading...
       </h1>

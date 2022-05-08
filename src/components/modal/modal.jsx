@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
@@ -6,8 +6,19 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import close_button from "../../images/close_button.svg";
 
 import modalStyles from "./modal.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { CLOSE_MODAL } from "../../services/actions/modal";
 
-const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
+const Modal = React.memo(({ children }) => {
+  const dispatch = useDispatch();
+  const { isOpen, heading } = useSelector((store) => store.modal);
+
+  const closeModal = useCallback(() => {
+    dispatch({
+      type: CLOSE_MODAL,
+    });
+  }, [dispatch]);
+
   React.useEffect(() => {
     const escapeClose = (e) => {
       if (e.key === "Escape") {

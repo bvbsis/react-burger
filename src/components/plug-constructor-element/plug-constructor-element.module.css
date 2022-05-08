@@ -1,0 +1,32 @@
+.bunPlug {
+  display: flex;
+  padding: 16px 24px;
+  background: #2f2f37;
+  max-width: 488px;
+  min-width: 400px;
+  min-height: 48px;
+  font-family: "Jet Brains Mono";
+  font-size: 18px;
+  line-height: 24px;
+  color: #f2f2f3;
+  flex-grow: 1;
+}
+
+.bunPlug_top {
+  border-radius: 88px 88px 40px 40px;
+}
+
+.bunPlug_center {
+  border-radius: 40px;
+}
+
+.bunPlug_bottom {
+  border-radius: 40px 40px 88px 88px;
+}
+
+.bunPlug__description {
+  margin: auto;
+  line-height: 24px;
+  text-align: center;
+  flex-grow: 1;
+}

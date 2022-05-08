@@ -1,18 +1,22 @@
-import React, { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   ConstructorElement,
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import apiUrl from "../../services/api-url";
+import PlugConstructorElement from "../plug-constructor-element/plug-constructor-element";
+import { getOrderDetails } from "../../services/actions/burger-constructor";
+import { OPEN_ORDER_MODAL } from "../../services/actions/modal";
 
 import constructorStyles from "./burger-constructor.module.css";
+import { useDispatch, useSelector } from "react-redux";
 
-import { CurrentIngredientsContext } from "../../services/ingredients-context";
-
-const BurgerConstructor = React.memo(({ modalState, setModalState }) => {
-  const { currentIngredients } = useContext(CurrentIngredientsContext);
+const BurgerConstructor = React.memo(() => {
+  const dispatch = useDispatch();
+  const { currentIngredients } = useSelector(
+    (store) => store.burgerConstructor
+  );
 
   const currentBun = useMemo(() => {
     if (currentIngredients.length) {
@@ -38,87 +42,74 @@ const BurgerConstructor = React.memo(({ modalState, setModalState }) => {
         }, 0) +
         currentBun.price * 2
       );
+    } else {
+      return 0;
     }
   }, [constructorIngredients, currentBun]);
 
-  const onButtonClick = () => {
-    const currentIngredientsId = currentIngredients.map(
-      (ingredient) => ingredient._id
-    );
-    fetch(apiUrl("orders"), {
-      method: "POST",
-      headers: {
-        "content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ingredients: currentIngredientsId,
-      }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res);
-      })
-      .then((data) =>
-        setModalState({
-          ...modalState,
-          isOpen: true,
-          currentModal: "order-details",
-          order: { identificator: data.order.number },
-        })
-      )
-      .catch((err) => console.error(err));
-  };
+  const currentIngredientsId = useMemo(() => {
+    return currentIngredients.map((ingredient) => ingredient._id);
+  }, [currentIngredients]);
 
-  if (!currentIngredients.length) {
-    return (
-      <h1
-        style={{ fontFamily: "sans-serif", margin: "auto", padding: "300px" }}
-      >
-        Loading...
-      </h1>
-    );
-  }
+  const onButtonClick = () => {
+    dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId));
+    dispatch({
+      type: OPEN_ORDER_MODAL,
+    });
+  };
 
   return (
     <section className={constructorStyles.burgerConstructor}>
       <div className={constructorStyles.burgerConstructor__ingredients}>
-        <ConstructorElement
-          type="top"
-          isLocked={true}
-          text={currentBun.name + " (верх)"}
-          price={currentBun.price}
-          thumbnail={currentBun.image_mobile}
-        />
+        {currentBun ? (
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={currentBun.name + " (верх)"}
+            price={currentBun.price}
+            thumbnail={currentBun.image_mobile}
+          />
+        ) : (
+          <PlugConstructorElement type="top" description="Сюда булку" />
+        )}
 
-        <div className={constructorStyles.burgerConstructor__filling}>
-          {constructorIngredients.map((ingredient) => {
-            return (
-              <div
-                key={ingredient._id}
-                className={constructorStyles.burgerConstructor__elWrapper}
-              >
-                <div className={constructorStyles.burgerConstructor__dragger} />
-                <ConstructorElement
-                  type="center"
-                  isLocked={false}
-                  text={ingredient.name}
-                  price={ingredient.price}
-                  thumbnail={ingredient.image_mobile}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {constructorIngredients ? (
+          <div className={constructorStyles.burgerConstructor__filling}>
+            {constructorIngredients.map((ingredient) => {
+              return (
+                <div
+                  key={ingredient._id}
+                  className={constructorStyles.burgerConstructor__elWrapper}
+                >
+                  <div
+                    className={constructorStyles.burgerConstructor__dragger}
+                  />
+                  <ConstructorElement
+                    type="center"
+                    isLocked={false}
+                    text={ingredient.name}
+                    price={ingredient.price}
+                    thumbnail={ingredient.image_mobile}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <PlugConstructorElement type="center" description="А сюда начинку" />
+        )}
 
-        <ConstructorElement
-          type="bottom"
-          isLocked={true}
-          text={currentBun.name + " (низ)"}
-          price={currentBun.price}
-          thumbnail={currentBun.image_mobile}
-        />
+        {currentBun ? (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={currentBun.name + " (низ)"}
+            price={currentBun.price}
+            thumbnail={currentBun.image_mobile}
+          />
+        ) : (
+          <PlugConstructorElement type="bottom" description="Сюда булку" />
+        )}
       </div>
 
       <div className={constructorStyles.burgerConstructor__submitWrapper}>
