@@ -7,9 +7,29 @@ import ingredientsStyles from "./burger-ingredients.module.css";
 
 const BurgerIngredients = React.memo(() => {
   const [current, setCurrent] = React.useState("buns");
+  const containerRef = React.useRef();
+  const bunsRef = React.useRef();
+  const sausesRef = React.useRef();
+  const fillingsRef = React.useRef();
+
   const buns = "buns";
-  const sauses = "sauses";
+  const sauses = "sause";
   const fillings = "fillings";
+
+  const handleScroll = (e) => {
+    const bunsPosition = bunsRef.current.getBoundingClientRect();
+    const sausesPosition = sausesRef.current.getBoundingClientRect();
+    const mainPosition = fillingsRef.current.getBoundingClientRect();
+    const containerPosition = containerRef.current.getBoundingClientRect();
+
+    if (containerPosition.top - bunsPosition.bottom < 0) {
+      setCurrent(buns);
+    } else if (containerPosition.top - sausesPosition.bottom < 0) {
+      setCurrent(sauses);
+    } else if (containerPosition.top - mainPosition.bottom < 0) {
+      setCurrent(fillings);
+    }
+  };
 
   return (
     <section className={ingredientsStyles.burgerIngredients}>
@@ -29,10 +49,14 @@ const BurgerIngredients = React.memo(() => {
           Начинки
         </Tab>
       </div>
-      <div className={ingredientsStyles.burgerIngredients__listWrapper}>
-        <CardList heading="Булки" type="bun" />
-        <CardList heading="Соусы" type="sauce" />
-        <CardList heading="Начинки" type="main" />
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className={ingredientsStyles.burgerIngredients__listWrapper}
+      >
+        <CardList listRef={bunsRef} heading="Булки" type="bun" />
+        <CardList listRef={sausesRef} heading="Соусы" type="sauce" />
+        <CardList listRef={fillingsRef} heading="Начинки" type="main" />
       </div>
     </section>
   );

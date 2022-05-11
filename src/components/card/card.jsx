@@ -12,7 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 
 const Card = ({ ingredient }) => {
-  const currentIngredients = useSelector((store) => store.burgerConstructor);
+  const { currentIngredients } = useSelector(
+    (store) => store.burgerConstructor
+  );
   const dispatch = useDispatch();
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "INGREDIENT_NEW",
@@ -38,9 +40,17 @@ const Card = ({ ingredient }) => {
       className={cardStyles.card}
     >
       <div className={cardStyles.card__imageWrapper}>
-        {/* {currentIngredients.some((ingr) => ingr._id === ingredient._id) ? (
-          <Counter count={1} size="default" />
-        ) : null} */}
+        {currentIngredients.length ? (
+          currentIngredients.some((ingr) => ingr._id === ingredient._id) ? (
+            <Counter
+              count={
+                currentIngredients.filter((item) => item._id === ingredient._id)
+                  .length
+              }
+              size="default"
+            />
+          ) : null
+        ) : null}
         <img
           className={cardStyles.card__image}
           src={ingredient.image}

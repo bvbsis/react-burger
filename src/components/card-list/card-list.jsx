@@ -6,7 +6,7 @@ import Card from "../card/card";
 
 import listStyles from "./card-list.module.css";
 
-const CardList = React.memo(({ type, heading }) => {
+const CardList = React.memo(({ listRef, type, heading }) => {
   const ingredients = useSelector((store) => store.ingredients.items);
 
   const filteredIngredients = ingredients.filter(
@@ -24,7 +24,7 @@ const CardList = React.memo(({ type, heading }) => {
   }
 
   return filteredIngredients.length ? (
-    <div>
+    <div ref={listRef}>
       <h2 className="text text_type_main-medium mt-10">{heading}</h2>
       <ul className={listStyles.cardList__list}>
         {filteredIngredients.map((ingredient) => (

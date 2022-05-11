@@ -13,14 +13,15 @@ import { deleteElementFromConstructor } from "../../services/actions/burger-cons
 
 import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
+import ConstructorFillingIngredient from "../constructor-filling-ingredient/constructor-filling-ingredient";
 
 const BurgerConstructor = React.memo(() => {
   const dispatch = useDispatch();
   const { currentIngredients } = useSelector(
     (store) => store.burgerConstructor
   );
-  const [{ isHovered }, drop] = useDrop(() => ({
+  const [{ isHovered }, ConstructorDrop] = useDrop(() => ({
     accept: "INGREDIENT_NEW",
     drop(item) {
       addElementToConstructor(dispatch, item);
@@ -61,9 +62,6 @@ const BurgerConstructor = React.memo(() => {
     }
   }, [constructorIngredients, currentBun]);
 
-  const deleteIngredient = (uuid) => {
-    dispatch(deleteElementFromConstructor(uuid));
-  };
 
   const currentIngredientsId = useMemo(() => {
     return currentIngredients.map((ingredient) => ingredient._id);
@@ -80,7 +78,7 @@ const BurgerConstructor = React.memo(() => {
     <section className={constructorStyles.burgerConstructor}>
       <div
         style={{ outline, borderRadius: "40px" }}
-        ref={drop}
+        ref={ConstructorDrop}
         className={constructorStyles.burgerConstructor__ingredients}
       >
         {currentBun ? (
@@ -98,26 +96,13 @@ const BurgerConstructor = React.memo(() => {
         {constructorIngredients ? (
           constructorIngredients.length ? (
             <div className={constructorStyles.burgerConstructor__filling}>
-              {constructorIngredients.map((ingredient) => {
-                return (
-                  <div
-                    key={ingredient._id}
-                    className={constructorStyles.burgerConstructor__elWrapper}
-                  >
-                    <div
-                      className={constructorStyles.burgerConstructor__dragger}
-                    />
-                    <ConstructorElement
-                      type="center"
-                      isLocked={false}
-                      text={ingredient.name}
-                      handleClose={() => deleteIngredient(ingredient.uuid)}
-                      price={ingredient.price}
-                      thumbnail={ingredient.image_mobile}
-                    />
-                  </div>
-                );
-              })}
+              {constructorIngredients.map((ingredient, index) => (
+                <ConstructorFillingIngredient
+                  key={ingredient.uuid}
+                  index={index}
+                  ingredient={ingredient}
+                />
+              ))}
             </div>
           ) : (
             <PlugConstructorElement

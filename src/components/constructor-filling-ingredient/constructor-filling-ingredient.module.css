@@ -1,0 +1,12 @@
+.burgerConstructor__elWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.burgerConstructor__dragger {
+  height: 19px;
+  width: 14px;
+  margin-right: 12px;
+  background-image: url(../../images/dragger.svg);
+  cursor: move;
+}
