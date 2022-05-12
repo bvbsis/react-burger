@@ -5,15 +5,14 @@ import {
   CurrencyIcon,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PlugConstructorElement from "../plug-constructor-element/plug-constructor-element";
-import { getOrderDetails } from "../../services/actions/burger-constructor";
-import { OPEN_ORDER_MODAL } from "../../services/actions/modal";
+import PlugConstructorElement from "./plug-constructor-element/plug-constructor-element";
+import { getOrderDetails } from "../../services/actions/modal";
 import { addElementToConstructor } from "../../services/actions/burger-constructor";
 
 import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
-import ConstructorFillingIngredient from "../constructor-filling-ingredient/constructor-filling-ingredient";
+import ConstructorFillingIngredient from "./constructor-filling-ingredient/constructor-filling-ingredient";
 
 const BurgerConstructor = memo(() => {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ const BurgerConstructor = memo(() => {
   const [{ isHovered }, ConstructorDrop] = useDrop(() => ({
     accept: "INGREDIENT_NEW",
     drop(item) {
-      addElementToConstructor(dispatch, item);
+      dispatch(addElementToConstructor(item));
     },
     collect: (monitor) => ({
       isHovered: monitor.isOver(),
@@ -67,9 +66,6 @@ const BurgerConstructor = memo(() => {
 
   const onButtonClick = () => {
     dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId));
-    dispatch({
-      type: OPEN_ORDER_MODAL,
-    });
   };
 
   return (

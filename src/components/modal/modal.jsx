@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import ModalOverlay from "./modal-overlay/modal-overlay";
 import close_button from "../../images/close_button.svg";
 
 import modalStyles from "./modal.module.css";

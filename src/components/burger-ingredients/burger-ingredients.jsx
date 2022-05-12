@@ -1,7 +1,7 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import CardList from "../card-list/card-list";
+import CardList from "./card-list/card-list";
 
 import ingredientsStyles from "./burger-ingredients.module.css";
 

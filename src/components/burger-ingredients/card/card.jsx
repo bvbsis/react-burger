@@ -4,8 +4,8 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ingredientTypes from "../../utils/constants";
-import { openIngredientModal } from "../../services/actions/modal";
+import ingredientTypes from "../../../utils/constants";
+import { openIngredientModal } from "../../../services/actions/modal";
 
 import cardStyles from "./card.module.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,9 +27,7 @@ const Card = ({ ingredient }) => {
   const opacity = isDragging ? 0.4 : 1;
 
   const onCardClick = () => {
-    dispatch((dispatch) =>
-      openIngredientModal(dispatch, ingredient, "Детали ингредиента")
-    );
+    dispatch(openIngredientModal(ingredient, "Детали ингредиента"));
   };
 
   return (

@@ -5,7 +5,7 @@ import orderStyles from "./order-details.module.css";
 import { useSelector } from "react-redux";
 
 const OrderDetails = React.memo(() => {
-  const { orderNumber } = useSelector((store) => store.burgerConstructor);
+  const { orderNumber } = useSelector((store) => store.modal);
   return (
     <div className={orderStyles.orderDetails}>
       <span className="text text_type_digits-large mb-9">{orderNumber}</span>

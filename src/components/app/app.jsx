@@ -6,8 +6,8 @@ import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import Modal from "../modal/modal";
-import OrderDetails from "../order-details/order-details";
-import IngredientDetails from "../ingredient-details/ingredient-details";
+import OrderDetails from "../modal/order-details/order-details";
+import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 
 import appStyles from "./app.module.css";
 
