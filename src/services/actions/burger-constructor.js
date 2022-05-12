@@ -8,10 +8,9 @@ export const DELETE_ELEMENT_FROM_CONSTRUCTOR =
   "DELETE_ELEMENT_FROM_CONSTRUCTOR";
 export const CHANGE_ELEMENT_POSITION = "CHANGE_ELEMENT_POSITION";
 
-export const changeElementPosition = (ingredient, index) => ({
+export const changeElementPosition = (newCurrentIngredients) => ({
   type: CHANGE_ELEMENT_POSITION,
-  ingredient,
-  index
+  newCurrentIngredients
 })
 
 export const addElementToConstructor = (dispatch, ingredient) => {

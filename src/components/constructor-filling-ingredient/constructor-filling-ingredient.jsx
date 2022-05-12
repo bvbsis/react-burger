@@ -1,37 +1,66 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { memo } from "react";
+import { memo, useCallback, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
-import { changeElementPosition, deleteElementFromConstructor } from "../../services/actions/burger-constructor";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changeElementPosition,
+  deleteElementFromConstructor,
+} from "../../services/actions/burger-constructor";
 import ConstructorFillingIngredientStyles from "./constructor-filling-ingredient.module.css";
 
 const ConstructorFillingIngredient = memo(({ ingredient, index }) => {
   const dispatch = useDispatch();
+  const { currentIngredients } = useSelector(
+    (store) => store.burgerConstructor
+  );
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging }, dragRef] = useDrag({
     type: "CURRENT_INGREDIENT",
-    item: ingredient,
+    item: { index },
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
     }),
-  }));
-  const [{ isHovered }, drop] = useDrop(() => ({
+  });
+  const [, dropRef] = useDrop({
     accept: "CURRENT_INGREDIENT",
-    drop(item) {
-      dispatch(changeElementPosition(item, index))
+    hover(item, monitor) {
+      const dragIndex = item.index;
+      const dropIndex = index;
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+
+      if (dragIndex < dropIndex && hoverActualY < hoverMiddleY) return;
+      if (dragIndex > dropIndex && hoverActualY > hoverMiddleY) return;
+      handleChangeElementPosition(dragIndex, dropIndex);
+      item.index = dropIndex;
     },
     collect: (monitor) => ({
       isHovered: monitor.isOver(),
     }),
-  }));
+  });
 
-  const opacityDrag = isDragging ? 0.4 : 1;
-  const opacityDrop = isHovered ? 0.6 : 1;
+  const handleChangeElementPosition = useCallback(
+    (dragIndex, dropIndex) => {
+      const newCurrentIngredients = [...currentIngredients];
+      const dragItem = newCurrentIngredients[dragIndex];
+      const dropItem = newCurrentIngredients[dropIndex];
+      newCurrentIngredients[dragIndex] = dropItem;
+      newCurrentIngredients[dropIndex] = dragItem;
+      dispatch(changeElementPosition(newCurrentIngredients));
+    },
+    [currentIngredients, dispatch]
+  );
+
+  const ref = useRef(null);
+  const dragDropRef = dragRef(dropRef(ref));
+
+  const opacityDrag = isDragging ? 0.6 : 1;
 
   return (
-    <div style={{ opacity: opacityDrop }} ref={drop}>
+    <div style={{ opacity: opacityDrag }} ref={dragDropRef}>
       <div
-        ref={drag}
         style={{ opacity: opacityDrag }}
         key={ingredient.uuid}
         className={
@@ -44,7 +73,6 @@ const ConstructorFillingIngredient = memo(({ ingredient, index }) => {
           }
         />
         <ConstructorElement
-          ref={drop}
           type="center"
           isLocked={false}
           text={ingredient.name}

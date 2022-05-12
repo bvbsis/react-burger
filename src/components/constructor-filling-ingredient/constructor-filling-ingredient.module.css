@@ -1,6 +1,7 @@
 .burgerConstructor__elWrapper {
   display: flex;
   align-items: center;
+  cursor: move;
 }
 
 .burgerConstructor__dragger {
@@ -8,5 +9,5 @@
   width: 14px;
   margin-right: 12px;
   background-image: url(../../images/dragger.svg);
-  cursor: move;
+  
 }

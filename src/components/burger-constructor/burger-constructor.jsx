@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 import {
   ConstructorElement,
@@ -9,14 +9,13 @@ import PlugConstructorElement from "../plug-constructor-element/plug-constructor
 import { getOrderDetails } from "../../services/actions/burger-constructor";
 import { OPEN_ORDER_MODAL } from "../../services/actions/modal";
 import { addElementToConstructor } from "../../services/actions/burger-constructor";
-import { deleteElementFromConstructor } from "../../services/actions/burger-constructor";
 
 import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useDrop, useDrag } from "react-dnd";
+import { useDrop } from "react-dnd";
 import ConstructorFillingIngredient from "../constructor-filling-ingredient/constructor-filling-ingredient";
 
-const BurgerConstructor = React.memo(() => {
+const BurgerConstructor = memo(() => {
   const dispatch = useDispatch();
   const { currentIngredients } = useSelector(
     (store) => store.burgerConstructor
@@ -34,7 +33,7 @@ const BurgerConstructor = React.memo(() => {
   const outline = isHovered ? "3px solid green" : "none";
 
   const currentBun = useMemo(() => {
-    if (currentIngredients.length) {
+    if (currentIngredients && currentIngredients.length) {
       return currentIngredients.filter(
         (ingredient) => ingredient.type === "bun"
       )[0];
@@ -61,7 +60,6 @@ const BurgerConstructor = React.memo(() => {
       return null;
     }
   }, [constructorIngredients, currentBun]);
-
 
   const currentIngredientsId = useMemo(() => {
     return currentIngredients.map((ingredient) => ingredient._id);
@@ -94,7 +92,7 @@ const BurgerConstructor = React.memo(() => {
         )}
 
         {constructorIngredients ? (
-          constructorIngredients.length ? (
+          constructorIngredients?.length ? (
             <div className={constructorStyles.burgerConstructor__filling}>
               {constructorIngredients.map((ingredient, index) => (
                 <ConstructorFillingIngredient

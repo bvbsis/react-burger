@@ -49,7 +49,6 @@ const burgerConstructorDispatcher = (state = initialState, action) => {
           {
             ...action.ingredient,
             uuid: uuidv4(),
-            index: state.currentIngredients.length,
           },
         ],
       };
@@ -65,16 +64,9 @@ const burgerConstructorDispatcher = (state = initialState, action) => {
       };
     }
     case CHANGE_ELEMENT_POSITION: {
-      console.log(action.index, action.ingredient.index);
-      const newCurrentIngredients = [...state.currentIngredients];
-      newCurrentIngredients.splice(action.ingredient.index, 1);
-      newCurrentIngredients.splice(action.index + 1, 0, action.ingredient);
-      newCurrentIngredients[action.index + 1].index = action.index + 1;
       return {
         ...state,
-        currentIngredients: [
-          ...newCurrentIngredients
-        ],
+        currentIngredients: [...action.newCurrentIngredients],
       };
     }
     default:
