@@ -17,7 +17,7 @@ const initialState = {
   heading: null,
   currentModal: null,
   isError: false,
-  orderNumber: null
+  orderNumber: null,
 };
 
 const modalReducer = (state = initialState, action) => {
@@ -54,7 +54,6 @@ const modalReducer = (state = initialState, action) => {
       };
     }
     case GET_ORDER_DETAILS_SUCCESS: {
-      console.log(action.orderNumber)
       return {
         ...state,
         isLoading: false,

@@ -10,10 +10,11 @@ import { openIngredientModal } from "../../../services/actions/modal";
 import cardStyles from "./card.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
+import { useMemo } from "react";
 
 const Card = ({ ingredient }) => {
-  const { currentIngredients } = useSelector(
-    (store) => store.burgerConstructor
+  const { bun, fillings } = useSelector(
+    (store) => store.burgerConstructor.currentIngredients
   );
   const dispatch = useDispatch();
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -23,6 +24,10 @@ const Card = ({ ingredient }) => {
       isDragging: !!monitor.isDragging(),
     }),
   }));
+
+  const currentIngredients = useMemo(() => {
+    return [...fillings, bun];
+  }, [fillings, bun]);
 
   const opacity = isDragging ? 0.4 : 1;
 
@@ -70,8 +75,8 @@ const Card = ({ ingredient }) => {
   );
 };
 
-// Card.propTypes = {
-//   ingredient: PropTypes.shape({ ...ingredientTypes }),
-// };
+Card.propTypes = {
+  ingredient: PropTypes.shape(ingredientTypes),
+};
 
 export default Card;

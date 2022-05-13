@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 
 import overlayStyles from "./modal-overlay.module.css";
 
-const ModalOverlay = React.memo(({ children, closeModal, isOpen }) => {
+const ModalOverlay = React.memo(({ children, handleClose, isOpen }) => {
   const onOverlayClick = (e) => {
     if (e.currentTarget === e.target) {
-      closeModal();
+      handleClose();
     }
   };
 
@@ -26,7 +26,7 @@ const ModalOverlay = React.memo(({ children, closeModal, isOpen }) => {
 
 React.propTypes = {
   children: PropTypes.Modal,
-  closeModal: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
 };
 

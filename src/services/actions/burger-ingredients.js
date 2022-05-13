@@ -1,4 +1,4 @@
-import ApiUrl from "../api-url";
+import { ApiUrl, checkResponse } from "../api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -10,7 +10,7 @@ export const getIngredients = (dispatch) => {
   });
 
   fetch(ApiUrl("ingredients"))
-    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+    .then(checkResponse)
     .then((data) => {
       dispatch({
         type: GET_INGREDIENTS_SUCCESS,

@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 const ingredientTypes = {
   _id: PropTypes.string.isRequired,
+  uuid: PropTypes.string,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
   proteins: PropTypes.number.isRequired,
@@ -15,4 +16,4 @@ const ingredientTypes = {
   __v: PropTypes.number.isRequired,
 };
 
-export default ingredientTypes
+export default ingredientTypes;

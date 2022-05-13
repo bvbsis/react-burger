@@ -25,8 +25,4 @@ const OrderDetails = React.memo(() => {
   );
 });
 
-OrderDetails.propTypes = {
-  identificator: PropTypes.number.isRequired,
-};
-
 export default OrderDetails;

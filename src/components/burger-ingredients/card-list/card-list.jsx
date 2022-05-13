@@ -38,6 +38,7 @@ const CardList = React.memo(({ listRef, type, heading }) => {
 CardList.propTypes = {
   type: PropTypes.string.isRequired,
   heading: PropTypes.string.isRequired,
+  listRef: PropTypes.object,
 };
 
 export default CardList;

@@ -1,4 +1,4 @@
-import ApiUrl from "../api-url";
+import { ApiUrl, checkResponse } from "../api";
 
 export const OPEN_INGREDIENT_DETAILS_MODAL = "OPEN_INGREDIENT_DETAILS_MODAL";
 export const OPEN_ORDER_DETAILS_MODAL = "OPEN_ORDER_DETAILS_MODAL";
@@ -11,6 +11,10 @@ export const openIngredientModal = (ingredient, heading) => ({
   type: OPEN_INGREDIENT_DETAILS_MODAL,
   ingredient,
   heading,
+});
+
+export const closeModal = () => ({
+  type: CLOSE_MODAL,
 });
 
 export const getOrderDetails = (dispatch, ingredients) => {
@@ -26,7 +30,7 @@ export const getOrderDetails = (dispatch, ingredients) => {
       ingredients,
     }),
   })
-    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+    .then(checkResponse)
     .then((data) => {
       dispatch({
         type: GET_ORDER_DETAILS_SUCCESS,
@@ -36,8 +40,8 @@ export const getOrderDetails = (dispatch, ingredients) => {
         type: OPEN_ORDER_DETAILS_MODAL,
       });
     })
-    .catch((error) => {
-      console.error(error);
-      dispatch({ type: GET_ORDER_DETAILS_FAILED, payload: error });
+    .catch((err) => {
+      console.error(err);
+      dispatch({ type: GET_ORDER_DETAILS_FAILED, payload: err });
     });
 };

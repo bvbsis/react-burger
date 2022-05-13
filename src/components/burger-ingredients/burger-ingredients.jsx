@@ -16,6 +16,11 @@ const BurgerIngredients = React.memo(() => {
   const sauses = "sause";
   const fillings = "fillings";
 
+  const handleTabClick = (type, ref) => {
+    setCurrent(type);
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
   const handleScroll = (e) => {
     const bunsPosition = bunsRef.current.getBoundingClientRect();
     const sausesPosition = sausesRef.current.getBoundingClientRect();
@@ -35,16 +40,24 @@ const BurgerIngredients = React.memo(() => {
     <section className={ingredientsStyles.burgerIngredients}>
       <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
       <div className={ingredientsStyles.burgerIngredients__tabs}>
-        <Tab value={buns} active={current === buns} onClick={setCurrent}>
+        <Tab
+          value={buns}
+          active={current === buns}
+          onClick={() => handleTabClick(buns, bunsRef)}
+        >
           Булки
         </Tab>
-        <Tab value={sauses} active={current === sauses} onClick={setCurrent}>
+        <Tab
+          value={sauses}
+          active={current === sauses}
+          onClick={() => handleTabClick(sauses, sausesRef)}
+        >
           Соусы
         </Tab>
         <Tab
           value={fillings}
           active={current === fillings}
-          onClick={setCurrent}
+          onClick={() => handleTabClick(fillings, fillingsRef)}
         >
           Начинки
         </Tab>

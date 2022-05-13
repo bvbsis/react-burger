@@ -5,15 +5,14 @@ export const DELETE_ELEMENT_FROM_CONSTRUCTOR =
   "DELETE_ELEMENT_FROM_CONSTRUCTOR";
 export const CHANGE_ELEMENT_POSITION = "CHANGE_ELEMENT_POSITION";
 
-export const changeElementPosition = (newCurrentIngredients) => ({
+export const changeElementPosition = (newFillings) => ({
   type: CHANGE_ELEMENT_POSITION,
-  newCurrentIngredients,
+  newFillings,
 });
 
-export const addElementToConstructor = (ingredient) => ({
+export const addElementToConstructor = (element) => ({
   type: ADD_ELEMENT_TO_CONSTRUCTOR,
-  ingredient,
-  uuid: uuidv4(),
+  element: { ...element, uuid: uuidv4() },
 });
 
 export const deleteElementFromConstructor = (uuid) => ({

@@ -1,5 +1,4 @@
-import { memo, useMemo } from "react";
-import PropTypes from "prop-types";
+import { memo, useCallback, useMemo } from "react";
 import {
   ConstructorElement,
   CurrencyIcon,
@@ -16,8 +15,8 @@ import ConstructorFillingIngredient from "./constructor-filling-ingredient/const
 
 const BurgerConstructor = memo(() => {
   const dispatch = useDispatch();
-  const { currentIngredients } = useSelector(
-    (store) => store.burgerConstructor
+  const { bun, fillings } = useSelector(
+    (store) => store.burgerConstructor.currentIngredients
   );
   const [{ isHovered }, ConstructorDrop] = useDrop(() => ({
     accept: "INGREDIENT_NEW",
@@ -31,41 +30,26 @@ const BurgerConstructor = memo(() => {
 
   const outline = isHovered ? "3px solid green" : "none";
 
-  const currentBun = useMemo(() => {
-    if (currentIngredients && currentIngredients.length) {
-      return currentIngredients.filter(
-        (ingredient) => ingredient.type === "bun"
-      )[0];
-    }
-  }, [currentIngredients]);
-
-  const constructorIngredients = useMemo(() => {
-    if (currentIngredients.length) {
-      return currentIngredients.filter(
-        (ingredient) => ingredient.type !== "bun"
-      );
-    }
-  }, [currentIngredients]);
-
   const price = useMemo(() => {
-    if (constructorIngredients && currentBun) {
+    if (fillings.length && bun.price) {
       return (
-        constructorIngredients.reduce((sum, ingredient) => {
+        fillings.reduce((sum, ingredient) => {
           return sum + ingredient.price;
         }, 0) +
-        currentBun.price * 2
+        bun.price * 2
       );
     } else {
       return null;
     }
-  }, [constructorIngredients, currentBun]);
+  }, [fillings, bun]);
 
-  const currentIngredientsId = useMemo(() => {
-    return currentIngredients.map((ingredient) => ingredient._id);
-  }, [currentIngredients]);
+  const currentIngredientsId = useCallback(() => {
+    const fillingsID = fillings.map((ingredient) => ingredient._id)
+    return [...fillingsID, bun._id];
+  }, [fillings, bun]);
 
   const onButtonClick = () => {
-    dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId));
+    dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId()));
   };
 
   return (
@@ -75,22 +59,22 @@ const BurgerConstructor = memo(() => {
         ref={ConstructorDrop}
         className={constructorStyles.burgerConstructor__ingredients}
       >
-        {currentBun ? (
+        {bun._id ? (
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={currentBun.name + " (верх)"}
-            price={currentBun.price}
-            thumbnail={currentBun.image_mobile}
+            text={bun.name + " (верх)"}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
           />
         ) : (
           <PlugConstructorElement type="top" description="Сюда булку" />
         )}
 
-        {constructorIngredients ? (
-          constructorIngredients?.length ? (
+        {fillings ? (
+          fillings?.length ? (
             <div className={constructorStyles.burgerConstructor__filling}>
-              {constructorIngredients.map((ingredient, index) => (
+              {fillings.map((ingredient, index) => (
                 <ConstructorFillingIngredient
                   key={ingredient.uuid}
                   index={index}
@@ -106,13 +90,13 @@ const BurgerConstructor = memo(() => {
           )
         ) : null}
 
-        {currentBun ? (
+        {bun._id ? (
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={currentBun.name + " (низ)"}
-            price={currentBun.price}
-            thumbnail={currentBun.image_mobile}
+            text={bun.name + " (низ)"}
+            price={bun.price}
+            thumbnail={bun.image_mobile}
           />
         ) : (
           <PlugConstructorElement type="bottom" description="Сюда булку" />
@@ -137,19 +121,5 @@ const BurgerConstructor = memo(() => {
     </section>
   );
 });
-
-BurgerConstructor.propTypes = {
-  modalState: PropTypes.shape({
-    isOpen: PropTypes.bool.isRequired,
-    ingredient: PropTypes.object.isRequired,
-    heading: PropTypes.oneOfType([
-      PropTypes.string.isRequired,
-      PropTypes.object.isRequired,
-    ]),
-    order: PropTypes.shape({ identificator: PropTypes.number.isRequired }),
-    currentModal: PropTypes.string,
-  }),
-  setModalState: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
 
@@ -10,10 +10,15 @@ import OrderDetails from "../modal/order-details/order-details";
 import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 
 import appStyles from "./app.module.css";
+import { closeModal } from "../../services/actions/modal";
 
 function App() {
   const { currentModal, isOpen } = useSelector((store) => store.modal);
   const dispatch = useDispatch();
+
+  const handleCloseModal = useCallback(() => {
+    dispatch(closeModal());
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(getIngredients);
@@ -28,7 +33,7 @@ function App() {
       </main>
 
       {isOpen ? (
-        <Modal>
+        <Modal handleClose={handleCloseModal}>
           {currentModal === "order-details" ? (
             <OrderDetails />
           ) : currentModal === "ingredient-details" ? (

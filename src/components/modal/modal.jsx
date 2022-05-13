@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
@@ -6,33 +6,24 @@ import ModalOverlay from "./modal-overlay/modal-overlay";
 import close_button from "../../images/close_button.svg";
 
 import modalStyles from "./modal.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { CLOSE_MODAL } from "../../services/actions/modal";
+import { useSelector } from "react-redux";
 
-const Modal = React.memo(({ children }) => {
-  const dispatch = useDispatch();
+const Modal = React.memo(({ children, handleClose }) => {
   const { isOpen, heading } = useSelector((store) => store.modal);
-
-  const closeModal = useCallback(() => {
-    dispatch({
-      type: CLOSE_MODAL,
-    });
-  }, [dispatch]);
-
   React.useEffect(() => {
     const escapeClose = (e) => {
       if (e.key === "Escape") {
-        closeModal();
+        handleClose();
       }
     };
     document.body.addEventListener("keydown", escapeClose);
 
     return () => document.body.removeEventListener("keydown", escapeClose);
-  }, [closeModal]);
+  }, [handleClose]);
 
   return isOpen
     ? ReactDOM.createPortal(
-        <ModalOverlay closeModal={closeModal}>
+        <ModalOverlay handleClose={handleClose}>
           <div className={modalStyles.modal}>
             {heading ? (
               <span
@@ -42,7 +33,7 @@ const Modal = React.memo(({ children }) => {
               </span>
             ) : null}
             <button
-              onClick={closeModal}
+              onClick={handleClose}
               className={modalStyles.modal__closeButton}
             >
               <img src={close_button} alt="close" />
@@ -56,10 +47,8 @@ const Modal = React.memo(({ children }) => {
 });
 
 React.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default Modal;

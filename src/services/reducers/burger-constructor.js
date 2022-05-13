@@ -5,7 +5,10 @@ import {
 } from "../actions/burger-constructor";
 
 const initialState = {
-  currentIngredients: [],
+  currentIngredients: {
+    fillings: [],
+    bun: {},
+  },
   isLoading: false,
   isError: false,
   orderNumber: null,
@@ -15,47 +18,44 @@ const initialState = {
 const burgerConstructorDispatcher = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ELEMENT_TO_CONSTRUCTOR: {
-      if (action.ingredient.type === "bun") {
-        const newArray = [...state.currentIngredients].filter(
-          (ingredient) => ingredient.type !== "bun"
-        );
+      if (action.element.type === "bun") {
         return {
           ...state,
-          currentIngredients: [
-            ...newArray,
-            {
-              ...action.ingredient,
-              uuid: action.uuid,
-            },
-          ],
+          currentIngredients: {
+            fillings: [...state.currentIngredients.fillings],
+            bun: action.element,
+          },
         };
       } else {
         return {
           ...state,
-          currentIngredients: [
-            ...state.currentIngredients,
-            {
-              ...action.ingredient,
-              uuid: action.uuid,
-            },
-          ],
+          currentIngredients: {
+            bun: { ...state.currentIngredients.bun },
+            fillings: [action.element, ...state.currentIngredients.fillings],
+          },
         };
       }
     }
     case DELETE_ELEMENT_FROM_CONSTRUCTOR: {
       return {
         ...state,
-        currentIngredients: [
-          ...state.currentIngredients.filter(
-            (ingredient) => ingredient.uuid !== action.uuid
-          ),
-        ],
+        currentIngredients: {
+          fillings: [
+            ...state.currentIngredients.fillings.filter(
+              (ingredient) => ingredient.uuid !== action.uuid
+            ),
+          ],
+          bun: { ...state.currentIngredients.bun },
+        },
       };
     }
     case CHANGE_ELEMENT_POSITION: {
       return {
         ...state,
-        currentIngredients: [...action.newCurrentIngredients],
+        currentIngredients: {
+          bun: { ...state.currentIngredients.bun },
+          fillings: action.newFillings,
+        },
       };
     }
     default:

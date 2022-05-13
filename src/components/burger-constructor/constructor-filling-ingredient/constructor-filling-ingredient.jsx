@@ -2,18 +2,20 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import { memo, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch, useSelector } from "react-redux";
+import { PropTypes } from "prop-types";
 import {
   changeElementPosition,
   deleteElementFromConstructor,
 } from "../../../services/actions/burger-constructor";
 import ConstructorFillingIngredientStyles from "./constructor-filling-ingredient.module.css";
+import ingredientTypes from "../../../utils/constants";
 
 const ConstructorFillingIngredient = memo(({ ingredient, index }) => {
   const dispatch = useDispatch();
   const ref = useRef(null);
 
-  const { currentIngredients } = useSelector(
-    (store) => store.burgerConstructor
+  const { fillings } = useSelector(
+    (store) => store.burgerConstructor.currentIngredients
   );
 
   const [{ isDragging }, dragRef] = useDrag({
@@ -33,15 +35,15 @@ const ConstructorFillingIngredient = memo(({ ingredient, index }) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
-      const newCurrentIngredients = [...currentIngredients];
-      const dragItem = newCurrentIngredients[dragIndex];
-      const dropItem = newCurrentIngredients[dropIndex];
+      const newFillings = [...fillings];
+      const dragItem = newFillings[dragIndex];
+      const dropItem = newFillings[dropIndex];
 
       if (dragIndex < dropIndex && hoverActualY < hoverMiddleY) return;
       if (dragIndex > dropIndex && hoverActualY > hoverMiddleY) return;
-      newCurrentIngredients[dragIndex] = dropItem;
-      newCurrentIngredients[dropIndex] = dragItem;
-      dispatch(changeElementPosition(newCurrentIngredients));
+      newFillings[dragIndex] = dropItem;
+      newFillings[dropIndex] = dragItem;
+      dispatch(changeElementPosition(newFillings));
       item.index = dropIndex;
     },
     collect: (monitor) => ({
@@ -81,5 +83,10 @@ const ConstructorFillingIngredient = memo(({ ingredient, index }) => {
     </div>
   );
 });
+
+ConstructorFillingIngredient.propTypes = {
+  ingredient: PropTypes.shape(ingredientTypes),
+  index: PropTypes.number.isRequired,
+};
 
 export default ConstructorFillingIngredient;
