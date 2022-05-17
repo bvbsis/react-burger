@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import ingredientTypes from "../../utils/constants";
+import ingredientTypes from "../../../utils/constants";
 
 import detailsStyles from "./ingredient-details.module.css";
+import { useSelector } from "react-redux";
 
-const IngredientDetails = React.memo(({ ingredient }) => {
+const IngredientDetails = React.memo(() => {
+  const { ingredient } = useSelector((store) => store.modal);
+
   return (
     <div className={detailsStyles.ingredientDetails}>
       <img
@@ -20,7 +23,7 @@ const IngredientDetails = React.memo(({ ingredient }) => {
       </span>
       <ul className={detailsStyles.ingredientDetails__list}>
         <li className={detailsStyles.ingredientDetails__listElement}>
-          <span className="text text_type_main-default">Калории,ккал</span>
+          <span className="text text_type_main-default">Калории, ккал</span>
           <span className="text text_type_digits-default">
             {ingredient.calories}
           </span>

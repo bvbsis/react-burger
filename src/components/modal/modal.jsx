@@ -2,26 +2,28 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 
-import ModalOverlay from "../modal-overlay/modal-overlay";
+import ModalOverlay from "./modal-overlay/modal-overlay";
 import close_button from "../../images/close_button.svg";
 
 import modalStyles from "./modal.module.css";
+import { useSelector } from "react-redux";
 
-const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
+const Modal = React.memo(({ children, handleClose }) => {
+  const { isOpen, heading } = useSelector((store) => store.modal);
   React.useEffect(() => {
     const escapeClose = (e) => {
       if (e.key === "Escape") {
-        closeModal();
+        handleClose();
       }
     };
     document.body.addEventListener("keydown", escapeClose);
 
     return () => document.body.removeEventListener("keydown", escapeClose);
-  }, [closeModal]);
+  }, [handleClose]);
 
   return isOpen
     ? ReactDOM.createPortal(
-        <ModalOverlay closeModal={closeModal}>
+        <ModalOverlay handleClose={handleClose}>
           <div className={modalStyles.modal}>
             {heading ? (
               <span
@@ -31,7 +33,7 @@ const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
               </span>
             ) : null}
             <button
-              onClick={closeModal}
+              onClick={handleClose}
               className={modalStyles.modal__closeButton}
             >
               <img src={close_button} alt="close" />
@@ -45,10 +47,8 @@ const Modal = React.memo(({ heading, children, closeModal, isOpen }) => {
 });
 
 React.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  closeModal: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
   children: PropTypes.element.isRequired,
-  heading: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default Modal;

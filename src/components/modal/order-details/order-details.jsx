@@ -2,11 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import orderStyles from "./order-details.module.css";
+import { useSelector } from "react-redux";
 
-const OrderDetails = React.memo(({ identificator }) => {
+const OrderDetails = React.memo(() => {
+  const { orderNumber } = useSelector((store) => store.modal);
   return (
     <div className={orderStyles.orderDetails}>
-      <span className="text text_type_digits-large mb-9">{identificator}</span>
+      <span className="text text_type_digits-large mb-9">{orderNumber}</span>
       <span className="text text_type_main-medium mb-10">
         идентификатор заказа
       </span>
@@ -22,9 +24,5 @@ const OrderDetails = React.memo(({ identificator }) => {
     </div>
   );
 });
-
-OrderDetails.propTypes = {
-  identificator: PropTypes.number.isRequired,
-};
 
 export default OrderDetails;
