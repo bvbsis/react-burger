@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getIngredients } from "../../services/actions/burger-ingredients";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -11,6 +12,7 @@ import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 
 import appStyles from "./app.module.css";
 import { closeModal } from "../../services/actions/modal";
+import SignInPage from "../../pages/sign-in";
 
 function App() {
   const { currentModal, isOpen } = useSelector((store) => store.modal);
@@ -25,12 +27,17 @@ function App() {
   }, [dispatch]);
 
   return (
-    <>
+    <Router>
       <AppHeader />
-      <main className={appStyles.app}>
+      <Switch>
+        <Route exact path='/'>
+          <SignInPage/>
+        </Route>
+      </Switch>
+      {/* <main className={appStyles.app}>
         <BurgerIngredients />
         <BurgerConstructor />
-      </main>
+      </main> */}
 
       {isOpen ? (
         <Modal handleClose={handleCloseModal}>
@@ -41,7 +48,7 @@ function App() {
           ) : null}
         </Modal>
       ) : null}
-    </>
+    </Router>
   );
 }
 
