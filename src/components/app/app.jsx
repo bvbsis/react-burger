@@ -13,6 +13,12 @@ import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import appStyles from "./app.module.css";
 import { closeModal } from "../../services/actions/modal";
 import SignInPage from "../../pages/sign-in";
+import RegistrationPage from "../../pages/registration";
+import {
+  ForgotPasswordPage,
+  ResetPasswordPage,
+} from "../../pages/forgot-password";
+import ProfilePage from "../../pages/profile";
 
 function App() {
   const { currentModal, isOpen } = useSelector((store) => store.modal);
@@ -30,14 +36,28 @@ function App() {
     <Router>
       <AppHeader />
       <Switch>
-        <Route exact path='/'>
-          <SignInPage/>
+        <Route exact path="/profile">
+          <ProfilePage />
+        </Route>
+        <Route exact path="/signin">
+          <SignInPage />
+        </Route>
+        <Route exact path="/registration">
+          <RegistrationPage />
+        </Route>
+        <Route exact path="/forgot-password">
+          <ForgotPasswordPage />
+        </Route>
+        <Route exact path="/reset-password">
+          <ResetPasswordPage />
+        </Route>
+        <Route exact path="/">
+          <main className={appStyles.app}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </main>
         </Route>
       </Switch>
-      {/* <main className={appStyles.app}>
-        <BurgerIngredients />
-        <BurgerConstructor />
-      </main> */}
 
       {isOpen ? (
         <Modal handleClose={handleCloseModal}>

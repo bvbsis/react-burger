@@ -39,7 +39,7 @@ function AppHeader() {
           <Logo />
         </div>
         <nav className={appHeaderStyles.menu}>
-          <a href="/" className={appHeaderStyles.menu__link}>
+          <a href="/profile" className={appHeaderStyles.menu__link}>
             <ProfileIcon type="secondary" />
             <span
               className={`text text_type_main-default pl-2 ${appHeaderStyles.menu__linkName}`}
