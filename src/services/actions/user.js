@@ -1,0 +1,7 @@
+import { ApiUrl, checkResponse } from "../api";
+
+export const PASSWORD_RESET_REQUEST = "GET_PASSWORD_RESET_REQUEST";
+export const PASSWORD_RESET_SUCCESS = "PASSWORD_RESET_SUCCESS";
+export const PASSWORD_RESET_FAILED = "PASSWORD_RESET_FAILED";
+
+

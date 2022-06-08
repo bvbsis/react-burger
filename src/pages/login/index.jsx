@@ -1,14 +1,18 @@
 import {
   Button,
   Input,
-  ShowIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import styles from "./sign-in.module.css";
+import { useNavigate } from "react-router-dom";
+import styles from "./login.module.css";
 
-const SignInPage = () => {
-  const [value, setValue] = React.useState("");
+const LoginPage = () => {
+  const [form, setForm] = React.useState({
+    email: "",
+    password: "",
+  });
   const inputRef = React.useRef(null);
+  const navigate = useNavigate();
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
@@ -20,9 +24,9 @@ const SignInPage = () => {
         <Input
           type={"text"}
           placeholder={"E-mail"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"name"}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          value={form.email}
+          name={"email"}
           error={false}
           ref={inputRef}
           onIconClick={onIconClick}
@@ -32,9 +36,9 @@ const SignInPage = () => {
         <Input
           type={"text"}
           placeholder={"Пароль"}
-          onChange={(e) => setValue(e.target.value)}
-          value={value}
-          name={"name"}
+          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          value={form.password}
+          name={"password"}
           error={false}
           icon={"ShowIcon"}
           ref={inputRef}
@@ -49,7 +53,13 @@ const SignInPage = () => {
           <span className="text text_type_main-default mr-2">
             Вы — новый пользователь?
           </span>
-          <Button type="secondary" size="medium">
+          <Button
+            onClick={() => {
+              navigate("/register");
+            }}
+            type="secondary"
+            size="medium"
+          >
             Зарегистрироваться
           </Button>
         </div>
@@ -57,7 +67,13 @@ const SignInPage = () => {
           <span className="text text_type_main-default mr-2">
             Забыли пароль?
           </span>
-          <Button type="secondary" size="medium">
+          <Button
+            onClick={() => {
+              navigate("/forgot-password");
+            }}
+            type="secondary"
+            size="medium"
+          >
             Восстановить пароль
           </Button>
         </div>
@@ -66,4 +82,4 @@ const SignInPage = () => {
   );
 };
 
-export default SignInPage;
+export default LoginPage;

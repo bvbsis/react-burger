@@ -1,7 +1,7 @@
 .wrapper {
   display: flex;
-  height: calc(100vh - 130px);
-  width: 1280px;
+  height: calc(100vh - 230px);
+  width: 1245px;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-start;
