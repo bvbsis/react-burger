@@ -30,6 +30,10 @@
   margin: 33px 20px;
 }
 
+.menu__link_active {
+  color: #f2f2f3;
+}
+
 .menu {
   display: flex;
   align-items: center;

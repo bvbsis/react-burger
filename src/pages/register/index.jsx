@@ -3,24 +3,38 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { REGISTER_FAILED, REGISTER_SUCCESS } from "../../services/actions/user";
+import { ApiUrl, checkResponse } from "../../services/api";
 import styles from "./register.module.css";
 
 const RegistrationPage = () => {
   const [form, setForm] = React.useState({ name: "", email: "", password: "" });
   const inputRef = React.useRef(null);
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const onButtonClick = async (e) => {
     e.preventDefault();
-    await fetch("https://norma.nomoreparties.space/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    })
-      .then((res) => (res.ok ? res.json() : Promise.reject(res)))
-      .then(navigate("/login"))
-      .catch((error) => console.error(`Ошибка ${error}`));
+    try {
+      const res = await fetch(ApiUrl("auth/register"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      const data = await checkResponse(res);
+      dispatch({
+        type: REGISTER_SUCCESS,
+      });
+      console.log(data);
+      navigate('/')
+    } catch (err) {
+      dispatch({
+        type: REGISTER_FAILED,
+        payload: err,
+      });
+      console.log(err);
+    }
   };
 
   const onIconClick = () => {

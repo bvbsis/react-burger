@@ -8,6 +8,7 @@ import IngredientDetails from "../modal/ingredient-details/ingredient-details";
 import { closeModal } from "../../services/actions/modal";
 import Spinner from "../spinner/spinner";
 import { Outlet } from "react-router-dom";
+import Err from "../error/error";
 
 function App() {
   const { currentModal, isOpen } = useSelector((store) => store.modal);
@@ -23,18 +24,19 @@ function App() {
   return (
     <>
       <AppHeader />
-      <Spinner />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
 
-      {isOpen ? (
-        <Modal handleClose={handleCloseModal}>
-          {currentModal === "order-details" ? (
-            <OrderDetails />
-          ) : currentModal === "ingredient-details" ? (
-            <IngredientDetails />
-          ) : null}
-        </Modal>
-      ) : null}
+      <Spinner />
+      <Err />
+      <Modal handleClose={handleCloseModal}>
+        {currentModal === "order-details" ? (
+          <OrderDetails />
+        ) : currentModal === "ingredient-details" ? (
+          <IngredientDetails />
+        ) : null}
+      </Modal>
     </>
   );
 }

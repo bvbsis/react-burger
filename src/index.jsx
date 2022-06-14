@@ -12,6 +12,7 @@ import { Orders, Profile, AccountPage } from "./pages/account";
 import LoginPage from "./pages/login";
 import RegistrationPage from "./pages/register";
 import { ForgotPasswordPage, ResetPasswordPage } from "./pages/forgot-password";
+import NotFoundPage from "./pages/404";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +31,7 @@ ReactDOM.render(
               <Route path="forgot-password" element={<ForgotPasswordPage />} />
               <Route path="reset-password" element={<ResetPasswordPage />} />
             </Route>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </DndProvider>

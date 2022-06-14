@@ -2,6 +2,7 @@ import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink, Outlet } from "react-router-dom";
 import React from "react";
 import styles from "./account.module.css";
+import { useSelector } from "react-redux";
 
 export const AccountPage = () => {
   return (
@@ -13,7 +14,7 @@ export const AccountPage = () => {
               ? `${styles.link_active} ${styles.link} text text_type_main-medium`
               : `${styles.link} text text_type_main-medium`
           }
-          to="/profile/"
+          to="./"
         >
           Профиль
         </NavLink>
@@ -23,14 +24,11 @@ export const AccountPage = () => {
               ? `${styles.link_active} ${styles.link} text text_type_main-medium`
               : `${styles.link} text text_type_main-medium`
           }
-          to="/profile/orders"
+          to="./orders"
         >
           История заказов
         </NavLink>
-        <button
-          className={`${styles.button} text text_type_main-medium`}
-          to="/"
-        >
+        <button className={`${styles.button} text text_type_main-medium`}>
           Выход
         </button>
         <span className={`${styles.hint} text text_type_main-default`}>
@@ -49,7 +47,8 @@ export const Orders = () => {
 };
 
 export const Profile = () => {
-  const [value, setValue] = React.useState("");
+  const { password, name, email } = useSelector((store) => store.user);
+  const [value, setValue] = React.useState({ name, email, password });
   const inputRef = React.useRef(null);
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
@@ -61,7 +60,7 @@ export const Profile = () => {
         type={"text"}
         placeholder={"Имя"}
         onChange={(e) => setValue(e.target.value)}
-        value={value}
+        value={value.name}
         name={"name"}
         error={false}
         ref={inputRef}
@@ -73,8 +72,8 @@ export const Profile = () => {
         type={"text"}
         placeholder={"Логин"}
         onChange={(e) => setValue(e.target.value)}
-        value={value}
-        name={"name"}
+        value={value.email}
+        name={"login"}
         error={false}
         ref={inputRef}
         onIconClick={onIconClick}
@@ -82,11 +81,11 @@ export const Profile = () => {
         size={"default"}
       />
       <Input
-        type={"text"}
+        type={"password"}
         placeholder={"Пароль"}
         onChange={(e) => setValue(e.target.value)}
-        value={value}
-        name={"name"}
+        value={value.password}
+        name={"password"}
         error={false}
         icon={"ShowIcon"}
         ref={inputRef}

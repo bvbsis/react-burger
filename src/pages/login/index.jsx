@@ -3,7 +3,14 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import {
+  LOGIN_FAILED,
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+} from "../../services/actions/user";
+import { ApiUrl, checkResponse } from "../../services/api";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
@@ -13,6 +20,36 @@ const LoginPage = () => {
   });
   const inputRef = React.useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const onButtonClick = async (e) => {
+    e.preventDefault();
+    dispatch({
+      type: LOGIN_REQUEST,
+    });
+    try {
+      const res = await fetch(ApiUrl("auth/login"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+      const data = await checkResponse(res);
+      console.log(data);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: data,
+      });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: LOGIN_FAILED,
+        payload: err,
+      });
+    }
+  };
+
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
@@ -34,7 +71,7 @@ const LoginPage = () => {
           size={"default"}
         />
         <Input
-          type={"text"}
+          type={"password"}
           placeholder={"Пароль"}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           value={form.password}
@@ -46,7 +83,7 @@ const LoginPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="medium">
+        <Button onClick={onButtonClick} type="primary" size="medium">
           Войти
         </Button>
         <div style={{ marginTop: 80, marginBottom: 16 }}>

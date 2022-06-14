@@ -4,10 +4,10 @@ import Styles from "./constructor.module.css";
 
 const ConstructorPage = () => {
   return (
-    <main className={Styles.wrapper}>
+    <div className={Styles.wrapper}>
       <BurgerIngredients />
       <BurgerConstructor />
-    </main>
+    </div>
   );
 };
 
