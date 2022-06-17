@@ -6,28 +6,28 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { REGISTER_FAILED, REGISTER_SUCCESS } from "../../services/actions/user";
-import { ApiUrl, checkResponse } from "../../services/api";
+import useAuth from "../../services/useAuth";
 import styles from "./register.module.css";
 
 const RegistrationPage = () => {
   const [form, setForm] = React.useState({ name: "", email: "", password: "" });
   const inputRef = React.useRef(null);
+  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const onChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const onButtonClick = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(ApiUrl("auth/register"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      const data = await checkResponse(res);
+      await auth.register(form);
       dispatch({
         type: REGISTER_SUCCESS,
       });
-      console.log(data);
-      navigate('/')
+      navigate("/login");
     } catch (err) {
       dispatch({
         type: REGISTER_FAILED,
@@ -50,7 +50,7 @@ const RegistrationPage = () => {
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          onChange={onChange}
           value={form.name}
           name={"name"}
           error={false}
@@ -59,9 +59,9 @@ const RegistrationPage = () => {
           size={"default"}
         />
         <Input
-          type={"text"}
+          type={"email"}
           placeholder={"E-mail"}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={onChange}
           value={form.email}
           name={"email"}
           error={false}
@@ -70,9 +70,9 @@ const RegistrationPage = () => {
           size={"default"}
         />
         <Input
-          type={"text"}
+          type={"password"}
           placeholder={"Пароль"}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={onChange}
           value={form.password}
           name={"password"}
           error={false}

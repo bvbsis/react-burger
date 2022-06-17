@@ -9,9 +9,12 @@ import { closeModal } from "../../services/actions/modal";
 import Spinner from "../spinner/spinner";
 import { Outlet } from "react-router-dom";
 import Err from "../error/error";
+import useAuth from "../../services/useAuth";
+import { GET_USER_DATA_SUCCESS } from "../../services/actions/user";
 
 function App() {
   const { currentModal, isOpen } = useSelector((store) => store.modal);
+  const auth = useAuth();
   const dispatch = useDispatch();
   const handleCloseModal = useCallback(() => {
     dispatch(closeModal());
@@ -20,6 +23,18 @@ function App() {
   useEffect(() => {
     dispatch(getIngredients);
   }, [dispatch]);
+
+  useEffect(() => {
+    async function getUserData() {
+      const data = await auth.getUser();
+      const { email, name } = data.user;
+      dispatch({
+        type: GET_USER_DATA_SUCCESS,
+        payload: { email, name },
+      });
+    }
+    getUserData();
+  }, []);
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { ApiUrl, checkResponse } from "../api";
+import { apiUrl, checkResponse } from "../api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";
@@ -9,7 +9,7 @@ export const getIngredients = (dispatch) => {
     type: GET_INGREDIENTS_REQUEST,
   });
 
-  fetch(ApiUrl("ingredients"))
+  fetch(apiUrl("ingredients"))
     .then(checkResponse)
     .then((data) => {
       dispatch({

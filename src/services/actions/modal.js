@@ -1,4 +1,4 @@
-import { ApiUrl, checkResponse } from "../api";
+import { apiUrl, checkResponse } from "../api";
 
 export const OPEN_INGREDIENT_DETAILS_MODAL = "OPEN_INGREDIENT_DETAILS_MODAL";
 export const OPEN_ORDER_DETAILS_MODAL = "OPEN_ORDER_DETAILS_MODAL";
@@ -21,7 +21,7 @@ export const getOrderDetails = (dispatch, ingredients) => {
   dispatch({
     type: GET_ORDER_DETAILS_REQUEST,
   });
-  fetch(ApiUrl("orders"), {
+  fetch(apiUrl("orders"), {
     method: "POST",
     headers: {
       "content-Type": "application/json",

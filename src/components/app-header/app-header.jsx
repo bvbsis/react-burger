@@ -4,11 +4,13 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import appHeaderStyles from "./app-header.module.css";
 
 function AppHeader() {
+  const { name } = useSelector((store) => store.user);
   return (
     <header className={appHeaderStyles.header}>
       <div className={appHeaderStyles.header__wrapper}>
@@ -66,7 +68,7 @@ function AppHeader() {
             <span
               className={`text text_type_main-default pl-2 ${appHeaderStyles.menu__linkName}`}
             >
-              Личный кабинет
+              {name ? name.toUpperCase() : "Личный кабинет"}
             </span>
           </NavLink>
         </nav>

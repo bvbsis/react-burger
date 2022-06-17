@@ -1,10 +1,45 @@
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, Outlet } from "react-router-dom";
-import React from "react";
+import { NavLink, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import styles from "./account.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import useAuth from "../../services/useAuth";
+import {
+  GET_USER_DATA_FAILED,
+  GET_USER_DATA_REQUEST,
+  GET_USER_DATA_SUCCESS,
+  LOG_OUT_FAILED,
+  LOG_OUT_REQUEST,
+  LOG_OUT_SUCCESS,
+  SET_USER_DATA_FAILED,
+  SET_USER_DATA_REQUEST,
+  SET_USER_DATA_SUCCESS,
+} from "../../services/actions/user";
 
 export const AccountPage = () => {
+  const auth = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logUserOut = async () => {
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
+    try {
+      await auth.logOut();
+      navigate("/");
+      dispatch({
+        type: LOG_OUT_SUCCESS,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: LOG_OUT_FAILED,
+        payload: err,
+      });
+    }
+  };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.navContainer}>
@@ -28,7 +63,10 @@ export const AccountPage = () => {
         >
           История заказов
         </NavLink>
-        <button className={`${styles.button} text text_type_main-medium`}>
+        <button
+          onClick={logUserOut}
+          className={`${styles.button} text text_type_main-medium`}
+        >
           Выход
         </button>
         <span className={`${styles.hint} text text_type_main-default`}>
@@ -36,7 +74,10 @@ export const AccountPage = () => {
         </span>
       </div>
       <div className={styles.container}>
-        <Outlet />
+        <Routes>
+          <Route path="/" element={<Profile />} />
+          <Route path="orders" element={<Orders />} />
+        </Routes>
       </div>
     </div>
   );
@@ -47,23 +88,77 @@ export const Orders = () => {
 };
 
 export const Profile = () => {
-  const { password, name, email } = useSelector((store) => store.user);
-  const [value, setValue] = React.useState({ name, email, password });
-  const inputRef = React.useRef(null);
-  const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
-    alert("Icon Click Callback");
+  const { name, email } = useSelector((store) => store.user);
+  const [form, setForm] = React.useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const dispatch = useDispatch();
+  const auth = useAuth();
+
+  const onChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const onIconClick = async () => {
+    dispatch({
+      type: SET_USER_DATA_REQUEST,
+    });
+    try {
+      const data = await auth.setUser(form);
+      dispatch({
+        type: SET_USER_DATA_SUCCESS,
+        payload: data.user,
+      });
+    } catch (err) {
+      console.log(err);
+      dispatch({
+        type: SET_USER_DATA_FAILED,
+        payload: err,
+      });
+    }
+  };
+
+  useEffect(() => {
+    setForm({ ...form, name, email });
+  }, [email, name]);
+
+  useEffect(() => {
+    dispatch({
+      type: GET_USER_DATA_REQUEST,
+    });
+    async function getUserData() {
+      try {
+        const data = await auth.getUser();
+        if (data?.success) {
+          const { name, email } = data.user;
+          dispatch({
+            type: GET_USER_DATA_SUCCESS,
+            payload: { name, email },
+          });
+        }
+      } catch (err) {
+        dispatch({
+          type: GET_USER_DATA_FAILED,
+          payload: err,
+        });
+        console.log(err);
+      }
+    }
+    getUserData();
+  }, []);
+
   return (
     <form className={styles.container}>
       <Input
         type={"text"}
         placeholder={"Имя"}
-        onChange={(e) => setValue(e.target.value)}
-        value={value.name}
+        onChange={onChange}
+        value={form.name}
         name={"name"}
         error={false}
-        ref={inputRef}
+        icon={"EditIcon"}
         onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -71,11 +166,11 @@ export const Profile = () => {
       <Input
         type={"text"}
         placeholder={"Логин"}
-        onChange={(e) => setValue(e.target.value)}
-        value={value.email}
-        name={"login"}
+        onChange={onChange}
+        value={form.email}
+        name={"email"}
         error={false}
-        ref={inputRef}
+        icon={"EditIcon"}
         onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}
@@ -83,12 +178,11 @@ export const Profile = () => {
       <Input
         type={"password"}
         placeholder={"Пароль"}
-        onChange={(e) => setValue(e.target.value)}
-        value={value.password}
+        onChange={onChange}
+        value={form.password}
         name={"password"}
         error={false}
-        icon={"ShowIcon"}
-        ref={inputRef}
+        icon={"EditIcon"}
         onIconClick={onIconClick}
         errorText={"Ошибка"}
         size={"default"}

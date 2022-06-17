@@ -13,14 +13,20 @@ import {
   PASSWORD_CHANGE_SUCCESS,
   PASSWORD_CHANGE_FAILED,
 } from "../../services/actions/user";
-import { ApiUrl, checkResponse } from "../../services/api";
+import { checkResponse } from "../../services/api";
+import useAuth from "../../services/useAuth";
 import styles from "./forgot-password.module.css";
 
-export const ForgotPasswordPage = () => {
+export const SendPasswordResetEmailPage = () => {
   const [email, setEmail] = React.useState("");
   const dispatch = useDispatch();
+  const auth = useAuth();
   const inputRef = React.useRef(null);
   const navigate = useNavigate();
+
+  const onChange = (e) => {
+    setEmail({ ...email, [e.target.name]: e.target.value });
+  };
 
   const onButtonClick = async (e) => {
     e.preventDefault();
@@ -28,15 +34,7 @@ export const ForgotPasswordPage = () => {
       type: PASSWORD_RESET_REQUEST,
     });
     try {
-      const res = await fetch(ApiUrl("password-reset"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-        }),
-      });
+      const res = await auth.sendPasswordResetEmail(email);
       const data = await checkResponse(res);
       dispatch({ type: PASSWORD_RESET_SUCCESS });
       console.log(data.message);
@@ -57,11 +55,11 @@ export const ForgotPasswordPage = () => {
           Восстановление пароля
         </h2>
         <Input
-          type={"text"}
+          type={"email"}
           placeholder={"Укажите e-mail"}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={onChange}
           value={email}
-          name={"name"}
+          name={"email"}
           error={false}
           ref={inputRef}
           errorText={"Ошибка"}
@@ -89,29 +87,27 @@ export const ForgotPasswordPage = () => {
   );
 };
 
-export const ResetPasswordPage = () => {
-  const [form, setForm] = React.useState({});
+export const ConfirmPasswordResetPage = () => {
+  const [form, setForm] = React.useState({ password: "", token: "" });
   const inputRef = React.useRef(null);
+  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const onChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   const onButtonClick = async (e) => {
     e.preventDefault();
-    const { password, token } = form;
     dispatch({
       type: PASSWORD_CHANGE_REQUEST,
     });
     try {
-      const res = await fetch(ApiUrl("password-reset/reset"), {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({
-          password,
-          token,
-        }),
-      });
+      const res = await auth.confirmPasswordReset(form);
+      console.log(res);
       const data = await checkResponse(res);
+      console.log(data);
       dispatch({
         type: PASSWORD_CHANGE_SUCCESS,
       });
@@ -122,7 +118,7 @@ export const ResetPasswordPage = () => {
         type: PASSWORD_CHANGE_FAILED,
         payload: err,
       });
-      console.error(err)
+      console.error(err);
     }
   };
   const onIconClick = () => {
@@ -138,7 +134,7 @@ export const ResetPasswordPage = () => {
         <Input
           type={"password"}
           placeholder={"Новый пароль"}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={onChange}
           value={form.password}
           name={"password"}
           error={false}
@@ -149,9 +145,9 @@ export const ResetPasswordPage = () => {
           size={"default"}
         />
         <Input
-          type={"text"}
+          type={"password"}
           placeholder={"Введите код из письма"}
-          onChange={(e) => setForm({ ...form, token: e.target.value })}
+          onChange={onChange}
           value={form.token}
           name={"token"}
           error={false}

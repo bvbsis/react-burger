@@ -3,14 +3,15 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
 } from "../../services/actions/user";
-import { ApiUrl, checkResponse } from "../../services/api";
+import { checkResponse } from "../../services/api";
+import useAuth from "../../services/useAuth";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
@@ -18,31 +19,30 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const name = useSelector((store) => store.user.name);
   const inputRef = React.useRef(null);
+  const auth = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const onButtonClick = async (e) => {
     e.preventDefault();
     dispatch({
       type: LOGIN_REQUEST,
     });
     try {
-      const res = await fetch(ApiUrl("auth/login"), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      const data = await checkResponse(res);
-      console.log(data);
+      const data = await auth.logIn(form);
+      const { name, email } = data.user;
+
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: data,
+        payload: { name, email },
       });
+
       navigate("/");
     } catch (err) {
       console.log(err);
+
       dispatch({
         type: LOGIN_FAILED,
         payload: err,
@@ -54,12 +54,14 @@ const LoginPage = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
   };
-  return (
+  return name ? (
+    <Navigate to="/" />
+  ) : (
     <div className={styles.wrapper}>
       <form className={styles.container}>
         <h2 className={`${styles.heading} text text_type_main-medium`}>Вход</h2>
         <Input
-          type={"text"}
+          type={"email"}
           placeholder={"E-mail"}
           onChange={(e) => setForm({ ...form, email: e.target.value })}
           value={form.email}
