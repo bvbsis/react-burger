@@ -4,14 +4,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   LOGIN_FAILED,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
 } from "../../services/actions/user";
-import { checkResponse } from "../../services/api";
-import useAuth from "../../services/useAuth";
+import { useAuth } from "../../services/useAuth";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
@@ -23,6 +22,8 @@ const LoginPage = () => {
   const inputRef = React.useRef(null);
   const auth = useAuth();
   const navigate = useNavigate();
+  const { state } = useLocation();
+
   const dispatch = useDispatch();
 
   const onButtonClick = async (e) => {
@@ -38,10 +39,9 @@ const LoginPage = () => {
         type: LOGIN_SUCCESS,
         payload: { name, email },
       });
-
-      navigate("/");
+      
     } catch (err) {
-      console.log(err);
+      console.error(err);
 
       dispatch({
         type: LOGIN_FAILED,
@@ -54,9 +54,9 @@ const LoginPage = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
   };
-  return name ? (
-    <Navigate to="/" />
-  ) : (
+  return name && state?.pathname ? (
+    <Navigate to={state?.pathname} />
+  ) : name ? <Navigate to='/' /> : (
     <div className={styles.wrapper}>
       <form className={styles.container}>
         <h2 className={`${styles.heading} text text_type_main-medium`}>Вход</h2>

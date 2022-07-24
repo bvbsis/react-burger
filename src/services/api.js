@@ -6,8 +6,8 @@ export const checkResponse = async (res) => {
   if (res.ok) {
     return await res.json();
   }
-  const error = await res.json()
-  return Promise.reject(error);
+  const error = await res.json();
+  return Promise.reject(error.message);
 };
 
 const refreshToken = async () => {
@@ -37,7 +37,10 @@ export const fetchWithRefresh = async (url, options) => {
     return data;
   } catch (err) {
     console.log(err);
-    if (err.message === "jwt expired") {
+    if (
+      err.message === "jwt expired" ||
+      (localStorage.getItem("refreshToken") && !getCookie("accessToken"))
+    ) {
       const refreshData = await refreshToken();
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(url, options);

@@ -1,11 +1,12 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import useAuth from "../../services/useAuth";
+import { useAuth } from "../../services/useAuth";
 import { GET_USER_DATA_SUCCESS } from "../../services/actions/user";
 
 export function ProtectedRoute({ children, navigateTo }) {
   const { name } = useSelector((store) => store.user);
+  const location = useLocation();
   const navigate = useNavigate();
   const auth = useAuth();
   const dispatch = useDispatch();
@@ -20,11 +21,12 @@ export function ProtectedRoute({ children, navigateTo }) {
           payload: { email, name },
         });
       } catch (err) {
-        navigate("/login");
+        navigate(navigateTo, {state: location});
       }
     }
     getUserData();
-  }, []);
+  }, [dispatch]);
+
 
   return name ? children : null;
 }

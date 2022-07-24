@@ -8,10 +8,7 @@ import {
 } from "../actions/modal";
 
 const initialState = {
-  isOpen: false,
   isLoading: false,
-  ingredient: {},
-  heading: null,
   currentModal: null,
   isError: false,
   orderNumber: null,
@@ -22,26 +19,24 @@ const modalReducer = (state = initialState, action) => {
     case OPEN_INGREDIENT_DETAILS_MODAL: {
       return {
         ...state,
-        isOpen: true,
-        ingredient: action.ingredient,
-        heading: action.heading,
-        currentModal: "ingredient-details",
+        isLoading: false,
+        currentModal: "ingredient",
       };
     }
     case OPEN_ORDER_DETAILS_MODAL: {
       return {
         ...state,
         isOpen: true,
-        currentModal: "order-details",
+        isLoading: false,
+        currentModal: "order",
       };
     }
     case CLOSE_MODAL: {
       return {
         ...state,
-        isOpen: false,
-        ingredient: null,
-        heading: null,
+        isLoading: false,
         currentModal: null,
+        isError: false,
       };
     }
     case GET_ORDER_DETAILS_REQUEST: {

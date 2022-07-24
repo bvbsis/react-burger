@@ -27,6 +27,7 @@ import {
 
 const initialState = {
   isError: false,
+  isResetTokenSent: false,
   error: null,
   isLoading: false,
   name: null,
@@ -45,6 +46,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
+        isResetTokenSent: true,
         isError: false,
         error: null,
       };
@@ -175,13 +177,15 @@ const userReducer = (state = initialState, action) => {
       };
     }
     case LOG_OUT_SUCCESS: {
+      console.log('logged out')
       return {
         ...state,
         isLoading: false,
         isError: false,
         email: null,
         name: null,
-        password: null,
+        isResetTokenSent: false,
+        error: null,
       };
     }
     case LOG_OUT_FAILED: {

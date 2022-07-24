@@ -12,12 +12,18 @@ import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import ConstructorFillingIngredient from "./constructor-filling-ingredient/constructor-filling-ingredient";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const BurgerConstructor = memo(() => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const { bun, fillings } = useSelector(
     (store) => store.burgerConstructor.currentIngredients
   );
+
+  const { name } = useSelector((store) => store.user);
+
   const [{ isHovered }, ConstructorDrop] = useDrop(() => ({
     accept: "INGREDIENT_NEW",
     drop(item) {
@@ -44,12 +50,16 @@ const BurgerConstructor = memo(() => {
   }, [fillings, bun]);
 
   const currentIngredientsId = useCallback(() => {
-    const fillingsID = fillings.map((ingredient) => ingredient._id)
+    const fillingsID = fillings.map((ingredient) => ingredient._id);
     return [...fillingsID, bun._id];
   }, [fillings, bun]);
 
   const onButtonClick = () => {
-    dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId()));
+    if (name) {
+      dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId()));
+    } else {
+      navigate("login", { state: location });
+    }
   };
 
   return (

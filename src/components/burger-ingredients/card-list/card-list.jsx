@@ -13,16 +13,6 @@ const CardList = React.memo(({ listRef, type, heading }) => {
     (ingredient) => ingredient.type === type
   );
 
-  if (!ingredients.length) {
-    return (
-      <h1
-        style={{ fontFamily: "sans-serif", margin: "auto", padding: "100px" }}
-      >
-        Loading...
-      </h1>
-    );
-  }
-
   return filteredIngredients.length ? (
     <div ref={listRef}>
       <h2 className="text text_type_main-medium mt-10">{heading}</h2>

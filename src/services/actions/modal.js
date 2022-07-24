@@ -7,11 +7,6 @@ export const GET_ORDER_DETAILS_REQUEST = "GET_ORDER_DETAILS";
 export const GET_ORDER_DETAILS_SUCCESS = "GET_ORDER_DETAILS_SUCCESS";
 export const GET_ORDER_DETAILS_FAILED = "GET_ORDER_DETAILS_FAILED";
 
-export const openIngredientModal = (ingredient, heading) => ({
-  type: OPEN_INGREDIENT_DETAILS_MODAL,
-  ingredient,
-  heading,
-});
 
 export const closeModal = () => ({
   type: CLOSE_MODAL,

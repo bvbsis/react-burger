@@ -3,7 +3,7 @@ import { NavLink, Outlet, Route, Routes, useNavigate } from "react-router-dom";
 import React, { useEffect } from "react";
 import styles from "./account.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import useAuth from "../../services/useAuth";
+import { useAuth } from "../../services/useAuth";
 import {
   GET_USER_DATA_FAILED,
   GET_USER_DATA_REQUEST,
@@ -27,10 +27,10 @@ export const AccountPage = () => {
     });
     try {
       await auth.logOut();
-      navigate("/");
       dispatch({
         type: LOG_OUT_SUCCESS,
       });
+      navigate("/login");
     } catch (err) {
       console.log(err);
       dispatch({
@@ -49,7 +49,8 @@ export const AccountPage = () => {
               ? `${styles.link_active} ${styles.link} text text_type_main-medium`
               : `${styles.link} text text_type_main-medium`
           }
-          to="./"
+          to="."
+          end
         >
           Профиль
         </NavLink>
@@ -74,10 +75,7 @@ export const AccountPage = () => {
         </span>
       </div>
       <div className={styles.container}>
-        <Routes>
-          <Route path="/" element={<Profile />} />
-          <Route path="orders" element={<Orders />} />
-        </Routes>
+        <Outlet />
       </div>
     </div>
   );

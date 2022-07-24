@@ -73,7 +73,6 @@ const useAuth = () => {
       }),
     });
     const data = await checkResponse(res);
-    console.log(data);
     if (data.success) {
       localStorage.removeItem("refreshToken");
       deleteCookie("accessToken");
@@ -118,4 +117,5 @@ const useAuth = () => {
   };
 };
 
-export default useAuth;
+
+export { useAuth };

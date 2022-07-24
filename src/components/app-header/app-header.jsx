@@ -18,7 +18,7 @@ function AppHeader() {
           <ul className={appHeaderStyles.menu__list}>
             <li className={appHeaderStyles.menu__listItem}>
               <NavLink
-                to="/"
+                to="."
                 className={({ isActive }) => {
                   return !isActive
                     ? appHeaderStyles.menu__link
@@ -35,7 +35,7 @@ function AppHeader() {
             </li>
             <li className={appHeaderStyles.menu__listItem}>
               <NavLink
-                to="/feed"
+                to="feed"
                 className={({ isActive }) => {
                   return !isActive
                     ? appHeaderStyles.menu__link
@@ -57,7 +57,7 @@ function AppHeader() {
         </div>
         <nav className={appHeaderStyles.menu}>
           <NavLink
-            to="/profile/"
+            to="profile"
             className={({ isActive }) => {
               return !isActive
                 ? appHeaderStyles.menu__link

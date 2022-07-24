@@ -5,15 +5,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-top: 6px solid #8585ad;
-  border-bottom: 6px solid #8585ad;
-  width: 250px;
-  height: 70px;
+  background-color: #2f2f37;
+  border-top: 0.3rem solid #8585ad;
+  border-bottom: 0.3rem solid #8585ad;
+  width: 30rem;
+  min-height: 5rem;
   right: 1vw;
   bottom: 1vw;
 }
 
 .text {
   font-family: "Jet Brains Mono";
-  font-size: 20px;
+  font-size: 1.5rem;
+  color: #8585ad;
 }

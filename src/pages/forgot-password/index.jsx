@@ -3,8 +3,8 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import {
   PASSWORD_RESET_FAILED,
   PASSWORD_RESET_REQUEST,
@@ -13,20 +13,21 @@ import {
   PASSWORD_CHANGE_SUCCESS,
   PASSWORD_CHANGE_FAILED,
 } from "../../services/actions/user";
-import { checkResponse } from "../../services/api";
-import useAuth from "../../services/useAuth";
+import { useAuth } from "../../services/useAuth";
 import styles from "./forgot-password.module.css";
 
 export const SendPasswordResetEmailPage = () => {
   const [email, setEmail] = React.useState("");
   const dispatch = useDispatch();
+  const name = useSelector((store) => store.user.name);
   const auth = useAuth();
   const inputRef = React.useRef(null);
   const navigate = useNavigate();
 
   const onChange = (e) => {
-    setEmail({ ...email, [e.target.name]: e.target.value });
+    setEmail(e.target.value);
   };
+
 
   const onButtonClick = async (e) => {
     e.preventDefault();
@@ -34,8 +35,7 @@ export const SendPasswordResetEmailPage = () => {
       type: PASSWORD_RESET_REQUEST,
     });
     try {
-      const res = await auth.sendPasswordResetEmail(email);
-      const data = await checkResponse(res);
+      const data = await auth.sendPasswordResetEmail(email);
       dispatch({ type: PASSWORD_RESET_SUCCESS });
       console.log(data.message);
       navigate("/reset-password");
@@ -48,7 +48,9 @@ export const SendPasswordResetEmailPage = () => {
     }
   };
 
-  return (
+  return name ? (
+    <Navigate to="/" />
+  ) : (
     <div className={styles.wrapper}>
       <form className={styles.container}>
         <h2 className={`${styles.heading} text text_type_main-medium`}>
@@ -91,6 +93,7 @@ export const ConfirmPasswordResetPage = () => {
   const [form, setForm] = React.useState({ password: "", token: "" });
   const inputRef = React.useRef(null);
   const auth = useAuth();
+  const { name, isResetTokenSent } = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -104,10 +107,7 @@ export const ConfirmPasswordResetPage = () => {
       type: PASSWORD_CHANGE_REQUEST,
     });
     try {
-      const res = await auth.confirmPasswordReset(form);
-      console.log(res);
-      const data = await checkResponse(res);
-      console.log(data);
+      const data = await auth.confirmPasswordReset(form);
       dispatch({
         type: PASSWORD_CHANGE_SUCCESS,
       });
@@ -125,7 +125,9 @@ export const ConfirmPasswordResetPage = () => {
     setTimeout(() => inputRef.current.focus(), 0);
     alert("Icon Click Callback");
   };
-  return (
+  return name ? (
+    <Navigate to="/" />
+  ) : isResetTokenSent ? (
     <div className={styles.wrapper}>
       <form className={styles.container}>
         <h2 className={`${styles.heading} text text_type_main-medium`}>
@@ -174,5 +176,7 @@ export const ConfirmPasswordResetPage = () => {
         </div>
       </form>
     </div>
+  ) : (
+    <Navigate to="/forgot-password" />
   );
 };
