@@ -2,14 +2,16 @@ import { useSelector } from "react-redux";
 import ReactDOM from "react-dom";
 import Styles from "./spinner.module.css";
 
-const Spinner = () => {
+const Spinner = (props) => {
   const isUserDataLoading = useSelector((store) => store.user.isLoading);
   const isIngredientsDataloading = useSelector(
     (store) => store.ingredients.isLoading
   );
-  const isModalDataloading = useSelector((store) => store.modal.isLoading);
+  const isOrderDataloading = useSelector(
+    (store) => store.burgerConstructor.isLoading
+  );
 
-  return isUserDataLoading || isIngredientsDataloading || isModalDataloading
+  return isUserDataLoading || isIngredientsDataloading || isOrderDataloading
     ? ReactDOM.createPortal(
         <div className={Styles.wrapper}>
           <div className={Styles.container}>

@@ -5,13 +5,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ingredientTypes from "../../../utils/constants";
-import {
-  openIngredientModal,
-  OPEN_INGREDIENT_DETAILS_MODAL,
-} from "../../../services/actions/modal";
 
 import cardStyles from "./card.module.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -21,7 +17,6 @@ const Card = ({ ingredient }) => {
     (store) => store.burgerConstructor.currentIngredients
   );
   const location = useLocation();
-  const dispatch = useDispatch();
   const [{ isDragging }, drag] = useDrag(() => ({
     type: "INGREDIENT_NEW",
     item: ingredient,
@@ -36,15 +31,10 @@ const Card = ({ ingredient }) => {
 
   const opacity = isDragging ? 0.4 : 1;
 
-  const onCardClick = () => {
-    dispatch({ type: OPEN_INGREDIENT_DETAILS_MODAL });
-  };
-
   return (
     <li
       ref={drag}
       style={{ opacity }}
-      onClick={onCardClick}
       className={cardStyles.card}
     >
       <Link

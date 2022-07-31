@@ -5,7 +5,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import appHeaderStyles from "./app-header.module.css";
 
@@ -53,7 +53,7 @@ function AppHeader() {
           </ul>
         </nav>
         <div className={appHeaderStyles.header__logo}>
-          <Logo />
+          <Link to='/'><Logo /></Link>
         </div>
         <nav className={appHeaderStyles.menu}>
           <NavLink

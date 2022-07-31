@@ -1,5 +1,5 @@
 import {
-  UNSET_ERROR,
+  UNSET_USER_ERROR,
   PASSWORD_RESET_REQUEST,
   PASSWORD_RESET_SUCCESS,
   PASSWORD_RESET_FAILED,
@@ -21,14 +21,12 @@ import {
   LOG_OUT_REQUEST,
   LOG_OUT_SUCCESS,
   LOG_OUT_FAILED,
-  SET_EMAIL,
-  SET_NAME,
 } from "../actions/user";
 
 const initialState = {
-  isError: false,
+  isUserError: false,
   isResetTokenSent: false,
-  error: null,
+  userError: null,
   isLoading: false,
   name: null,
   email: null,
@@ -47,16 +45,16 @@ const userReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         isResetTokenSent: true,
-        isError: false,
-        error: null,
+        isUserError: false,
+        userError: null,
       };
     }
     case PASSWORD_RESET_FAILED: {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case PASSWORD_CHANGE_REQUEST: {
@@ -69,16 +67,16 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
-        error: null,
+        isUserError: false,
+        userError: null,
       };
     }
     case PASSWORD_CHANGE_FAILED: {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case LOGIN_REQUEST: {
@@ -91,7 +89,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
+        isUserError: false,
         name: action.payload.name,
         email: action.payload.email,
       };
@@ -100,8 +98,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case REGISTER_REQUEST: {
@@ -114,15 +112,15 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
+        isUserError: false,
       };
     }
     case REGISTER_FAILED: {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case GET_USER_DATA_REQUEST: {
@@ -135,7 +133,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
+        isUserError: false,
         email: action.payload.email,
         name: action.payload.name,
       };
@@ -144,8 +142,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case SET_USER_DATA_REQUEST: {
@@ -158,7 +156,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
+        isUserError: false,
         ...action.payload,
       };
     }
@@ -166,8 +164,8 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
     case LOG_OUT_REQUEST: {
@@ -181,37 +179,25 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        isError: false,
+        isUserError: false,
         email: null,
         name: null,
         isResetTokenSent: false,
-        error: null,
+        userError: null,
       };
     }
     case LOG_OUT_FAILED: {
       return {
         ...state,
         isLoading: false,
-        isError: true,
-        error: action.payload,
+        isUserError: true,
+        userError: action.payload,
       };
     }
-    case UNSET_ERROR: {
+    case UNSET_USER_ERROR: {
       return {
         ...state,
-        isError: false,
-      };
-    }
-    case SET_EMAIL: {
-      return {
-        ...state,
-        email: action.payload,
-      };
-    }
-    case SET_NAME: {
-      return {
-        ...state,
-        name: action.payload,
+        isUserError: false,
       };
     }
     default:

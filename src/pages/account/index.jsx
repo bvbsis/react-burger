@@ -1,44 +1,33 @@
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, Outlet, Route, Routes, useNavigate } from "react-router-dom";
-import React, { useEffect } from "react";
+import {
+  Button,
+  Input,
+} from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./account.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth } from "../../services/useAuth";
 import {
-  GET_USER_DATA_FAILED,
-  GET_USER_DATA_REQUEST,
-  GET_USER_DATA_SUCCESS,
-  LOG_OUT_FAILED,
-  LOG_OUT_REQUEST,
-  LOG_OUT_SUCCESS,
-  SET_USER_DATA_FAILED,
-  SET_USER_DATA_REQUEST,
-  SET_USER_DATA_SUCCESS,
+  getUserFailed,
+  getUserRequest,
+  getUserSuccess,
+  logOutFailed,
+  logOutRequest,
+  logOutSuccess,
+  logUserOut,
+  setUserData,
+  setUserFailed,
+  setUserRequest,
+  setUserSuccess,
 } from "../../services/actions/user";
 
 export const AccountPage = () => {
-  const auth = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const logUserOut = async () => {
-    dispatch({
-      type: LOG_OUT_REQUEST,
-    });
-    try {
-      await auth.logOut();
-      dispatch({
-        type: LOG_OUT_SUCCESS,
-      });
-      navigate("/login");
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: LOG_OUT_FAILED,
-        payload: err,
-      });
-    }
-  };
+  const handleClick = useCallback(() => {
+    dispatch(logUserOut(navigate));
+  }, [dispatch, navigate]);
 
   return (
     <div className={styles.wrapper}>
@@ -65,7 +54,7 @@ export const AccountPage = () => {
           История заказов
         </NavLink>
         <button
-          onClick={logUserOut}
+          onClick={handleClick}
           className={`${styles.button} text text_type_main-medium`}
         >
           Выход
@@ -81,11 +70,12 @@ export const AccountPage = () => {
   );
 };
 
-export const Orders = () => {
-  return <h1>Orders</h1>;
-};
-
 export const Profile = () => {
+  const [disabledInputs, setDisabledInputs] = useState({
+    name: { isDisabled: true, icon: "EditIcon" },
+    email: { isDisabled: true, icon: "EditIcon" },
+    password: { isDisabled: true, icon: "EditIcon" },
+  });
   const { name, email } = useSelector((store) => store.user);
   const [form, setForm] = React.useState({
     name: "",
@@ -93,71 +83,95 @@ export const Profile = () => {
     password: "",
   });
   const dispatch = useDispatch();
-  const auth = useAuth();
 
   const onChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onIconClick = async () => {
-    dispatch({
-      type: SET_USER_DATA_REQUEST,
-    });
-    try {
-      const data = await auth.setUser(form);
-      dispatch({
-        type: SET_USER_DATA_SUCCESS,
-        payload: data.user,
-      });
-    } catch (err) {
-      console.log(err);
-      dispatch({
-        type: SET_USER_DATA_FAILED,
-        payload: err,
-      });
+  const areButtonsActive = useMemo(() => {
+    let isActive = false;
+    for (let input in disabledInputs) {
+      if (!disabledInputs[input].isDisabled) {
+        isActive = true;
+      }
     }
-  };
+    return isActive;
+  }, [disabledInputs]);
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    dispatch(setUserData(setDisabledInputs, disabledInputs, setForm, form));
+  }, [disabledInputs, dispatch, form]);
+
+  const handleCancel = useCallback(
+    (e) => {
+      e.preventDefault();
+      setDisabledInputs({
+        ...disabledInputs,
+        name: { isDisabled: true, icon: "EditIcon" },
+        email: { isDisabled: true, icon: "EditIcon" },
+        password: { isDisabled: true, icon: "EditIcon" },
+      });
+      setForm({
+        ...form,
+        name: name,
+        email: email,
+        password: "",
+      });
+    },
+    [disabledInputs, email, form, name]
+  );
+
+  const nameInputRef = React.useRef(null);
+  const loginInputRef = React.useRef(null);
+  const passwordInputRef = React.useRef(null);
+
+  const onIconClick = useCallback(
+    (ref) => {
+      let icon;
+      if (ref.current.disabled) {
+        icon = "CloseIcon";
+      } else {
+        icon = "EditIcon";
+        setForm({
+          ...form,
+          [ref.current.name]:
+            ref.current.name === "name"
+              ? name
+              : ref.current.name === "email"
+              ? email
+              : "",
+        });
+      }
+
+      setDisabledInputs({
+        ...disabledInputs,
+        [ref.current.name]: { isDisabled: !ref.current.disabled, icon: icon },
+      });
+      if (disabledInputs[ref.current.name]) {
+        setTimeout(() => ref.current.focus(), 0);
+      }
+    },
+    [disabledInputs, email, form, name]
+  );
 
   useEffect(() => {
     setForm({ ...form, name, email });
   }, [email, name]);
 
-  useEffect(() => {
-    dispatch({
-      type: GET_USER_DATA_REQUEST,
-    });
-    async function getUserData() {
-      try {
-        const data = await auth.getUser();
-        if (data?.success) {
-          const { name, email } = data.user;
-          dispatch({
-            type: GET_USER_DATA_SUCCESS,
-            payload: { name, email },
-          });
-        }
-      } catch (err) {
-        dispatch({
-          type: GET_USER_DATA_FAILED,
-          payload: err,
-        });
-        console.log(err);
-      }
-    }
-    getUserData();
-  }, []);
-
   return (
-    <form className={styles.container}>
+    <form onSubmit={handleSubmit} className={styles.container}>
       <Input
         type={"text"}
         placeholder={"Имя"}
         onChange={onChange}
+        disabled={disabledInputs.name.isDisabled}
         value={form.name}
+        onIconClick={() => onIconClick(nameInputRef)}
+        ref={nameInputRef}
         name={"name"}
         error={false}
-        icon={"EditIcon"}
-        onIconClick={onIconClick}
+        icon={disabledInputs.name.icon}
         errorText={"Ошибка"}
         size={"default"}
       />
@@ -165,26 +179,46 @@ export const Profile = () => {
         type={"text"}
         placeholder={"Логин"}
         onChange={onChange}
+        disabled={disabledInputs.email.isDisabled}
         value={form.email}
+        onIconClick={() => onIconClick(loginInputRef)}
+        ref={loginInputRef}
         name={"email"}
         error={false}
-        icon={"EditIcon"}
-        onIconClick={onIconClick}
+        icon={disabledInputs.email.icon}
         errorText={"Ошибка"}
         size={"default"}
       />
       <Input
         type={"password"}
-        placeholder={"Пароль"}
+        placeholder={"Новый пароль"}
         onChange={onChange}
         value={form.password}
+        disabled={disabledInputs.password.isDisabled}
+        onIconClick={() => onIconClick(passwordInputRef)}
+        ref={passwordInputRef}
         name={"password"}
         error={false}
-        icon={"EditIcon"}
-        onIconClick={onIconClick}
+        icon={disabledInputs.password.icon}
         errorText={"Ошибка"}
         size={"default"}
       />
+      <div
+        style={areButtonsActive ? { display: "block" } : { display: "none" }}
+      >
+        <div className={styles.buttonContainer}>
+          <Button htmlType="button" onClick={handleCancel} type="secondary" size="medium">
+            Отмена
+          </Button>
+          <Button htmlType="submit" type="primary" size="medium">
+            Сохранить
+          </Button>
+        </div>
+      </div>
     </form>
   );
+};
+
+export const Orders = () => {
+  return <h1>Orders</h1>;
 };

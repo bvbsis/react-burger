@@ -2,18 +2,17 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { REGISTER_FAILED, REGISTER_SUCCESS } from "../../services/actions/user";
-import { useAuth } from "../../services/useAuth";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import {
+  registerUser,
+} from "../../services/actions/user";
 import styles from "./register.module.css";
 
 const RegistrationPage = () => {
   const [form, setForm] = React.useState({ name: "", email: "", password: "" });
   const inputRef = React.useRef(null);
-  const auth = useAuth();
-  const name = useSelector((store) => store.user.name);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -21,33 +20,24 @@ const RegistrationPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onButtonClick = async (e) => {
-    e.preventDefault();
-    try {
-      await auth.register(form);
-      dispatch({
-        type: REGISTER_SUCCESS,
-      });
-      navigate("/login");
-    } catch (err) {
-      dispatch({
-        type: REGISTER_FAILED,
-        payload: err,
-      });
-      console.error(err);
-    }
-  };
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(registerUser(form, navigate));
+    },
+    [dispatch, form, navigate]
+  );
+
+  const [inputType, setInputType] = useState("password");
 
   const onIconClick = () => {
     setTimeout(() => inputRef.current.focus(), 0);
-    alert("Icon Click Callback");
+    setInputType(inputType === "password" ? "text" : "password");
   };
 
-  return name ?  (
-    <Navigate to="/" />
-  ) : (
+  return (
     <div className={styles.wrapper}>
-      <form className={styles.container}>
+      <form onSubmit={handleSubmit} className={styles.container}>
         <h2 className={`${styles.heading} text text_type_main-medium`}>
           Регистрация
         </h2>
@@ -74,7 +64,7 @@ const RegistrationPage = () => {
           size={"default"}
         />
         <Input
-          type={"password"}
+          type={inputType}
           placeholder={"Пароль"}
           onChange={onChange}
           value={form.password}
@@ -86,7 +76,7 @@ const RegistrationPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button onClick={onButtonClick} type="primary" size="medium">
+        <Button type="primary" size="medium">
           Зарегистрироваться
         </Button>
         <div style={{ marginTop: 80, marginBottom: 16 }}>

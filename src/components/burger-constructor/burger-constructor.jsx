@@ -5,7 +5,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PlugConstructorElement from "./plug-constructor-element/plug-constructor-element";
-import { getOrderDetails } from "../../services/actions/modal";
+import { getOrderDetails } from "../../services/actions/burger-constructor";
 import { addElementToConstructor } from "../../services/actions/burger-constructor";
 
 import constructorStyles from "./burger-constructor.module.css";
@@ -21,9 +21,7 @@ const BurgerConstructor = memo(() => {
   const { bun, fillings } = useSelector(
     (store) => store.burgerConstructor.currentIngredients
   );
-
   const { name } = useSelector((store) => store.user);
-
   const [{ isHovered }, ConstructorDrop] = useDrop(() => ({
     accept: "INGREDIENT_NEW",
     drop(item) {
@@ -33,9 +31,7 @@ const BurgerConstructor = memo(() => {
       isHovered: monitor.isOver(),
     }),
   }));
-
   const outline = isHovered ? "3px solid green" : "none";
-
   const price = useMemo(() => {
     if (fillings.length && bun.price) {
       return (
@@ -56,7 +52,8 @@ const BurgerConstructor = memo(() => {
 
   const onButtonClick = () => {
     if (name) {
-      dispatch((dispatch) => getOrderDetails(dispatch, currentIngredientsId()));
+      dispatch(getOrderDetails(navigate, location, currentIngredientsId())
+      );
     } else {
       navigate("login", { state: location });
     }

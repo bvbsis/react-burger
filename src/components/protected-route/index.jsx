@@ -1,32 +1,18 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useAuth } from "../../services/useAuth";
-import { GET_USER_DATA_SUCCESS } from "../../services/actions/user";
+import { Navigate, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-export function ProtectedRoute({ children, navigateTo }) {
-  const { name } = useSelector((store) => store.user);
+export function ProtectedRoute({ children, anonymous = false }) {
+  const isLoggedIn = useSelector((store) => store.user.name);
   const location = useLocation();
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const dispatch = useDispatch();
+  const from = location.state?.from || '/';
 
-  useEffect(() => {
-    async function getUserData() {
-      try {
-        const data = await auth.getUser();
-        const { email, name } = data.user;
-        dispatch({
-          type: GET_USER_DATA_SUCCESS,
-          payload: { email, name },
-        });
-      } catch (err) {
-        navigate(navigateTo, {state: location});
-      }
-    }
-    getUserData();
-  }, [dispatch]);
+  if (anonymous && isLoggedIn) {
+    return <Navigate to={from} />;
+  }
 
+  if (!anonymous && !isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
 
-  return name ? children : null;
+  return children;
 }

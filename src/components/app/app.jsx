@@ -1,13 +1,15 @@
-import { getIngredients } from "../../services/actions/burger-ingredients";
+import {
+  getIngredients,
+  unsetIngredientsError,
+} from "../../services/actions/burger-ingredients";
 import Modal from "../modal/modal";
 import ModalIngredientDetails from "../modal/modal-ingredient-details/modal-ingredient-details";
 import Spinner from "../spinner/spinner";
 
 import ErrorIndicator from "../error-indicator/error-indicator";
-import { useAuth } from "../../services/useAuth";
-import { GET_USER_DATA_SUCCESS } from "../../services/actions/user";
+import { getUserData, unsetUserError } from "../../services/actions/user";
 import ConstructorPage from "../../pages/constructor/constructor";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
 import { AccountPage, Orders, Profile } from "../../pages/account";
 import LoginPage from "../../pages/login";
@@ -18,37 +20,69 @@ import {
 } from "../../pages/forgot-password";
 import NotFoundPage from "../../pages/404";
 import Layout from "../layout/layout";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ingredient from "../ingredient/ingredient";
 import OrderDetails from "../modal/order-details/order-details";
+import { unsetConstructorError } from "../../services/actions/burger-constructor";
 
 function App() {
-  const auth = useAuth();
-
-  const { currentModal } = useSelector((store) => store.modal);
-
   const location = useLocation();
-  const state = location.state;
-
+  const { state, pathname } = location;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { isUserError, userError } = useSelector((store) => store.user);
+  const { isConstructorError, constructorError } = useSelector(
+    (store) => store.burgerConstructor
+  );
+  const { isIngredientsError, ingredientsError } = useSelector(
+    (store) => store.ingredients
+  );
+
+  const unsetError = useCallback(() => {
+    if (isUserError) {
+      dispatch(unsetUserError());
+    }
+    if (isIngredientsError) {
+      dispatch(unsetIngredientsError());
+    }
+    if (isConstructorError) {
+      dispatch(unsetConstructorError());
+    }
+  }, [dispatch, isConstructorError, isIngredientsError, isUserError]);
+
+  const isError = useMemo(() => {
+    return isUserError || isIngredientsError || isConstructorError;
+  }, [isUserError, isIngredientsError, isConstructorError]);
+
+  const error = useMemo(() => {
+    return isUserError
+      ? userError
+      : isIngredientsError
+      ? ingredientsError
+      : isConstructorError
+      ? constructorError
+      : null;
+  }, [
+    isUserError,
+    userError,
+    isIngredientsError,
+    ingredientsError,
+    isConstructorError,
+    constructorError,
+  ]);
+
+  const handleClose = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   useEffect(() => {
-    getIngredients(dispatch);
+    dispatch(getIngredients());
   }, [dispatch]);
 
   useEffect(() => {
-    async function getUserData() {
-      const data = await auth.getUser();
-      const { email, name } = data.user;
-      console.log("app request");
-      dispatch({
-        type: GET_USER_DATA_SUCCESS,
-        payload: { email, name },
-      });
-    }
-    getUserData();
-  }, [auth, dispatch]);
+    dispatch(getUserData());
+  }, [dispatch]);
 
   return (
     <>
@@ -58,7 +92,7 @@ function App() {
           <Route
             path="profile/*"
             element={
-              <ProtectedRoute navigateTo="/login">
+              <ProtectedRoute>
                 <AccountPage />
               </ProtectedRoute>
             }
@@ -66,7 +100,7 @@ function App() {
             <Route
               index
               element={
-                <ProtectedRoute navigateTo="/login">
+                <ProtectedRoute>
                   <Profile />
                 </ProtectedRoute>
               }
@@ -74,31 +108,56 @@ function App() {
             <Route
               path="orders"
               element={
-                <ProtectedRoute navigateTo="/login">
+                <ProtectedRoute>
                   <Orders />
                 </ProtectedRoute>
               }
             />
           </Route>
-          <Route path="login" element={<LoginPage />} />
-          <Route path="register" element={<RegistrationPage />} />
+          <Route
+            path="login"
+            element={
+              <ProtectedRoute anonymous>
+                <LoginPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <ProtectedRoute anonymous>
+                <RegistrationPage />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="forgot-password"
-            element={<SendPasswordResetEmailPage />}
+            element={
+              <ProtectedRoute anonymous>
+                <SendPasswordResetEmailPage />
+              </ProtectedRoute>
+            }
           />
-          <Route path="reset-password" element={<ConfirmPasswordResetPage />} />
+          <Route
+            path="reset-password"
+            element={
+              <ProtectedRoute anonymous>
+                <ConfirmPasswordResetPage />
+              </ProtectedRoute>
+            }
+          />
           <Route path="ingredients/:id" element={<Ingredient />} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
-      {state?.backgroundLocation && currentModal === "ingredient" && (
+      {state?.backgroundLocation && pathname.includes("ingredients") && (
         <Routes>
           <Route
             path="/ingredients/:id"
             element={
-              <Modal>
+              <Modal handleClose={handleClose}>
                 <ModalIngredientDetails />
               </Modal>
             }
@@ -106,14 +165,21 @@ function App() {
         </Routes>
       )}
 
-      {currentModal === "order" && (
-        <Modal>
-          <OrderDetails />
-        </Modal>
+      {state?.backgroundLocation && pathname.includes("order") && (
+        <Routes>
+          <Route
+            path="/order/:number"
+            element={
+              <Modal handleClose={handleClose}>
+                <OrderDetails />
+              </Modal>
+            }
+          />
+        </Routes>
       )}
 
       <Spinner />
-      <ErrorIndicator />
+      <ErrorIndicator isError={isError} error={error} unsetError={unsetError} />
     </>
   );
 }
