@@ -2,13 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import orderStyles from "./order-details.module.css";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const OrderDetails = React.memo(() => {
-  const { orderNumber } = useSelector((store) => store.modal);
+  const {number} = useParams();
   return (
     <div className={orderStyles.orderDetails}>
-      <span className="text text_type_digits-large mb-9">{orderNumber}</span>
+      <span className="text text_type_digits-large mb-9">{number}</span>
       <span className="text text_type_main-medium mb-10">
         идентификатор заказа
       </span>

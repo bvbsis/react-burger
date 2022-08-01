@@ -2,6 +2,10 @@ import {
   ADD_ELEMENT_TO_CONSTRUCTOR,
   DELETE_ELEMENT_FROM_CONSTRUCTOR,
   CHANGE_ELEMENT_POSITION,
+  GET_ORDER_DETAILS_REQUEST,
+  GET_ORDER_DETAILS_SUCCESS,
+  GET_ORDER_DETAILS_FAILED,
+  UNSET_CONSTRUCTOR_ERROR,
 } from "../actions/burger-constructor";
 
 const initialState = {
@@ -10,12 +14,12 @@ const initialState = {
     bun: {},
   },
   isLoading: false,
-  isError: false,
+  isConstructorError: false,
   orderNumber: null,
-  error: null,
+  constructorError: null,
 };
 
-const burgerConstructorDispatcher = (state = initialState, action) => {
+const burgerConstructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ELEMENT_TO_CONSTRUCTOR: {
       if (action.element.type === "bun") {
@@ -58,9 +62,43 @@ const burgerConstructorDispatcher = (state = initialState, action) => {
         },
       };
     }
+    case GET_ORDER_DETAILS_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+      };
+    }
+    case GET_ORDER_DETAILS_SUCCESS: {
+      return {
+        ...state,
+        orderNumber: action.payload,
+        currentIngredients: {
+          fillings: [],
+          bun: {},
+        },
+        isLoading: false,
+        isConstructorError: false,
+        constructorError: null,
+      };
+    }
+    case GET_ORDER_DETAILS_FAILED: {
+      return {
+        ...state,
+        isLoading: false,
+        isConstructorError: true,
+        constructorError: action.payload,
+      };
+    }
+    case UNSET_CONSTRUCTOR_ERROR: {
+      return {
+        ...state,
+        isConstructorError: false,
+        constructorError: null,
+      };
+    }
     default:
       return state;
   }
 };
 
-export default burgerConstructorDispatcher;
+export default burgerConstructorReducer;

@@ -31,3 +31,9 @@
   max-height: 120px;
   margin: auto;
 }
+
+.card__link {
+  display: block;
+  text-decoration: unset;
+  color: unset;
+}

@@ -1,5 +1,6 @@
 .header {
   background-color: #1c1c21;
+  margin: 20px 20px 0;
 }
 
 .header__wrapper {
@@ -27,6 +28,10 @@
   text-decoration: none;
   color: #8585ad;
   margin: 33px 20px;
+}
+
+.menu__link_active {
+  color: #f2f2f3;
 }
 
 .menu {

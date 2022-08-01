@@ -1,13 +1,22 @@
 *::-webkit-scrollbar {
-  width: 8px;      
+  width: 8px;
 }
 *::-webkit-scrollbar-track {
-  background: #2F2F37;
+  background: #2f2f37;
 }
 *::-webkit-scrollbar-thumb {
-  background-color: #8585AD;
+  background-color: #8585ad;
 }
 
 body {
   overflow: overlay;
+}
+
+form > div > div {
+  width: 480px !important;
+  margin: 0 0 24px;
+}
+
+form > div > button {
+  padding: 0 !important;
 }

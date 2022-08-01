@@ -25,10 +25,3 @@
   top: 60px;
   cursor: pointer;
 }
-
-.modal__heading {
-  display: block;
-  width: 580px;
-  line-height: 64px;
-  margin: 0;
-}
