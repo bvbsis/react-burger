@@ -20,7 +20,7 @@ import {
   changePasswordFailed,
   sendResetToken,
   changePasswordWithToken,
-} from "../../services/actions/user";
+} from "../../services/redux/actions/user";
 import { useAuth } from "../../services/useAuth";
 import styles from "./forgot-password.module.css";
 

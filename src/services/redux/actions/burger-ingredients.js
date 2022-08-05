@@ -1,4 +1,4 @@
-import { apiUrl, checkResponse } from "../api";
+import { apiUrl, checkResponse } from "../../api";
 
 export const GET_INGREDIENTS_REQUEST = "GET_INGREDIENTS_REQUEST";
 export const GET_INGREDIENTS_SUCCESS = "GET_INGREDIENTS_SUCCESS";

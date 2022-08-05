@@ -5,8 +5,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PlugConstructorElement from "./plug-constructor-element/plug-constructor-element";
-import { getOrderDetails } from "../../services/actions/burger-constructor";
-import { addElementToConstructor } from "../../services/actions/burger-constructor";
+import { getOrderDetails } from "../../services/redux/actions/burger-constructor";
+import { addElementToConstructor } from "../../services/redux/actions/burger-constructor";
 
 import constructorStyles from "./burger-constructor.module.css";
 import { useDispatch, useSelector } from "react-redux";

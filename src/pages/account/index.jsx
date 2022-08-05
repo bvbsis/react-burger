@@ -6,20 +6,10 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./account.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { useAuth } from "../../services/useAuth";
 import {
-  getUserFailed,
-  getUserRequest,
-  getUserSuccess,
-  logOutFailed,
-  logOutRequest,
-  logOutSuccess,
   logUserOut,
   setUserData,
-  setUserFailed,
-  setUserRequest,
-  setUserSuccess,
-} from "../../services/actions/user";
+} from "../../services/redux/actions/user";
 
 export const AccountPage = () => {
   const dispatch = useDispatch();

@@ -6,7 +6,7 @@ import {
   register,
   sendPasswordResetEmail,
   setUser,
-} from "../useAuth";
+} from "../../useAuth";
 
 export const UNSET_USER_ERROR = "UNSET_USER_ERROR";
 

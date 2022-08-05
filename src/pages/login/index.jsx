@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   logInUser,
-} from "../../services/actions/user";
+} from "../../services/redux/actions/user";
 import styles from "./login.module.css";
 
 const LoginPage = () => {

@@ -1,13 +1,13 @@
 import {
   getIngredients,
   unsetIngredientsError,
-} from "../../services/actions/burger-ingredients";
+} from "../../services/redux/actions/burger-ingredients";
 import Modal from "../modal/modal";
 import ModalIngredientDetails from "../modal/modal-ingredient-details/modal-ingredient-details";
 import Spinner from "../spinner/spinner";
 
 import ErrorIndicator from "../error-indicator/error-indicator";
-import { getUserData, unsetUserError } from "../../services/actions/user";
+import { getUserData, unsetUserError } from "../../services/redux/actions/user";
 import ConstructorPage from "../../pages/constructor/constructor";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
@@ -24,7 +24,8 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ingredient from "../ingredient/ingredient";
 import OrderDetails from "../modal/order-details/order-details";
-import { unsetConstructorError } from "../../services/actions/burger-constructor";
+import { unsetConstructorError } from "../../services/redux/actions/burger-constructor";
+import FeedPage from "../../pages/feed/feed-page";
 
 function App() {
   const location = useLocation();
@@ -114,6 +115,7 @@ function App() {
               }
             />
           </Route>
+          <Route path="feed/*" element={<FeedPage />} />
           <Route
             path="login"
             element={

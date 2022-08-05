@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { apiUrl, checkResponse } from "../api";
+import { apiUrl, checkResponse } from "../../api";
 
 export const UNSET_CONSTRUCTOR_ERROR = "UNSET_CONSTRUCTOR_ERROR";
 export const ADD_ELEMENT_TO_CONSTRUCTOR = "ADD_ELEMENT_TO_CONSTRUCTOR";
