@@ -1,6 +1,6 @@
 .burgerIngredients__listWrapper {
   overflow: overlay;
-  max-height: 80%;
+  max-height: calc(100vh - 266px);
 }
 
 .burgerIngredients {

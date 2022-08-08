@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  margin-top: 100px;
+  margin-left: 60px;
+  max-height: calc(100vh - 210px);
+  overflow: auto;
+}
+
+.smallContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px 20px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  max-height: 321px;
+  width: 270px;
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+
+.largeContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  column-gap: 36px;
+  justify-content: space-between;
+}
+
+.smallDigits {
+  width: fit-content;
+}

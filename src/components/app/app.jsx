@@ -3,7 +3,7 @@ import {
   unsetIngredientsError,
 } from "../../services/redux/actions/burger-ingredients";
 import Modal from "../modal/modal";
-import ModalIngredientDetails from "../modal/modal-ingredient-details/modal-ingredient-details";
+import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
 import Spinner from "../spinner/spinner";
 
 import ErrorIndicator from "../error-indicator/error-indicator";
@@ -23,9 +23,11 @@ import Layout from "../layout/layout";
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ingredient from "../ingredient/ingredient";
-import OrderDetails from "../modal/order-details/order-details";
+import OrderDetails from "../order-details/order-details";
 import { unsetConstructorError } from "../../services/redux/actions/burger-constructor";
-import FeedPage from "../../pages/feed/feed-page";
+import FeedPage from "../../pages/feed-page/feed-page";
+import { wsStartConnection } from "../../services/redux/actions/ws";
+import FeedOrder from "../feed-order/feed-order";
 
 function App() {
   const location = useLocation();
@@ -39,6 +41,17 @@ function App() {
   const { isIngredientsError, ingredientsError } = useSelector(
     (store) => store.ingredients
   );
+  const { isWsError, wsError } = useSelector((store) => store.ws);
+
+  const isUserDataLoading = useSelector((store) => store.user.isLoading);
+  const isIngredientsDataloading = useSelector(
+    (store) => store.ingredients.isLoading
+  );
+  const isOrderDataloading = useSelector(
+    (store) => store.burgerConstructor.isLoading
+  );
+
+  const isWsLoading = useSelector((store) => store.ws.isWsLoading);
 
   const unsetError = useCallback(() => {
     if (isUserError) {
@@ -53,8 +66,8 @@ function App() {
   }, [dispatch, isConstructorError, isIngredientsError, isUserError]);
 
   const isError = useMemo(() => {
-    return isUserError || isIngredientsError || isConstructorError;
-  }, [isUserError, isIngredientsError, isConstructorError]);
+    return isUserError || isIngredientsError || isConstructorError || isWsError;
+  }, [isUserError, isIngredientsError, isConstructorError, isWsError]);
 
   const error = useMemo(() => {
     return isUserError
@@ -63,6 +76,8 @@ function App() {
       ? ingredientsError
       : isConstructorError
       ? constructorError
+      : isWsError
+      ? wsError
       : null;
   }, [
     isUserError,
@@ -71,6 +86,22 @@ function App() {
     ingredientsError,
     isConstructorError,
     constructorError,
+    isWsError,
+    wsError,
+  ]);
+
+  const isLoading = useMemo(() => {
+    return (
+      isUserDataLoading ||
+      isIngredientsDataloading ||
+      isOrderDataloading ||
+      isWsLoading
+    );
+  }, [
+    isIngredientsDataloading,
+    isOrderDataloading,
+    isUserDataLoading,
+    isWsLoading,
   ]);
 
   const handleClose = useCallback(() => {
@@ -79,6 +110,10 @@ function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(wsStartConnection());
   }, [dispatch]);
 
   useEffect(() => {
@@ -115,7 +150,9 @@ function App() {
               }
             />
           </Route>
-          <Route path="feed/*" element={<FeedPage />} />
+          <Route path="feed" element={<FeedPage />} />
+          <Route path="feed/:number" element={<FeedOrder />} />
+
           <Route
             path="login"
             element={
@@ -180,7 +217,7 @@ function App() {
         </Routes>
       )}
 
-      <Spinner />
+      <Spinner isLoading={isLoading} />
       <ErrorIndicator isError={isError} error={error} unsetError={unsetError} />
     </>
   );

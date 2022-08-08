@@ -1,19 +1,22 @@
-import React from "react";
-import { data } from "../../utils/data";
+import { useSelector } from "react-redux";
 import FeedElement from "./feed-element/feed-element";
 import styles from "./feed.module.css";
 
-const Feed = () => {
-  return (
-    <>
+const Feed = ({ height }) => {
+  const { orders } = useSelector((store) => store.ws.ordersData);
+
+  return orders ? (
+    <div>
       <h2 className={`${styles.heading} text text_type_main-large`}>
         Лента заказов
       </h2>
-      {data.orders.map((order) => (
-        <FeedElement key={order._id} {...order} />
-      ))}
-    </>
-  );
+      <ul style={{ maxHeight: height }} className={styles.container}>
+        {orders.map((order) => (
+          <FeedElement key={order._id} {...order} />
+        ))}
+      </ul>
+    </div>
+  ) : null;
 };
 
 export default Feed;

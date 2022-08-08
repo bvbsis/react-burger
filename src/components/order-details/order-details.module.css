@@ -6,7 +6,7 @@
 }
 
 .orderDetails__checkMark {
-  background-image: url(../../../images/check-mark.png);
+  background-image: url(../../images/check-mark.png);
   height: 120px;
   width: 120px;
   margin: 18px 0 22px;

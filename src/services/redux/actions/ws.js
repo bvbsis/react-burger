@@ -4,6 +4,12 @@ export const WS_CONNECTION_FAILED = "WS_CONNECTION_FAILED";
 export const WS_CONNECTION_CLOSED = "WS_CONNECTION_CLOSED";
 export const WS_GET_ORDERS = "WS_GET_ORDERS";
 
+export const wsStartConnection = () => {
+  return {
+    type: WS_CONNECTION_REQUEST,
+  };
+};
+
 export const wsConnectionSuccess = () => {
   return {
     type: WS_CONNECTION_SUCCESS,
