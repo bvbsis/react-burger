@@ -1,0 +1,86 @@
+.image {
+  width: 60px;
+  height: 60px;
+  background-position: center;
+  background-size: 180%;
+  background-repeat: no-repeat;
+  border-radius: 100%;
+  border: 2px solid rgb(92, 26, 178);
+  background-color: black;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+  padding-right: 24px;
+  gap: 16px;
+  max-height: 312px;
+  overflow: auto;
+}
+
+.inner {
+  width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.number {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.ingredientWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageConatiner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.priceWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+.ingredientPriceContainer {
+  display: flex;
+  align-items: center;
+}
+
+.ingredientPrice {
+  margin-right: 9px;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.name {
+  display: -webkit-box;
+  max-width: 100%;
+  -webkit-line-clamp: 2;
+  /* autoprefixer: off */
+  -webkit-box-orient: vertical;
+  /* autoprefixer: on */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 15px;
+}

@@ -3,7 +3,7 @@ import {
   unsetIngredientsError,
 } from "../../services/redux/actions/burger-ingredients";
 import Modal from "../modal/modal";
-import ModalIngredientDetails from "../modal-ingredient-details/modal-ingredient-details";
+import ModalIngredientDetails from "../modal/modal-ingredient-details/modal-ingredient-details";
 import Spinner from "../spinner/spinner";
 
 import ErrorIndicator from "../error-indicator/error-indicator";
@@ -23,11 +23,12 @@ import Layout from "../layout/layout";
 import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ingredient from "../ingredient/ingredient";
-import OrderDetails from "../order-details/order-details";
+import OrderDetails from "../modal/order-details/order-details";
 import { unsetConstructorError } from "../../services/redux/actions/burger-constructor";
 import FeedPage from "../../pages/feed-page/feed-page";
 import { wsStartConnection } from "../../services/redux/actions/ws";
 import FeedOrder from "../feed-order/feed-order";
+import ModalFeedOrder from "../modal/modal-feed-order/modal-feed-order";
 
 function App() {
   const location = useLocation();
@@ -113,10 +114,6 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(wsStartConnection());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(getUserData());
   }, [dispatch]);
 
@@ -150,6 +147,14 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="profile/orders/:number"
+            element={
+              <ProtectedRoute>
+                <FeedOrder />
+              </ProtectedRoute>
+            }
+          />
           <Route path="feed" element={<FeedPage />} />
           <Route path="feed/:number" element={<FeedOrder />} />
 
@@ -204,14 +209,42 @@ function App() {
         </Routes>
       )}
 
-      {state?.backgroundLocation && pathname.includes("order") && (
+      {state?.backgroundLocation && pathname.includes("neworder") && (
         <Routes>
           <Route
-            path="/order/:number"
+            path="/neworder/:number"
             element={
               <Modal handleClose={handleClose}>
                 <OrderDetails />
               </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+      {state?.backgroundLocation && pathname.includes("feed") && (
+        <Routes>
+          <Route
+            path="/feed/:number"
+            element={
+              <Modal handleClose={handleClose}>
+                <ModalFeedOrder />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+      {state?.backgroundLocation && pathname.includes("profile/orders") && (
+        <Routes>
+          <Route
+            path="/profile/orders/:number"
+            element={
+              <ProtectedRoute>
+                <Modal handleClose={handleClose}>
+                  <ModalFeedOrder />
+                </Modal>
+              </ProtectedRoute>
             }
           />
         </Routes>

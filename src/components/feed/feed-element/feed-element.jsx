@@ -14,12 +14,15 @@ const FeedElement = ({
   createdAt,
   updatedAt,
   number,
+  withStatus,
+  elementHeight,
+  to,
 }) => {
   const allIngredients = useSelector((store) => store.ingredients.items);
-  const location = useLocation();
   const requiredIngredients = useMemo(() => {
     return ingredients.slice(0, 5);
   }, [ingredients]);
+  const location = useLocation();
   const price = useMemo(() => {
     return ingredients.length && allIngredients.length
       ? ingredients.reduce((sum, current) => {
@@ -34,17 +37,45 @@ const FeedElement = ({
     return moment(updatedAt).calendar();
   }, [updatedAt]);
 
+  const statusDispaly = useMemo(() => {
+    return status === "done"
+      ? "Выполнен"
+      : status === "pending"
+      ? "Готовится"
+      : status === "created"
+      ? "Создан"
+      : "";
+  }, [status]);
+
+  const height = useMemo(() => {
+    return elementHeight ? elementHeight : "214px";
+  }, [elementHeight]);
+
   return (
-    <li className={styles.mainContainer}>
+    <li style={{ height }} className={styles.mainContainer}>
       <Link
-        to={`/feed/${number}`}
+        to={`${to}${number}`}
+        state={{ backgroundLocation: location }}
         className={styles.link}
       >
         <div className={styles.container}>
           <span className="text_type_digits-default">{`#${number}`}</span>
           <span className="text_type_main-default">{formattedDate}</span>
         </div>
-        <h3 className={`${styles.name} text text_type_main-medium`}>{name}</h3>
+        <div className={styles.statusContainer}>
+          <h3 className={`${styles.name} text text_type_main-medium`}>
+            {name}
+          </h3>
+          {withStatus ? (
+            <span
+              className={`${
+                status === "done" ? "text_color_inactive" : ""
+              } text text_type_main-small ${styles.statusContainer}`}
+            >
+              {statusDispaly}
+            </span>
+          ) : null}
+        </div>
         <div className={styles.container}>
           <div className={styles.imageContainer}>
             {requiredIngredients.map((ingredientId, index) => {

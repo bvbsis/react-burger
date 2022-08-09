@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { apiUrl, checkResponse } from "../../api";
+import { apiUrl, checkResponse, getCookie } from "../../api";
 
 export const UNSET_CONSTRUCTOR_ERROR = "UNSET_CONSTRUCTOR_ERROR";
 export const ADD_ELEMENT_TO_CONSTRUCTOR = "ADD_ELEMENT_TO_CONSTRUCTOR";
@@ -32,17 +32,17 @@ export const deleteElementFromConstructor = (uuid) => ({
 
 export const getOrderRequest = () => ({
   type: GET_ORDER_DETAILS_REQUEST,
-})
+});
 
 export const getOrderSuccess = (number) => ({
   type: GET_ORDER_DETAILS_SUCCESS,
-  payload: number
-})
+  payload: number,
+});
 
 export const getOrderFailed = (err) => ({
   type: GET_ORDER_DETAILS_FAILED,
-  payload: err
-})
+  payload: err,
+});
 
 export const getOrderDetails =
   (navigate, location, ingredients) => async (dispatch) => {
@@ -51,6 +51,7 @@ export const getOrderDetails =
       const res = await fetch(apiUrl("orders"), {
         method: "POST",
         headers: {
+          authorization: `Bearer ${getCookie("accessToken")}`,
           "content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -59,8 +60,8 @@ export const getOrderDetails =
       });
       const data = await checkResponse(res);
       dispatch(getOrderSuccess(data.order.number));
-      console.log('getOrderDetails')
-      navigate(`/order/${data.order.number}`, {
+      console.log("getOrderDetails");
+      navigate(`/neworder/${data.order.number}`, {
         state: { backgroundLocation: location },
       });
     } catch (err) {

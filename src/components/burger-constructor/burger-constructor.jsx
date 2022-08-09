@@ -45,15 +45,14 @@ const BurgerConstructor = memo(() => {
     }
   }, [fillings, bun]);
 
-  const currentIngredientsId = useCallback(() => {
-    const fillingsID = fillings.map((ingredient) => ingredient._id);
-    return [...fillingsID, bun._id];
+  const currentIngredientsId = useMemo(() => {
+    const fillingsId = fillings.map((ingredient) => ingredient._id);
+    return [bun._id, ...fillingsId, bun._id];
   }, [fillings, bun]);
 
   const onButtonClick = () => {
     if (name) {
-      dispatch(getOrderDetails(navigate, location, currentIngredientsId())
-      );
+      dispatch(getOrderDetails(navigate, location, currentIngredientsId));
     } else {
       navigate("login", { state: location });
     }

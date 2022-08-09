@@ -8,7 +8,7 @@ const FeedDetails = () => {
   );
   const orderNumbersInProcess = useMemo(() => {
     const filteredOrders = orders
-      ? orders.filter((order) => order.status !== "done")
+      ? orders.filter((order) => order.status === "created" || 'pending')
       : null;
     return filteredOrders ? filteredOrders.map((order) => order.number) : null;
   }, [orders]);
@@ -19,6 +19,14 @@ const FeedDetails = () => {
       : null;
     return filteredOrders ? filteredOrders.map((order) => order.number) : null;
   }, [orders]);
+
+  const formettedTotal = useMemo(() => {
+    return total
+      ? `${String(total)[0]}${String(total)[1]} ${String(total)[2]}${
+          String(total)[3]
+        }${String(total)[4]}`
+      : 0;
+  }, [total]);
 
   return (
     <div className={styles.wrapper}>
@@ -61,13 +69,15 @@ const FeedDetails = () => {
         <span className="text text_type_main-medium">
           {"Выполнено за все время:"}
         </span>
-        <span className="text text_type_digits-large">{total}</span>
+        <span className="text text_type_digits-large">{formettedTotal}</span>
       </div>
       <div className={styles.largeContainer}>
         <span className="text text_type_main-medium">
           {"Выполнено за сегодня:"}
         </span>
-        <span className="text text_type_digits-large">{totalToday}</span>
+        <span className="text text_type_digits-large">
+          {totalToday ? totalToday : 0}
+        </span>
       </div>
     </div>
   );

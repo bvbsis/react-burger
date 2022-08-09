@@ -6,14 +6,26 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "./account.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  logUserOut,
-  setUserData,
-} from "../../services/redux/actions/user";
+import { logUserOut, setUserData } from "../../services/redux/actions/user";
+import Feed from "../../components/feed/feed";
+import { wsStartConnection } from "../../services/redux/actions/ws";
+import { getCookie } from "../../services/api";
 
 export const AccountPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const wsUrl = useMemo(
+    () =>
+      `wss://norma.nomoreparties.space/orders?token=${getCookie(
+        "accessToken"
+      )}`,
+    []
+  );
+
+  useEffect(() => {
+    dispatch(wsStartConnection(wsUrl));
+  }, [dispatch, wsUrl]);
 
   const handleClick = useCallback(() => {
     dispatch(logUserOut(navigate));
@@ -88,10 +100,13 @@ export const Profile = () => {
     return isActive;
   }, [disabledInputs]);
 
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
-    dispatch(setUserData(setDisabledInputs, disabledInputs, setForm, form));
-  }, [disabledInputs, dispatch, form]);
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(setUserData(setDisabledInputs, disabledInputs, setForm, form));
+    },
+    [disabledInputs, dispatch, form]
+  );
 
   const handleCancel = useCallback(
     (e) => {
@@ -197,7 +212,12 @@ export const Profile = () => {
         style={areButtonsActive ? { display: "block" } : { display: "none" }}
       >
         <div className={styles.buttonContainer}>
-          <Button htmlType="button" onClick={handleCancel} type="secondary" size="medium">
+          <Button
+            htmlType="button"
+            onClick={handleCancel}
+            type="secondary"
+            size="medium"
+          >
             Отмена
           </Button>
           <Button htmlType="submit" type="primary" size="medium">
@@ -210,5 +230,16 @@ export const Profile = () => {
 };
 
 export const Orders = () => {
-  return <h1>Orders</h1>;
+  return (
+    <div className={styles.ordersWrapper}>
+      <Feed
+        height="calc(100vh - 150px)"
+        elementHeight="246px"
+        gap="24px"
+        reverse={true}
+        withStatus={true}
+        to="/profile/orders/"
+      />
+    </div>
+  );
 };

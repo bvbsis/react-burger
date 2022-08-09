@@ -3,16 +3,16 @@ import rootReducer from "./reducers/";
 import thunk from "redux-thunk";
 import { socketMiddleware } from "./middleware/socketMiddleware";
 import { wsActions } from "./actions/ws.js";
+import { getCookie } from "../api";
 
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const wsUrl = "wss://norma.nomoreparties.space/orders/all";
 
 const enhancer = composeEnhancers(
-  applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions))
+  applyMiddleware(thunk, socketMiddleware(wsActions))
 );
 
 const store = createStore(rootReducer, enhancer);
