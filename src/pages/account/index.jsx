@@ -8,24 +8,12 @@ import styles from "./account.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logUserOut, setUserData } from "../../services/redux/actions/user";
 import Feed from "../../components/feed/feed";
-import { wsStartConnection } from "../../services/redux/actions/ws";
+import { wsClose, wsStartConnection } from "../../services/redux/actions/ws";
 import { getCookie } from "../../services/api";
 
 export const AccountPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const wsUrl = useMemo(
-    () =>
-      `wss://norma.nomoreparties.space/orders?token=${getCookie(
-        "accessToken"
-      )}`,
-    []
-  );
-
-  useEffect(() => {
-    dispatch(wsStartConnection(wsUrl));
-  }, [dispatch, wsUrl]);
 
   const handleClick = useCallback(() => {
     dispatch(logUserOut(navigate));
@@ -230,6 +218,23 @@ export const Profile = () => {
 };
 
 export const Orders = () => {
+  const dispatch = useDispatch();
+
+  const wsUrl = useMemo(
+    () =>
+      `wss://norma.nomoreparties.space/orders?token=${getCookie(
+        "accessToken"
+      )}`,
+    []
+  );
+
+  useEffect(() => {
+    dispatch(wsStartConnection(wsUrl));
+    return () => {
+      dispatch(wsClose(1000, 'работа закончена'));
+    };
+  }, [dispatch, wsUrl]);
+
   return (
     <div className={styles.ordersWrapper}>
       <Feed

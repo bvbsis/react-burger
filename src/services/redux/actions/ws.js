@@ -3,11 +3,12 @@ export const WS_CONNECTION_SUCCESS = "WS_CONNECTION_SUCCESS";
 export const WS_CONNECTION_FAILED = "WS_CONNECTION_FAILED";
 export const WS_CONNECTION_CLOSED = "WS_CONNECTION_CLOSED";
 export const WS_GET_ORDERS = "WS_GET_ORDERS";
+export const WS_CLOSE = "WS_CLOSE";
 
 export const wsStartConnection = (wsUrl) => {
   return {
     type: WS_CONNECTION_REQUEST,
-    payload: wsUrl
+    payload: wsUrl,
   };
 };
 
@@ -36,6 +37,12 @@ export const wsGetOrders = (orders) => {
   };
 };
 
+export const wsClose = (code, reason) => {
+  return {
+    type: WS_CLOSE,
+    payload: { code, reason },
+  };
+};
 
 export const wsActions = {
   wsInit: WS_CONNECTION_REQUEST,
@@ -43,4 +50,5 @@ export const wsActions = {
   onClose: WS_CONNECTION_CLOSED,
   onError: WS_CONNECTION_FAILED,
   onMessage: WS_GET_ORDERS,
+  wsClose: WS_CLOSE,
 };

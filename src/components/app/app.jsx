@@ -26,9 +26,9 @@ import Ingredient from "../ingredient/ingredient";
 import OrderDetails from "../modal/order-details/order-details";
 import { unsetConstructorError } from "../../services/redux/actions/burger-constructor";
 import FeedPage from "../../pages/feed-page/feed-page";
-import { wsStartConnection } from "../../services/redux/actions/ws";
 import FeedOrder from "../feed-order/feed-order";
 import ModalFeedOrder from "../modal/modal-feed-order/modal-feed-order";
+import { getCookie } from "../../services/api";
 
 function App() {
   const location = useLocation();
@@ -91,6 +91,14 @@ function App() {
     wsError,
   ]);
 
+  const wsUrlAuth = useMemo(
+    () =>
+      `wss://norma.nomoreparties.space/orders?token=${getCookie(
+        "accessToken"
+      )}`,
+    []
+  );
+
   const isLoading = useMemo(() => {
     return (
       isUserDataLoading ||
@@ -151,12 +159,17 @@ function App() {
             path="profile/orders/:number"
             element={
               <ProtectedRoute>
-                <FeedOrder />
+                <FeedOrder wsUrl={wsUrlAuth} />
               </ProtectedRoute>
             }
           />
           <Route path="feed" element={<FeedPage />} />
-          <Route path="feed/:number" element={<FeedOrder />} />
+          <Route
+            path="feed/:number"
+            element={
+              <FeedOrder wsUrl="wss://norma.nomoreparties.space/orders/all" />
+            }
+          />
 
           <Route
             path="login"

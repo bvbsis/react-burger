@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import FeedDetails from "../../components/feed-details/feed-details";
 import Feed from "../../components/feed/feed";
-import { wsStartConnection } from "../../services/redux/actions/ws";
+import { wsClose, wsStartConnection } from "../../services/redux/actions/ws";
 import styles from "./feed-page.module.css";
 
 const WS_URL = "wss://norma.nomoreparties.space/orders/all";
@@ -12,6 +12,9 @@ const FeedPage = () => {
 
   useEffect(() => {
     dispatch(wsStartConnection(WS_URL));
+    return () => {
+      dispatch(wsClose(1000, "работа закончена"));
+    };
   }, [dispatch]);
 
   return (

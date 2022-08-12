@@ -8,7 +8,7 @@ const FeedDetails = () => {
   );
   const orderNumbersInProcess = useMemo(() => {
     const filteredOrders = orders
-      ? orders.filter((order) => order.status === "created" || 'pending')
+      ? orders.filter((order) => order.status === "created" || order.status === 'pending')
       : null;
     return filteredOrders ? filteredOrders.map((order) => order.number) : null;
   }, [orders]);

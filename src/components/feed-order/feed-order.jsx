@@ -1,13 +1,17 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useMemo } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from "./feed-order.module.css";
 import moment from "moment";
 import "moment/locale/ru";
+import {
+  wsClose,
+  wsStartConnection,
+} from "../../services/redux/actions/ws";
 moment.locale("ru");
 
-const FeedOrder = () => {
+const FeedOrder = ({ wsUrl }) => {
   const { orders } = useSelector((store) => store.ws.ordersData);
   const allIngredients = useSelector((store) => store.ingredients.items);
   const { number } = useParams();
@@ -15,6 +19,19 @@ const FeedOrder = () => {
     () => orders?.find((order) => order.number === +number),
     [number, orders]
   );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (wsUrl) {
+      dispatch(wsStartConnection(wsUrl));
+    }
+    return () => {
+      if (wsUrl) {
+        dispatch(wsClose(1000, 'работа закончена'));;
+      }
+    };
+  }, [dispatch, wsUrl]);
 
   const ingredientsCount = useMemo(() => {
     return currentOrder?.ingredients?.reduce((sum, ingredientId) => {
@@ -30,7 +47,7 @@ const FeedOrder = () => {
     return moment(currentOrder?.updatedAt).calendar();
   }, [currentOrder?.updatedAt]);
 
-  const arrayWithoutDuplicates = useMemo(() => {
+  const ordersWithoutDuplicates = useMemo(() => {
     return [...new Set(currentOrder?.ingredients)];
   }, [currentOrder]);
 
@@ -62,7 +79,7 @@ const FeedOrder = () => {
         </span>
         <span className={`text text_type_main-medium`}>{"Состав:"}</span>
         <ul className={`${styles.list} text text_type_main-medium`}>
-          {arrayWithoutDuplicates?.map((ingredientId, index) => {
+          {ordersWithoutDuplicates?.map((ingredientId, index) => {
             const currentIngredient = allIngredients?.find(
               (ingredient) => ingredient._id === ingredientId
             );
@@ -81,7 +98,9 @@ const FeedOrder = () => {
                   </span>
                 </div>
                 <div className={styles.ingredientPriceContainer}>
-                  <span className={`${styles.ingredientPrice} text text_type_digits-default`}>{`${count} \u00D7 ${currentIngredient?.price}`}</span>
+                  <span
+                    className={`${styles.ingredientPrice} text text_type_digits-default`}
+                  >{`${count} \u00D7 ${currentIngredient?.price}`}</span>
                   <CurrencyIcon type="primary" />
                 </div>
               </li>
@@ -89,7 +108,9 @@ const FeedOrder = () => {
           })}
         </ul>
         <div className={styles.priceWrapper}>
-          <span className="text text_type_main-default text_color_inactive">{formattedDate}</span>
+          <span className="text text_type_main-default text_color_inactive">
+            {formattedDate}
+          </span>
           <div className={styles.priceContainer}>
             <span className="text text_type_digits-default">{totalPrice}</span>
             <CurrencyIcon type="primary" />
