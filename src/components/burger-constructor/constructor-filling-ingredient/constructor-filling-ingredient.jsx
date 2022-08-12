@@ -6,7 +6,7 @@ import { PropTypes } from "prop-types";
 import {
   changeElementPosition,
   deleteElementFromConstructor,
-} from "../../../services/actions/burger-constructor";
+} from "../../../services/redux/actions/burger-constructor";
 import ConstructorFillingIngredientStyles from "./constructor-filling-ingredient.module.css";
 import ingredientTypes from "../../../utils/constants";
 

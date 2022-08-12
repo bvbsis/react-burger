@@ -27,7 +27,7 @@
   align-items: center;
   text-decoration: none;
   color: #8585ad;
-  margin: 33px 20px;
+  margin: 33px 0;
 }
 
 .menu__link_active {
@@ -44,9 +44,9 @@
 }
 
 .header__logo {
-  padding-right: 181px;
+  padding-right: 216px;
 }
 
 .menu__linkName {
-  margin: 0;
+  margin-right: 40px;
 }

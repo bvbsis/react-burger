@@ -122,7 +122,7 @@ const getUser = async () => {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      authorization: getCookie("accessToken"),
+      authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
 };
@@ -132,7 +132,7 @@ const setUser = async (form) => {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      authorization: getCookie("accessToken"),
+      authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: JSON.stringify(form),
   });
@@ -151,7 +151,7 @@ const logIn = async (form) => {
 
   if (data.success) {
     localStorage.setItem("refreshToken", data.refreshToken);
-    setCookie("accessToken", data.accessToken);
+    setCookie("accessToken", data.accessToken.replace('Bearer ',''));
   }
   return data;
 };
@@ -167,7 +167,7 @@ const register = async (form) => {
 
   if (data.success) {
     localStorage.setItem("refreshToken", data.refreshToken);
-    setCookie("accessToken", data.accessToken);
+    setCookie("accessToken", data.accessToken.replace('Bearer ',''));
   }
   return data;
 };

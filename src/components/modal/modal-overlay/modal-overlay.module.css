@@ -1,5 +1,6 @@
 .modalOverlay {
   background-color: rgba(0, 0, 0, .6);
+  z-index: 100;
   width: 100vw;
   height: 100vh;
   position: fixed;

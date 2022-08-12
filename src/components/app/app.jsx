@@ -1,13 +1,13 @@
 import {
   getIngredients,
   unsetIngredientsError,
-} from "../../services/actions/burger-ingredients";
+} from "../../services/redux/actions/burger-ingredients";
 import Modal from "../modal/modal";
 import ModalIngredientDetails from "../modal/modal-ingredient-details/modal-ingredient-details";
 import Spinner from "../spinner/spinner";
 
 import ErrorIndicator from "../error-indicator/error-indicator";
-import { getUserData, unsetUserError } from "../../services/actions/user";
+import { getUserData, unsetUserError } from "../../services/redux/actions/user";
 import ConstructorPage from "../../pages/constructor/constructor";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { ProtectedRoute } from "../protected-route";
@@ -24,7 +24,11 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Ingredient from "../ingredient/ingredient";
 import OrderDetails from "../modal/order-details/order-details";
-import { unsetConstructorError } from "../../services/actions/burger-constructor";
+import { unsetConstructorError } from "../../services/redux/actions/burger-constructor";
+import FeedPage from "../../pages/feed-page/feed-page";
+import FeedOrder from "../feed-order/feed-order";
+import ModalFeedOrder from "../modal/modal-feed-order/modal-feed-order";
+import { getCookie } from "../../services/api";
 
 function App() {
   const location = useLocation();
@@ -38,6 +42,17 @@ function App() {
   const { isIngredientsError, ingredientsError } = useSelector(
     (store) => store.ingredients
   );
+  const { isWsError, wsError } = useSelector((store) => store.ws);
+
+  const isUserDataLoading = useSelector((store) => store.user.isLoading);
+  const isIngredientsDataloading = useSelector(
+    (store) => store.ingredients.isLoading
+  );
+  const isOrderDataloading = useSelector(
+    (store) => store.burgerConstructor.isLoading
+  );
+
+  const isWsLoading = useSelector((store) => store.ws.isWsLoading);
 
   const unsetError = useCallback(() => {
     if (isUserError) {
@@ -52,8 +67,8 @@ function App() {
   }, [dispatch, isConstructorError, isIngredientsError, isUserError]);
 
   const isError = useMemo(() => {
-    return isUserError || isIngredientsError || isConstructorError;
-  }, [isUserError, isIngredientsError, isConstructorError]);
+    return isUserError || isIngredientsError || isConstructorError || isWsError;
+  }, [isUserError, isIngredientsError, isConstructorError, isWsError]);
 
   const error = useMemo(() => {
     return isUserError
@@ -62,6 +77,8 @@ function App() {
       ? ingredientsError
       : isConstructorError
       ? constructorError
+      : isWsError
+      ? wsError
       : null;
   }, [
     isUserError,
@@ -70,6 +87,30 @@ function App() {
     ingredientsError,
     isConstructorError,
     constructorError,
+    isWsError,
+    wsError,
+  ]);
+
+  const wsUrlAuth = useMemo(
+    () =>
+      `wss://norma.nomoreparties.space/orders?token=${getCookie(
+        "accessToken"
+      )}`,
+    []
+  );
+
+  const isLoading = useMemo(() => {
+    return (
+      isUserDataLoading ||
+      isIngredientsDataloading ||
+      isOrderDataloading ||
+      isWsLoading
+    );
+  }, [
+    isIngredientsDataloading,
+    isOrderDataloading,
+    isUserDataLoading,
+    isWsLoading,
   ]);
 
   const handleClose = useCallback(() => {
@@ -114,6 +155,22 @@ function App() {
               }
             />
           </Route>
+          <Route
+            path="profile/orders/:number"
+            element={
+              <ProtectedRoute>
+                <FeedOrder wsUrl={wsUrlAuth} />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="feed" element={<FeedPage />} />
+          <Route
+            path="feed/:number"
+            element={
+              <FeedOrder wsUrl="wss://norma.nomoreparties.space/orders/all" />
+            }
+          />
+
           <Route
             path="login"
             element={
@@ -165,10 +222,10 @@ function App() {
         </Routes>
       )}
 
-      {state?.backgroundLocation && pathname.includes("order") && (
+      {state?.backgroundLocation && pathname.includes("neworder") && (
         <Routes>
           <Route
-            path="/order/:number"
+            path="/neworder/:number"
             element={
               <Modal handleClose={handleClose}>
                 <OrderDetails />
@@ -178,7 +235,35 @@ function App() {
         </Routes>
       )}
 
-      <Spinner />
+      {state?.backgroundLocation && pathname.includes("feed") && (
+        <Routes>
+          <Route
+            path="/feed/:number"
+            element={
+              <Modal handleClose={handleClose}>
+                <ModalFeedOrder />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+      {state?.backgroundLocation && pathname.includes("profile/orders") && (
+        <Routes>
+          <Route
+            path="/profile/orders/:number"
+            element={
+              <ProtectedRoute>
+                <Modal handleClose={handleClose}>
+                  <ModalFeedOrder />
+                </Modal>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      )}
+
+      <Spinner isLoading={isLoading} />
       <ErrorIndicator isError={isError} error={error} unsetError={unsetError} />
     </>
   );

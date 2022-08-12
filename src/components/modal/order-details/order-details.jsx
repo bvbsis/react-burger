@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import orderStyles from "./order-details.module.css";
 import { useParams } from "react-router-dom";
 
