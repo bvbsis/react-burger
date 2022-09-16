@@ -1,7 +1,7 @@
 {
-  "homepage": "http://bvbsis.github.io/react-burger",
+  "homepage": "http://bvbsis.github.io/",
   "name": "react-burger",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
@@ -11,7 +11,9 @@
     "@types/jest": "^27.0.3",
     "@types/node": "^16.11.14",
     "@types/react": "^17.0.37",
+    "@types/react-dnd": "^3.0.2",
     "@types/react-dom": "^17.0.11",
+    "@types/uuid": "^8.3.4",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.13.1",
     "caniuse-lite": "^1.0.30001375",
     "moment": "^2.29.4",
