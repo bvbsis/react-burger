@@ -35,7 +35,7 @@ const ErrorIndicator: FC<IErrorIndicatorProps> = ({
               ? "Пользователь уже зарегестрирован"
               : error === "Incorrect reset token"
               ? "Неверный код из почты"
-              : error === "jwt expired" || "You should be authorised"
+              : error === "jwt expired" || error === "You should be authorised"
               ? "Для совершения заказа нужно авторизоваться"
               : error}
           </span>

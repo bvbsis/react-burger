@@ -32,7 +32,7 @@ import { useDispatch, useSelector } from "../../utils/hook";
 
 
 function App() {
-  const location: any = useLocation();
+  const location: any = useLocation(); // ошибка на const location = useLocation<ILocation>();
   const { state, pathname } = location;
   const dispatch = useDispatch();
   const navigate = useNavigate();

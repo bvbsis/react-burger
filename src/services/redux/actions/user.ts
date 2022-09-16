@@ -1,4 +1,5 @@
 import { AppDispatch, AppThunk } from "../../../utils/types/types";
+import { getCookie } from "../../api";
 import {
   confirmPasswordReset,
   getUser,
@@ -99,7 +100,9 @@ export interface IChangePasswordFailedAction {
   readonly type: typeof PASSWORD_CHANGE_FAILED;
   readonly payload: any;
 }
-export const changePasswordFailed = (err: any): IChangePasswordFailedAction => ({
+export const changePasswordFailed = (
+  err: any
+): IChangePasswordFailedAction => ({
   type: PASSWORD_CHANGE_FAILED,
   payload: err,
 });
@@ -270,13 +273,17 @@ export type TUserActions =
 export const getUserData: AppThunk = () => async (dispatch) => {
   dispatch(getUserRequest());
   try {
-    const data = await getUser();
-    const { email, name } = data.user;
-    dispatch(getUserSuccess(name, email));
-    console.log("getUserData");
-  } catch (err) {
-    dispatch(getUserFailed(err));
-    console.log(err);
+    if (localStorage.getItem("refreshToken") && getCookie("accessToken")) {
+      const data = await getUser();
+      const { email, name } = data.user;
+      dispatch(getUserSuccess(name, email));
+      console.log("getUserData");
+    } else {
+      throw new Error("You should be authorised");
+    }
+  } catch (err: any) {
+    dispatch(getUserFailed(err.message));
+    console.log(err.message);
   }
 };
 

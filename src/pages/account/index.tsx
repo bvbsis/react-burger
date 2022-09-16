@@ -97,7 +97,7 @@ export const Profile = () => {
   }, [disabledInputs]);
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch(setUserData(setDisabledInputs, disabledInputs, setForm, form));
     },
@@ -105,7 +105,7 @@ export const Profile = () => {
   );
 
   const handleCancel = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent) => {
       e.preventDefault();
       setDisabledInputs({
         ...disabledInputs,
@@ -158,7 +158,8 @@ export const Profile = () => {
 
   useEffect(() => {
     setForm({ ...form, name: name as string, email: email as string });
-  }, [email, form, name]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [email, name]);
 
   return (
     <form onSubmit={handleSubmit} className={styles.container}>

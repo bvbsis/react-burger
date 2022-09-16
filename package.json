@@ -1,7 +1,7 @@
 {
-  "homepage": "http://bvbsis.github.io/react-burger",
+  "homepage": "http:/bvbsis.github.io/",
   "name": "react-burger",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",

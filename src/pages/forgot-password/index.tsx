@@ -22,7 +22,7 @@ export const SendPasswordResetEmailPage = () => {
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch(sendResetToken(email, navigate));
     },
@@ -80,7 +80,7 @@ export const ConfirmPasswordResetPage = () => {
   };
 
   const onSubmit = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch(changePasswordWithToken(form, navigate));
     },

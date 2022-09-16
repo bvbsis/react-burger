@@ -21,7 +21,7 @@ const RegistrationPage = () => {
   };
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch(registerUser(form, navigate));
     },

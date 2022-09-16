@@ -41,6 +41,13 @@ type TOrdersData = {
   totalToday: number;
 };
 
+export interface ILocation {
+  from?: Location;
+  background?: Location;
+  pathname?: string;
+  state?: object | undefined;
+}
+
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type TApplicationActions =

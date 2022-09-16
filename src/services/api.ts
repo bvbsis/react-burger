@@ -40,7 +40,7 @@ export const fetchWithRefresh = async (url: string, options: Obj<any>) => {
   } catch (err: any) {
     console.log(err);
     if (
-      (err.message === "jwt expired" || "jwt malformed") ||
+      err.message === "jwt expired" ||
       (localStorage.getItem("refreshToken") && !getCookie("accessToken"))
     ) {
       const refreshData = await refreshToken();

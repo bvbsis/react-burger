@@ -28,7 +28,7 @@ const Feed: FC<IFeedProps> = ({
   const formattedOrders = useMemo(() => {
     const formattedOrders: Array<TOrder> = [];
     if (reverse) {
-      orders?.forEach((order: TOrder) => {
+      orders?.forEach((order) => {
         formattedOrders.unshift(order);
       });
     }

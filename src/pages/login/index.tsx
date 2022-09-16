@@ -3,9 +3,9 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logInUser } from "../../services/redux/actions/user";
+import { useDispatch } from "../../utils/hook";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
@@ -19,7 +19,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = useCallback(
-    (e) => {
+    (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       dispatch(logInUser(form));
     },
@@ -40,7 +40,7 @@ const LoginPage = () => {
         <Input
           type={"email"}
           placeholder={"E-mail"}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })}
           value={form.email}
           name={"email"}
           error={false}
@@ -51,7 +51,7 @@ const LoginPage = () => {
         <Input
           type={inputType as "password" | "text"}
           placeholder={"Пароль"}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })}
           value={form.password}
           name={"password"}
           error={false}
