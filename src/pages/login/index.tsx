@@ -5,9 +5,7 @@ import {
 import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-  logInUser,
-} from "../../services/redux/actions/user";
+import { logInUser } from "../../services/redux/actions/user";
 import styles from "./login.module.css";
 
 const LoginPage = () => {
@@ -15,7 +13,7 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const inputRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
@@ -31,7 +29,7 @@ const LoginPage = () => {
   const [inputType, setInputType] = useState("password");
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     setInputType(inputType === "password" ? "text" : "password");
   };
 
@@ -51,7 +49,7 @@ const LoginPage = () => {
           size={"default"}
         />
         <Input
-          type={inputType}
+          type={inputType as "password" | "text"}
           placeholder={"Пароль"}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
           value={form.password}

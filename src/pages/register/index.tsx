@@ -3,20 +3,20 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   registerUser,
 } from "../../services/redux/actions/user";
+import { useDispatch } from "../../utils/hook";
 import styles from "./register.module.css";
 
 const RegistrationPage = () => {
   const [form, setForm] = React.useState({ name: "", email: "", password: "" });
-  const inputRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -31,7 +31,7 @@ const RegistrationPage = () => {
   const [inputType, setInputType] = useState("password");
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef.current?.focus(), 0);
     setInputType(inputType === "password" ? "text" : "password");
   };
 
@@ -64,7 +64,7 @@ const RegistrationPage = () => {
           size={"default"}
         />
         <Input
-          type={inputType}
+          type={inputType as "password" | "text"}
           placeholder={"Пароль"}
           onChange={onChange}
           value={form.password}

@@ -4,7 +4,7 @@ import { useSelector } from "../../utils/hook";
 import { ReactElement } from "react";
 
 interface IProtectedRoute {
-  anonymous: boolean;
+  anonymous?: boolean;
   children: ReactElement
 }
 

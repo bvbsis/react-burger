@@ -1,13 +1,13 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import FeedDetails from "../../components/feed-details/feed-details";
 import Feed from "../../components/feed/feed";
 import { wsClose, wsStartConnection } from "../../services/redux/actions/ws";
+import { useDispatch } from "../../utils/hook";
 import styles from "./feed-page.module.css";
 
 const WS_URL = "wss://norma.nomoreparties.space/orders/all";
 
-const FeedPage = () => {
+const FeedPage: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {

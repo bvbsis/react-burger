@@ -3,25 +3,12 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useCallback, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import {
-  PASSWORD_RESET_FAILED,
-  PASSWORD_RESET_REQUEST,
-  PASSWORD_RESET_SUCCESS,
-  PASSWORD_CHANGE_REQUEST,
-  PASSWORD_CHANGE_SUCCESS,
-  PASSWORD_CHANGE_FAILED,
-  resetPasswordRequest,
-  resetPasswordSuccess,
-  resetPasswordFailed,
-  changePasswordRequest,
-  changePasswordSuccess,
-  changePasswordFailed,
   sendResetToken,
   changePasswordWithToken,
 } from "../../services/redux/actions/user";
-import { useAuth } from "../../services/useAuth";
+import { useDispatch, useSelector } from "../../utils/hook";
 import styles from "./forgot-password.module.css";
 
 export const SendPasswordResetEmailPage = () => {
@@ -30,7 +17,7 @@ export const SendPasswordResetEmailPage = () => {
   const inputRef = React.useRef(null);
   const navigate = useNavigate();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
@@ -83,24 +70,27 @@ export const SendPasswordResetEmailPage = () => {
 
 export const ConfirmPasswordResetPage = () => {
   const [form, setForm] = React.useState({ password: "", token: "" });
-  const inputRef = React.useRef(null);
+  const inputRef = React.useRef<HTMLInputElement>(null);
   const { isResetTokenSent } = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const onChange = (e) => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = useCallback((e) => {
-    e.preventDefault();
-    dispatch(changePasswordWithToken(form, navigate));
-  }, [dispatch, form, navigate]);
+  const onSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(changePasswordWithToken(form, navigate));
+    },
+    [dispatch, form, navigate]
+  );
 
   const [inputType, setInputType] = useState("password");
 
   const onIconClick = () => {
-    setTimeout(() => inputRef.current.focus(), 0);
+    setTimeout(() => inputRef?.current?.focus(), 0);
     setInputType(inputType === "password" ? "text" : "password");
   };
 
@@ -111,7 +101,7 @@ export const ConfirmPasswordResetPage = () => {
           Восстановление пароля
         </h2>
         <Input
-          type={inputType}
+          type={inputType as "password" | "text"}
           placeholder={"Новый пароль"}
           onChange={onChange}
           value={form.password}

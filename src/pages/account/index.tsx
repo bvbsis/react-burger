@@ -11,8 +11,9 @@ import { wsClose, wsStartConnection } from "../../services/redux/actions/ws";
 import { getCookie } from "../../services/api";
 import { useDispatch, useSelector } from "../../utils/hook";
 import { ChangeEvent } from "react";
+import { Obj } from "reselect/es/types";
 
-export const AccountPage = () => {
+export const AccountPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -62,13 +63,19 @@ export const AccountPage = () => {
 };
 
 export const Profile = () => {
-  const [disabledInputs, setDisabledInputs] = useState({
+  const [disabledInputs, setDisabledInputs] = useState<
+    Obj<{ isDisabled: boolean; icon: "CloseIcon" | "EditIcon" }>
+  >({
     name: { isDisabled: true, icon: "EditIcon" },
     email: { isDisabled: true, icon: "EditIcon" },
     password: { isDisabled: true, icon: "EditIcon" },
   });
   const { name, email } = useSelector((store) => store.user);
-  const [form, setForm] = React.useState({
+  const [form, setForm] = React.useState<{
+    name: string;
+    email: string;
+    password: string;
+  }>({
     name: "",
     email: "",
     password: "",
@@ -108,8 +115,8 @@ export const Profile = () => {
       });
       setForm({
         ...form,
-        name: name,
-        email: email,
+        name: name as string,
+        email: email as string,
         password: "",
       });
     },
@@ -150,8 +157,8 @@ export const Profile = () => {
   );
 
   useEffect(() => {
-    setForm({ ...form, name, email });
-  }, [email, name]);
+    setForm({ ...form, name: name as string, email: email as string });
+  }, [email, form, name]);
 
   return (
     <form onSubmit={handleSubmit} className={styles.container}>
@@ -232,7 +239,7 @@ export const Orders = () => {
   useEffect(() => {
     dispatch(wsStartConnection(wsUrl));
     return () => {
-      dispatch(wsClose(1000, 'работа закончена'));
+      dispatch(wsClose(1000, "работа закончена"));
     };
   }, [dispatch, wsUrl]);
 

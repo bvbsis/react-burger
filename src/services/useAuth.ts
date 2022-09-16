@@ -1,3 +1,5 @@
+import { Obj } from "reselect/es/types";
+
 import {
   apiUrl,
   checkResponse,
@@ -6,6 +8,12 @@ import {
   getCookie,
   setCookie,
 } from "./api";
+
+type TUserForm = {
+  name?: string;
+  email: string;
+  password: string;
+};
 
 const useAuth = () => {
   const getUser = async () => {
@@ -18,7 +26,7 @@ const useAuth = () => {
     });
   };
 
-  const setUser = async (form) => {
+  const setUser = async (form: TUserForm) => {
     return await fetchWithRefresh(apiUrl("auth/user"), {
       method: "PATCH",
       headers: {
@@ -29,7 +37,7 @@ const useAuth = () => {
     });
   };
 
-  const logIn = async (form) => {
+  const logIn = async (form: TUserForm) => {
     const res = await fetch(apiUrl("auth/login"), {
       method: "POST",
       headers: {
@@ -47,14 +55,18 @@ const useAuth = () => {
     return data;
   };
 
-  const register = async (form) => {
-    const res = await fetch(apiUrl("auth/register"), {
+  const register = async (form: TUserForm) => {
+    const res: Response = await fetch(apiUrl("auth/register"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     });
 
-    const data = checkResponse(res);
+    const data: {
+      success: boolean;
+      refreshToken: string;
+      accessToken: string;
+    } = await checkResponse(res);
 
     if (data.success) {
       localStorage.setItem("refreshToken", data.refreshToken);
@@ -72,7 +84,7 @@ const useAuth = () => {
         token,
       }),
     });
-    const data = await checkResponse(res);
+    const data: Obj<any> = await checkResponse(res);
     if (data.success) {
       localStorage.removeItem("refreshToken");
       deleteCookie("accessToken");
@@ -80,7 +92,7 @@ const useAuth = () => {
     return data;
   };
 
-  const sendPasswordResetEmail = async (email) => {
+  const sendPasswordResetEmail = async (email: string) => {
     const res = await fetch(apiUrl("password-reset"), {
       method: "POST",
       headers: {
@@ -94,7 +106,7 @@ const useAuth = () => {
     return data;
   };
 
-  const confirmPasswordReset = async (form) => {
+  const confirmPasswordReset = async (form: TUserForm) => {
     const res = await fetch(apiUrl("password-reset/reset"), {
       method: "POST",
       headers: {
@@ -127,7 +139,7 @@ const getUser = async () => {
   });
 };
 
-const setUser = async (form) => {
+const setUser = async (form: TUserForm) => {
   return await fetchWithRefresh(apiUrl("auth/user"), {
     method: "PATCH",
     headers: {
@@ -138,7 +150,7 @@ const setUser = async (form) => {
   });
 };
 
-const logIn = async (form) => {
+const logIn = async (form: TUserForm) => {
   const res = await fetch(apiUrl("auth/login"), {
     method: "POST",
     headers: {
@@ -151,23 +163,23 @@ const logIn = async (form) => {
 
   if (data.success) {
     localStorage.setItem("refreshToken", data.refreshToken);
-    setCookie("accessToken", data.accessToken.replace('Bearer ',''));
+    setCookie("accessToken", data.accessToken.replace("Bearer ", ""));
   }
   return data;
 };
 
-const register = async (form) => {
+const register = async (form: TUserForm) => {
   const res = await fetch(apiUrl("auth/register"), {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(form),
   });
 
-  const data = checkResponse(res);
+  const data = await checkResponse(res);
 
   if (data.success) {
     localStorage.setItem("refreshToken", data.refreshToken);
-    setCookie("accessToken", data.accessToken.replace('Bearer ',''));
+    setCookie("accessToken", data.accessToken.replace("Bearer ", ""));
   }
   return data;
 };
@@ -189,7 +201,7 @@ const logOut = async () => {
   return data;
 };
 
-const sendPasswordResetEmail = async (email) => {
+const sendPasswordResetEmail = async (email: string) => {
   const res = await fetch(apiUrl("password-reset"), {
     method: "POST",
     headers: {
@@ -203,7 +215,7 @@ const sendPasswordResetEmail = async (email) => {
   return data;
 };
 
-const confirmPasswordReset = async (form) => {
+const confirmPasswordReset = async (form: TUserForm) => {
   const res = await fetch(apiUrl("password-reset/reset"), {
     method: "POST",
     headers: {

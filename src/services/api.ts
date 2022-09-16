@@ -1,8 +1,10 @@
-export const apiUrl = (endpoint) => {
+import { Obj } from "reselect/es/types";
+
+export const apiUrl = (endpoint: string): string => {
   return `https://norma.nomoreparties.space/api/${endpoint}`;
 };
 
-export const checkResponse = async (res) => {
+export const checkResponse = async (res: Response) => {
   if (res.ok) {
     return await res.json();
   }
@@ -30,15 +32,15 @@ const refreshToken = async () => {
   return refreshData;
 };
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url: string, options: Obj<any>) => {
   try {
     const res = await fetch(url, options);
     const data = await checkResponse(res);
     return data;
-  } catch (err) {
+  } catch (err: any) {
     console.log(err);
     if (
-      err.message === "jwt expired" ||
+      (err.message === "jwt expired" || "jwt malformed") ||
       (localStorage.getItem("refreshToken") && !getCookie("accessToken"))
     ) {
       const refreshData = await refreshToken();
@@ -52,18 +54,22 @@ export const fetchWithRefresh = async (url, options) => {
   }
 };
 
-export const getCookie = (name) => {
+export const getCookie = (name: string) => {
   let matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
-        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") +
+        name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + // eslint-disable-line
         "=([^;]*)"
     )
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 };
 
-export const setCookie = (name, value, options = {}) => {
+export const setCookie = (
+  name: string,
+  value: string,
+  options: Obj<any> = {}
+) => {
   options = {
     path: "/",
     ...options,
@@ -87,7 +93,7 @@ export const setCookie = (name, value, options = {}) => {
   document.cookie = updatedCookie;
 };
 
-export const deleteCookie = (name) => {
+export const deleteCookie = (name: string) => {
   setCookie(name, "", {
     "max-age": -1,
   });

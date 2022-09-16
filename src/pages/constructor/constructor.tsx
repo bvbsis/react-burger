@@ -2,7 +2,7 @@ import BurgerConstructor from "../../components/burger-constructor/burger-constr
 import BurgerIngredients from "../../components/burger-ingredients/burger-ingredients";
 import Styles from "./constructor.module.css";
 
-const ConstructorPage = () => {
+const ConstructorPage: React.FC = () => {
   return (
     <div className={Styles.wrapper}>
       <BurgerIngredients />

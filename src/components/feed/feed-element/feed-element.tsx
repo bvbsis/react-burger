@@ -13,8 +13,8 @@ interface IFeedElementProps {
   name: string;
   updatedAt: string;
   number: number;
-  withStatus: boolean;
-  elementHeight: number;
+  withStatus?: boolean;
+  elementHeight?: string;
   to: string;
 }
 

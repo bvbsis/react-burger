@@ -5,13 +5,13 @@ import FeedElement from "./feed-element/feed-element";
 import styles from "./feed.module.css";
 
 interface IFeedProps {
-  height: number;
-  width: number;
-  elementHeight: number;
-  withStatus: boolean;
-  gap: number;
+  height: string;
+  width?: string; 
+  elementHeight?: string;
+  withStatus?: boolean;
+  gap: string;
   to: string;
-  reverse: boolean;
+  reverse?: boolean;
 }
 
 const Feed: FC<IFeedProps> = ({
