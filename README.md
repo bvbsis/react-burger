@@ -1,5 +1,25 @@
 # Stellar Burger (Frontend часть приложения для заказа галактического фаст-фуда)
 
+<center>
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    <img src='./public/favicon.ico' width=30 />
+    
+</center>
+
 ## Описание функциональности
 
 Этот проект является учебным и представляет собой простое веб-приложение, разработка которго позволила мне полноценно погрузиться в React. В процессе разработки также познакомился с React-router и Redux, реализовал подключение через WebSocket. В проекте также используется библиотека компонентов Burger UI Components от Яндекс.Практикума.
