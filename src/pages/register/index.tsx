@@ -4,9 +4,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  registerUser,
-} from "../../services/redux/actions/user";
+import { registerUser } from "../../services/redux/actions/user";
 import { useDispatch } from "../../utils/hook";
 import styles from "./register.module.css";
 
@@ -76,7 +74,7 @@ const RegistrationPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" htmlType={"submit"}>
           Зарегистрироваться
         </Button>
         <div style={{ marginTop: 80, marginBottom: 16 }}>
@@ -89,6 +87,7 @@ const RegistrationPage = () => {
             }}
             type="secondary"
             size="medium"
+            htmlType={"button"}
           >
             Войти
           </Button>

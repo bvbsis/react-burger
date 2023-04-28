@@ -40,7 +40,9 @@ const LoginPage = () => {
         <Input
           type={"email"}
           placeholder={"E-mail"}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, email: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setForm({ ...form, email: e.target.value })
+          }
           value={form.email}
           name={"email"}
           error={false}
@@ -51,7 +53,9 @@ const LoginPage = () => {
         <Input
           type={inputType as "password" | "text"}
           placeholder={"Пароль"}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setForm({ ...form, password: e.target.value })}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setForm({ ...form, password: e.target.value })
+          }
           value={form.password}
           name={"password"}
           error={false}
@@ -61,7 +65,7 @@ const LoginPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" htmlType={"submit"}>
           Войти
         </Button>
         <div className={styles.buttonsWrapper}>
@@ -74,6 +78,7 @@ const LoginPage = () => {
             }}
             type="secondary"
             size="medium"
+            htmlType={"button"}
           >
             Зарегистрироваться
           </Button>
@@ -88,6 +93,7 @@ const LoginPage = () => {
             }}
             type="secondary"
             size="medium"
+            htmlType={"button"}
           >
             Восстановить пароль
           </Button>

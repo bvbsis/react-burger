@@ -7,19 +7,16 @@ const NotFoundPage: FC = () => {
   const navigate = useNavigate();
   return (
     <div className={Styles.wrapper}>
-      <span className={Styles.smallText}>
-        О нет! Ошибка
-      </span>
+      <span className={Styles.smallText}>О нет! Ошибка</span>
       <span className={Styles.largeText}>404</span>
-      <span className={Styles.smallText}>
-        Страница не найдена
-      </span>
+      <span className={Styles.smallText}>Страница не найдена</span>
       <Button
         onClick={() => {
           navigate("/");
         }}
         type="secondary"
         size="medium"
+        htmlType={"button"}
       >
         Перейти на главную
       </Button>

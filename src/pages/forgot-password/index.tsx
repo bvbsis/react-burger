@@ -46,7 +46,7 @@ export const SendPasswordResetEmailPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" htmlType={"submit"}>
           Восстановить
         </Button>
         <div style={{ marginTop: 80, marginBottom: 16 }}>
@@ -59,6 +59,7 @@ export const SendPasswordResetEmailPage = () => {
             }}
             type="secondary"
             size="medium"
+            htmlType={"button"}
           >
             Войти
           </Button>
@@ -124,7 +125,7 @@ export const ConfirmPasswordResetPage = () => {
           errorText={"Ошибка"}
           size={"default"}
         />
-        <Button type="primary" size="medium">
+        <Button type="primary" size="medium" htmlType={"submit"}>
           Сохранить
         </Button>
         <div style={{ marginTop: 80, marginBottom: 16 }}>
@@ -137,6 +138,7 @@ export const ConfirmPasswordResetPage = () => {
             }}
             type="secondary"
             size="medium"
+            htmlType={"button"}
           >
             Войти
           </Button>

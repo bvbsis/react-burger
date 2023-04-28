@@ -75,7 +75,7 @@ const BurgerConstructor: FC = memo(() => {
             thumbnail={bun.image_mobile}
           />
         ) : (
-          <PlugConstructorElement type="top" description="Сюда булку" />
+          <PlugConstructorElement type="top" description="Перетащи сюда булку :)" />
         )}
 
         {fillings ? (
@@ -106,7 +106,7 @@ const BurgerConstructor: FC = memo(() => {
             thumbnail={bun.image_mobile}
           />
         ) : (
-          <PlugConstructorElement type="bottom" description="Сюда булку" />
+          <PlugConstructorElement type="bottom" description="И тут тоже должна быть булка" />
         )}
       </div>
 
@@ -120,7 +120,7 @@ const BurgerConstructor: FC = memo(() => {
             </p>
             <CurrencyIcon type="primary" />
           </div>
-          <Button onClick={onButtonClick} type="primary" size="large">
+          <Button onClick={onButtonClick} type="primary" size="large" htmlType={"submit"}>
             Оформить заказ
           </Button>
         </div>

@@ -21,14 +21,6 @@ const FeedDetails: FC = () => {
     return filteredOrders ? filteredOrders.map((order) => order.number) : null;
   }, [orders]);
 
-  const formettedTotal = useMemo(() => {
-    return total
-      ? `${String(total)[0]}${String(total)[1]} ${String(total)[2]}${
-          String(total)[3]
-        }${String(total)[4]}`
-      : 0;
-  }, [total]);
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.container}>
@@ -70,7 +62,7 @@ const FeedDetails: FC = () => {
         <span className="text text_type_main-medium">
           {"Выполнено за все время:"}
         </span>
-        <span className="text text_type_digits-large">{formettedTotal}</span>
+        <span className="text text_type_digits-large">{total ? total : 0}</span>
       </div>
       <div className={styles.largeContainer}>
         <span className="text text_type_main-medium">

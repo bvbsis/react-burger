@@ -158,7 +158,7 @@ export const Profile = () => {
 
   useEffect(() => {
     setForm({ ...form, name: name as string, email: email as string });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, name]);
 
   return (
