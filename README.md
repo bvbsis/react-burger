@@ -1,24 +1,6 @@
 # Stellar Burger (Frontend часть приложения для заказа галактического фаст-фуда)
 
-<center>
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    <img src='./public/favicon.ico' width=30 />
-    
-</center>
+<p align="center"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"><img width=2% src="./public/favicon.ico"></p>
 
 ## Описание функциональности
 
